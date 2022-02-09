@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Outlook: Export all mail into Explorer | Dave-infintiy’s rough techblog</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="Outlook: Export all mail into Explorer" />
+<meta name="author" content="Dave" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="This guide uses a VB script copied from https://techniclee.wordpress.com/2013/05/09/export-outlook-folders-to-the-file-system/ as it’s basis." />
+<meta property="og:description" content="This guide uses a VB script copied from https://techniclee.wordpress.com/2013/05/09/export-outlook-folders-to-the-file-system/ as it’s basis." />
+<link rel="canonical" href="http://localhost:4000/2014/10/outlook-export-all-mail-into-explorer/" />
+<meta property="og:url" content="http://localhost:4000/2014/10/outlook-export-all-mail-into-explorer/" />
+<meta property="og:site_name" content="Dave-infintiy’s rough techblog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2014-10-30T12:04:52+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Outlook: Export all mail into Explorer" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Dave"},"dateModified":"2014-10-30T12:04:52+00:00","datePublished":"2014-10-30T12:04:52+00:00","description":"This guide uses a VB script copied from https://techniclee.wordpress.com/2013/05/09/export-outlook-folders-to-the-file-system/ as it’s basis.","headline":"Outlook: Export all mail into Explorer","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2014/10/outlook-export-all-mail-into-explorer/"},"url":"http://localhost:4000/2014/10/outlook-export-all-mail-into-explorer/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Dave-infintiy's rough techblog" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Dave-infintiy&#39;s rough techblog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Outlook: Export all mail into Explorer</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2014-10-30T12:04:52+00:00" itemprop="datePublished">Oct 30, 2014
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Dave</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>This guide uses a VB script copied from <a href="https://techniclee.wordpress.com/2013/05/09/export-outlook-folders-to-the-file-system/">https://techniclee.wordpress.com/2013/05/09/export-outlook-folders-to-the-file-system/</a> as it’s basis.</p>
+
+<p>The script here only copies emails from Outlook with no option for deleting the emails, for another layer of safety the deletion is left to the user to complete manually.</p>
+
+<p><strong>The script will copy all emails from a selected folder, including subfolders, into Windows and retain each email’s attachments, sender and recipient addresses along with the timestamp information relating to the email (not the creation date within Windows).</strong></p>
+
+<p>I’ve copied the edited script below for reference, thanks to the Keble IT Manager and a few of my own edits too I have a slightly improved version which handles errors better, this is available at the end of this article.</p>
+
+<p>The process for importing this script to users is manual, thankfully only a handful of people require it so it’s not a huge overhead. The deployment process is:</p>
+
+<p>From within Outlook:</p>
+
+<ol>
+  <li>Click [File] &gt; [Options] &gt; [Customize Ribbon] and [TICK] the [Developer Ribbon] check box, click [OK] to all open menus to close them</li>
+  <li>Click the [Developer] ribbon menu item &gt; [Visual Basic]</li>
+  <li>[Insert] &gt; [Module]</li>
+  <li>Copy and paste the script below into the window</li>
+  <li>Click the [Save] button and close the [Visual Basic Window] to return to Outlook</li>
+  <li>Click [File] &gt; [Options] &gt; [Customize Ribbon]</li>
+  <li>[UN-TICK] the [Developer Ribbon]</li>
+  <li>Click the [New Tab] button, highlight the [New Tab (Custom)] entry in the [Main Tabs] list &gt; click the [Rename] button &gt; Name the tab “Email Export”, click [OK] to save</li>
+  <li>Highlight the [New Group (Custom)] entry in the [Main Tabs] list &gt; click the [Rename] button &gt;Name the group “Export Highlighted Folder to Windows” &gt; Select an appropriate icon</li>
+  <li>In the left column, from the [Choose commands from:] drop-down menu select [Macros]</li>
+  <li>Click and drag the [Project1.CopyOutlookFoldertoFileSystem] entry onto the newly created new group named “Export Highlighted Folder to Windows”</li>
+  <li>Highlight the [Project1.CopyOutlookFoldertoFileSystem] entry in the [Main Tabs] list &gt; click the [Rename] button &gt;Name the command “Export”.</li>
+  <li>Click [OK] to close all open menus and return to Outlook</li>
+</ol>
+
+<p>This creates a new tab with the script loaded into a single command named “Export” on the Outlook ribbon. The script doesn’t *ever* delete mail from Outlook, it only ever copies. To use the script:</p>
+
+<ol>
+  <li>Highlight a folder on the Outlook navigation pane that you want to copy to Windows</li>
+  <li>Click the new “Export” button</li>
+  <li>Select the Windows folder you want to export to</li>
+  <li>Click [OK] and wait for the export to complete, it may take a few minutes for 1GB+ folders</li>
+  <li>Once the transfer window disappears the copy is complete, inspect the folder in Windows to ensure the emails are there</li>
+  <li>Having double checked the export worked you can down delete the source folder from Outlook or all the emails inside it.</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>'On the next line edit the starting folder as desired. If you leave it blank, then the starting folder will be the local computer.
+Const STARTING_FOLDER = ""
+ 
+Dim objFSO As Object
+ 
+Sub CopyOutlookFolderToFileSystem()
+ ExportController "Copy"
+End Sub
+ 
+'Sub MoveOutlookFolderToFileSystem()
+' ExportController "Move"
+'End Sub
+ 
+Sub ExportController(strAction As String)
+ Dim olkFld As Outlook.MAPIFolder, strPath As String, dest As String
+ strPath = SelectFolder(STARTING_FOLDER)
+ If strPath = "" Then
+ MsgBox "You did not select a folder. Export cancelled.", vbInformation + vbOKOnly, "Export Outlook Folder"
+ Else
+ Set objFSO = CreateObject("Scripting.FileSystemObject")
+ Set olkFld = Application.ActiveExplorer.CurrentFolder
+ ExportOutlookFolder olkFld, strPath
+ If LCase(strAction) = "move" Then
+ olkFld.Delete
+ Else
+ dest = strPath &amp; "\" &amp; olkFld.Name
+ MsgBox "Now check that the right number of messages and folders are in " &amp; dest &amp; ", then delete the folder from Outlook"
+ End If
+ End If
+ Set olkFld = Nothing
+ Set objFSO = Nothing
+End Sub
+ 
+Sub ExportOutlookFolder(ByVal olkFld As Outlook.MAPIFolder, strStartingPath As String)
+ Dim olkSub As Outlook.MAPIFolder, olkItm As Object, strPath As String, strMyPath As String, strSubject As String, intCount As Integer, s As String, d As Date, f As String, itemlist As Outlook.items
+ 
+ On Error Resume Next
+ ' Set an initial date just in case first item is broken
+ d = Date
+ strPath = strStartingPath &amp; "\" &amp; olkFld.Name
+ objFSO.CreateFolder strPath
+ ' Folder exists
+ If Err.Number = 58 Then
+ Dim rc As Integer
+ rc = MsgBox("The folder " &amp; strPath &amp; " already exists, proceed anyway?", vbOKCancel)
+ If rc = 1 Then
+ Err.Clear
+ Else
+ Exit Sub
+ End If
+ End If
+ 
+ Set itemlist = olkFld.items
+ itemlist.Sort "[SentOn]", False
+ 
+ For Each olkItm In itemlist
+ ' Start with clean slate
+ Err.Clear
+ s = RemoveIllegalCharacters(olkItm.Subject)
+ If Err.Number &lt;&gt; 0 Then
+ s = "[Error in subject]"
+ Err.Clear
+ End If
+ 
+ f = RemoveIllegalCharacters(olkItm.SenderName)
+ If Err.Number &lt;&gt; 0 Then
+ f = "[Error in sender]"
+ Err.Clear
+ End If
+ ' This may fail in very rare circumstances. It'll use the date of the previous item as we've not reset it. That's probably close enough as the items are sorted into ascending date order.
+ d = olkItm.SentOn
+ 
+ strSubject = "[From] " &amp; f &amp; " [Subject] " &amp; s
+ strFilename = strSubject &amp; ".msg"
+ intCount = 0
+ Do While True
+ strMyPath = strPath &amp; "\" &amp; strFilename
+ If objFSO.FileExists(strMyPath) Then
+ intCount = intCount + 1
+ strFilename = strSubject &amp; " (" &amp; intCount &amp; ").msg"
+ Else
+ Exit Do
+ End If
+ Loop
+ olkItm.SaveAs strMyPath, olMSG
+ ChangeTimeStamp strMyPath, d
+ Next
+ For Each olkSub In olkFld.Folders
+ ExportOutlookFolder olkSub, strPath
+ Next
+ Set olkFld = Nothing
+ Set olkItm = Nothing
+End Sub
+ 
+Function SelectFolder(varStartingFolder As Variant) As String
+ ' This function is a modified version of the SelectFolder function written by Rob van der Woude (http://www.robvanderwoude.com/vbstech_ui_selectfolder.php)
+ 
+ ' Standard housekeeping
+ Dim objFolder As Object, objShell As Object
+ 
+ ' Custom error handling
+ On Error Resume Next
+ 
+ ' Create a dialog object
+ Set objShell = CreateObject("Shell.Application")
+ Set objFolder = objShell.BrowseForFolder(0, "Select the folder you want to export to", 0, varStartingFolder)
+ 
+ ' Return the path of the selected folder
+ If TypeName(objFolder) &lt;&gt; "Nothing" Then SelectFolder = objFolder.self.Path
+ 
+ ' Standard housekeeping
+ Set objFolder = Nothing
+ Set objShell = Nothing
+ On Error GoTo 0
+End Function
+ 
+Function RemoveIllegalCharacters(strValue As String) As String
+ ' Purpose: Remove characters that cannot be in a filename from a string.'
+ ' Written: 4/24/2009'
+ ' Author: BlueDevilFan'
+ ' Outlook: All versions'
+ RemoveIllegalCharacters = strValue
+ ' RemoveIllegalCharacters = LCase(RemoveIllegalCharacters)
+ RemoveIllegalCharacters = Replace(RemoveIllegalCharacters, "&lt;", "(")
+ RemoveIllegalCharacters = Replace(RemoveIllegalCharacters, "&gt;", ")")
+ RemoveIllegalCharacters = Replace(RemoveIllegalCharacters, ":", "-")
+ RemoveIllegalCharacters = Replace(RemoveIllegalCharacters, Chr(34), "'")
+ RemoveIllegalCharacters = Replace(RemoveIllegalCharacters, "/", "")
+ RemoveIllegalCharacters = Replace(RemoveIllegalCharacters, "\", "")
+ RemoveIllegalCharacters = Replace(RemoveIllegalCharacters, "|", "")
+ RemoveIllegalCharacters = Replace(RemoveIllegalCharacters, "?", "")
+ RemoveIllegalCharacters = Replace(RemoveIllegalCharacters, "*", "")
+ RemoveIllegalCharacters = Replace(RemoveIllegalCharacters, "+", "")
+ RemoveIllegalCharacters = Replace(RemoveIllegalCharacters, "@", "_at_")
+ RemoveIllegalCharacters = Replace(RemoveIllegalCharacters, Chr(9), "")
+ RemoveIllegalCharacters = Replace(RemoveIllegalCharacters, "û", "u")
+ RemoveIllegalCharacters = Replace(RemoveIllegalCharacters, "ü", "u")
+ RemoveIllegalCharacters = Replace(RemoveIllegalCharacters, "à", "a")
+ RemoveIllegalCharacters = Replace(RemoveIllegalCharacters, "ç", "c")
+ RemoveIllegalCharacters = Replace(RemoveIllegalCharacters, "é", "e")
+ RemoveIllegalCharacters = Replace(RemoveIllegalCharacters, "è", "e")
+ RemoveIllegalCharacters = Replace(RemoveIllegalCharacters, "ê", "e")
+End Function
+ 
+Sub ChangeTimeStamp(strFile As String, datStamp As Date)
+ Dim objShell As Object, objFolder As Object, objFolderItem As Object, varPath As Variant, varName As Variant
+ varName = Mid(strFile, InStrRev(strFile, "\") + 1)
+ varPath = Mid(strFile, 1, InStrRev(strFile, "\"))
+ Set objShell = CreateObject("Shell.Application")
+ Set objFolder = objShell.NameSpace(varPath)
+ Set objFolderItem = objFolder.ParseName(varName)
+ objFolderItem.ModifyDate = CStr(datStamp)
+ Set objShell = Nothing
+ Set objFolder = Nothing
+ Set objFolderItem = Nothing
+End Sub
+
+</code></pre></div></div>
+
+  </div><a class="u-url" href="/2014/10/outlook-export-all-mail-into-explorer/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Dave-infintiy&#39;s rough techblog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Dave-infintiy&#39;s rough techblog</li><li><a class="u-email" href="mailto:yetmoredaves@gmail.com">yetmoredaves@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/dave-infinity"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">dave-infinity</span></a></li><li><a href="https://www.twitter.com/dave-infinity"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">dave-infinity</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>A techblog from an infrastructure and security engineer working on Linuxy and Windows systems</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

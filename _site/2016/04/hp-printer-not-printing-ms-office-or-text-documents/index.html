@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>HP Printer Not Printing MS Office or Text Documents | Dave-infintiy’s rough techblog</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="HP Printer Not Printing MS Office or Text Documents" />
+<meta name="author" content="Dave" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="The Issue:" />
+<meta property="og:description" content="The Issue:" />
+<link rel="canonical" href="http://localhost:4000/2016/04/hp-printer-not-printing-ms-office-or-text-documents/" />
+<meta property="og:url" content="http://localhost:4000/2016/04/hp-printer-not-printing-ms-office-or-text-documents/" />
+<meta property="og:site_name" content="Dave-infintiy’s rough techblog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2016-04-18T13:00:02+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="HP Printer Not Printing MS Office or Text Documents" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Dave"},"dateModified":"2016-04-18T13:00:02+01:00","datePublished":"2016-04-18T13:00:02+01:00","description":"The Issue:","headline":"HP Printer Not Printing MS Office or Text Documents","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2016/04/hp-printer-not-printing-ms-office-or-text-documents/"},"url":"http://localhost:4000/2016/04/hp-printer-not-printing-ms-office-or-text-documents/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Dave-infintiy's rough techblog" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Dave-infintiy&#39;s rough techblog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">HP Printer Not Printing MS Office or Text Documents</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2016-04-18T13:00:02+01:00" itemprop="datePublished">Apr 18, 2016
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Dave</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>The Issue:</p>
+
+<p>Colleagues reported that some MS Word and Excel documents were not printing. Jobs are spooled to the printer but the message in the print queue just reads:</p>
+
+<p>Waiting for printer to print(30)</p>
+
+<p>and the number then counts down to 0 but nothing prints.</p>
+
+<p>Client Details:<br />
+Windows x64<br />
+MS Office 2010 fully patched<br />
+HP Laserjet 2055dn &gt; HP Universal Print Driver x64 v6.0.0 via Windows 2008 x64 Print Server</p>
+
+<p>The problem existed on my own PC too, printing to an HP m401dne printer under the same driver and print server, also on Windows 7 x64 with the same MS Office deployment.</p>
+
+<p>Tested:</p>
+
+<p>1. Alternate UPD versions from 5.5.0, 5.7.0, 6.0.0, 6.1.0, 6.2.0</p>
+
+<p>2. Reinstalled MS Office</p>
+
+<p>3. Adobe Reader 11.0.15 print jobs were fine</p>
+
+<p>4. Text documents from notepad++ didn’t print</p>
+
+<p>5. Test prints printed</p>
+
+<p>6. Notepad (windows) documents printed</p>
+
+<p>7. Switched the printer port on the printer to a direct TCP/IP port and NOT through the PCounter port and it worked!</p>
+
+<p>Solution:</p>
+
+<p>Following test #7 above I began inspecting the PCounter ports, when creating a new PCounter port the default value for [Speed cache buffer size] was [64KB] but on the “broken” printer shares it had been set to [disabled]. Changing this to [64 KB] resolved the problem.</p>
+
+  </div><a class="u-url" href="/2016/04/hp-printer-not-printing-ms-office-or-text-documents/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Dave-infintiy&#39;s rough techblog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Dave-infintiy&#39;s rough techblog</li><li><a class="u-email" href="mailto:yetmoredaves@gmail.com">yetmoredaves@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/dave-infinity"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">dave-infinity</span></a></li><li><a href="https://www.twitter.com/dave-infinity"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">dave-infinity</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>A techblog from an infrastructure and security engineer working on Linuxy and Windows systems</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

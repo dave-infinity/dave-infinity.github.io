@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>WIndows Command For-loop | Dave-infintiy’s rough techblog</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="WIndows Command For-loop" />
+<meta name="author" content="Dave" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="for /f &quot;delims=*&quot; %f in (&#39;dir &quot;C:\folder\of\files\*.efs&quot; /b&#39;) DO C:\folder\of\executable\program.exe -f &quot;C:%~pf%f&quot;" />
+<meta property="og:description" content="for /f &quot;delims=*&quot; %f in (&#39;dir &quot;C:\folder\of\files\*.efs&quot; /b&#39;) DO C:\folder\of\executable\program.exe -f &quot;C:%~pf%f&quot;" />
+<link rel="canonical" href="http://localhost:4000/2018/04/windows-command-for-loop/" />
+<meta property="og:url" content="http://localhost:4000/2018/04/windows-command-for-loop/" />
+<meta property="og:site_name" content="Dave-infintiy’s rough techblog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-04-19T08:12:06+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="WIndows Command For-loop" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Dave"},"dateModified":"2018-04-19T08:12:06+01:00","datePublished":"2018-04-19T08:12:06+01:00","description":"for /f &quot;delims=*&quot; %f in (&#39;dir &quot;C:\\folder\\of\\files\\*.efs&quot; /b&#39;) DO C:\\folder\\of\\executable\\program.exe -f &quot;C:%~pf%f&quot;","headline":"WIndows Command For-loop","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/04/windows-command-for-loop/"},"url":"http://localhost:4000/2018/04/windows-command-for-loop/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Dave-infintiy's rough techblog" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Dave-infintiy&#39;s rough techblog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">WIndows Command For-loop</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-04-19T08:12:06+01:00" itemprop="datePublished">Apr 19, 2018
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Dave</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>for /f "delims=*" %f in ('dir "C:\folder\of\files\*.efs" /b') DO C:\folder\of\executable\program.exe -f "C:%~pf%f"
+</code></pre></div></div>
+
+<div class="post-text">1. A standard debugging technique is to insert the `echo` command into scripts and even compound/complex commands. If you do ```
+    for /f "delims=*" %a in ('dir *.avi /b /s') do @echo md "%~na"
+    
+    ```
+    
+    you’ll get the output
+    
+    ```
+    "file 1"
+    "file 2"
+    "file 3"
+    "file 4"
+    
+    ```
+    
+    Notes:
+    
+    
+    - The **`@`** prevents the `echo` commands *themselves* from displaying, so you see only their output.
+    - `"delims=…"` tells `for` how to parse the lines of output from the `dir *.avi /b /s` command. I don’t know why the answer you linked to suggests `"delims=*"`. But the default behavior is to break lines apart at spaces, so, if your directory and/or file names contain spaces (as you indicated), you should use `"delims="` (specifying that there are no delimiters) to get this to work.
+2. If you type `for /?` or `help for`, you’ll get documentation on the `for` command. Down in the fifth page, you’ll see ```
+    In addition, substitution of FOR variable references has been enhanced.
+    You can now use the following optional syntax:
+    
+        %~I         - expands %I removing any surrounding quotes (")
+                         ︙ 
+        %~pI        - expands %I to a path only
+        %~nI        - expands %I to a file name only
+                         ︙ 
+    
+    The modifiers can be combined to get compound results …
+                             ︙ 
+    
+    ```
+    
+    which explains why `%~na` is getting you just the file name of the `*.avi` files whose full names are in `%a`. Now try
+    
+    ```
+    for /f "delims=" %a in ('dir *.avi /b /s') do @echo md "%~pa"
+    
+    ```
+    
+    and you’ll get
+    
+    ```
+    "<i>the_current_directory</i>\Folder A\"
+    "<i>the_current_directory</i>\Folder A\"
+    "<i>the_current_directory</i>\Folder B\"
+    "<i>the_current_directory</i>\Folder B\"
+    ```
+    
+    From which we can conclude that you want to do
+    
+    ```
+    for /f "delims=" %a in ('dir *.avi /b /s') do md "%~pa%~na"
+    
+    ```
+    
+    to create the `file 1` and `file 2` directories under `Folder A`, and the `file 3` and `file 4` directories under `Folder B`. And, as @dave\_thompson\_085 points out, you can combine `%~pa%~na` into `%~pna`.
+
+</div>
+<p><a href="https://superuser.com/questions/1033360/how-do-i-execute-commands-on-files-in-multiple-folders">https://superuser.com/questions/1033360/how-do-i-execute-commands-on-files-in-multiple-folders</a></p>
+
+  </div><a class="u-url" href="/2018/04/windows-command-for-loop/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Dave-infintiy&#39;s rough techblog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Dave-infintiy&#39;s rough techblog</li><li><a class="u-email" href="mailto:yetmoredaves@gmail.com">yetmoredaves@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/dave-infinity"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">dave-infinity</span></a></li><li><a href="https://www.twitter.com/dave-infinity"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">dave-infinity</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>A techblog from an infrastructure and security engineer working on Linuxy and Windows systems</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

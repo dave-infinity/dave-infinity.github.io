@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Linux Test Bandwidth Between Two Servers | Dave-infintiy’s rough techblog</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="Linux Test Bandwidth Between Two Servers" />
+<meta name="author" content="Dave" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="RIPPED DIRECTLY FROM: http://linuxaria.com/article/tool-command-line-bandwidth-linux" />
+<meta property="og:description" content="RIPPED DIRECTLY FROM: http://linuxaria.com/article/tool-command-line-bandwidth-linux" />
+<link rel="canonical" href="http://localhost:4000/2014/01/linux-test-bandwidth-between-two-servers/" />
+<meta property="og:url" content="http://localhost:4000/2014/01/linux-test-bandwidth-between-two-servers/" />
+<meta property="og:site_name" content="Dave-infintiy’s rough techblog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2014-01-29T10:00:37+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Linux Test Bandwidth Between Two Servers" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Dave"},"dateModified":"2014-01-29T10:00:37+00:00","datePublished":"2014-01-29T10:00:37+00:00","description":"RIPPED DIRECTLY FROM: http://linuxaria.com/article/tool-command-line-bandwidth-linux","headline":"Linux Test Bandwidth Between Two Servers","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2014/01/linux-test-bandwidth-between-two-servers/"},"url":"http://localhost:4000/2014/01/linux-test-bandwidth-between-two-servers/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Dave-infintiy's rough techblog" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Dave-infintiy&#39;s rough techblog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Linux Test Bandwidth Between Two Servers</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2014-01-29T10:00:37+00:00" itemprop="datePublished">Jan 29, 2014
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Dave</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p><strong>RIPPED DIRECTLY FROM:</strong> <a href="http://linuxaria.com/article/tool-command-line-bandwidth-linux" title="http://linuxaria.com/article/tool-command-line-bandwidth-linux">http://linuxaria.com/article/tool-command-line-bandwidth-linux</a></p>
+
+<p>[expand title=”<strong>3 Command line tools to test bandwidth between 2 servers</strong> “]</p>
+
+<p>One element that is often not know, or that should be measured after a problem statement or after a change in the infrastructure is the <a href="http://linuxaria.com/tag/network" title="network">network</a> . But how do you accurately measure the speed between two servers?</p>
+
+<p>Someone use ftp, scp or other file transfer protocols, these can give some indication, but probably you’ll measure the limit of your disks or CPU.</p>
+
+<p>In this article I will show you 3 way to measure the <a href="http://linuxaria.com/article/tool-command-line-bandwidth-linux" title="bandwidth">bandwidth</a> from the command line, without using the disks.</p>
+
+<h3 id="iperf"><a href="http://iperf.sourceforge.net/">Iperf</a></h3>
+
+<p>Iperf was developed by NLANR/DAST as a modern alternative for measuring maximum TCP and UDP bandwidth performance. Iperf allows the tuning of various parameters and UDP characteristics. Iperf reports bandwidth, delay jitter, datagram loss.</p>
+
+<p>The quality of a link can be tested as follows:<br />
+– Latency (response time or RTT): can be measured with the Ping command.<br />
+– Jitter (latency variation): can be measured with an Iperf UDP test.<br />
+– Datagram loss: can be measured with an Iperf UDP test.</p>
+
+<p>The bandwidth is measured through TCP tests.</p>
+
+<p>To be clear, the difference between TCP (Transmission Control Protocol) and UDP (User Datagram Protocol) is that TCP use processes to check that the packets are correctly sent to the receiver whereas with UDP the packets are sent without any checks but with the advantage of being quicker than TCP.<br />
+Iperf uses the different capacities of TCP and UDP to provide statistics about network links.</p>
+
+<p>With Iperf you have a server machine where iperf put itself in listening and the other that is the client that send the informations.</p>
+
+<p>Example:</p>
+
+<p><a href="http://www.monkeyandlamb.co.uk/itblog/wp-content/uploads/2014/01/Iperf-example.gif"><img src="http://www.monkeyandlamb.co.uk/itblog/wp-content/uploads/2014/01/Iperf-example-300x112.gif" alt="Iperf-example" /></a></p>
+
+<p>Basic usage:</p>
+
+<p><strong>Server side:</strong></p>
+
+<div>| ``` #iperf -s ------------------------------------------------------------ Server listening on TCP port 5001 TCP window size: 8.00 KByte (default) ------------------------------------------------------------ [852] local 10.1.1.1 port 5001 connected with 10.6.2.5 port 54355 [ ID]   Interval          Transfer        Bandwidth [852]   0.0-10.1 sec   1.15 MBytes   956 Kbits/sec ------------------------------------------------------------ Client connecting to 10.6.2.5, TCP port 5001 TCP window size: 8.00 KByte (default) ------------------------------------------------------------ [824] local 10.1.1.1 port 1646 connected with 10.6.2.5 port 5001 [ ID]   Interval          Transfer        Bandwidth [824]   0.0-10.0 sec   73.3 MBytes   61.4 Mbits/sec ``` |
+|---|
+
+</div>
+<p><strong>Client side</strong></p>
+
+<div>| ``` #iperf -c 10.1.1.1 -d ------------------------------------------------------------ Server listening on TCP port 5001 TCP window size: 85.3 KByte (default) ------------------------------------------------------------ ------------------------------------------------------------ Client connecting to 10.1.1.1, TCP port 5001 TCP window size: 16.0 KByte (default) ------------------------------------------------------------ [ 5] local 10.6.2.5 port 60270 connected with 10.1.1.1 port 5001 [ 4] local 10.6.2.5 port 5001 connected with 10.1.1.1 port 2643 [ 4] 0.0-10.0 sec 76.3 MBytes 63.9 Mbits/sec [ 5] 0.0-10.1 sec 1.55 MBytes 1.29 Mbits/sec ``` |
+|---|
+
+</div>
+<p>So using Iperf (with appropriate flags) on both our machines we can simply measure the bandwidth between them.</p>
+
+<p>Iperf is available also for Windows.</p>
+
+<p>Complete guide: http://openmaniak.com/iperf.php</p>
+
+<iframe allowfullscreen="" frameborder="0" height="360" loading="lazy" src="//www.youtube.com/embed/H_dvLKGue90?feature=player_embedded" width="640"></iframe>
+
+<h3 id="netcat">Netcat</h3>
+
+<p>To eliminate the disks from having any part of the transfer, we will use netcat transferring the output of command yes. Netcat is described as being a “feature-rich network debugging and exploration tool”. It can be obtained from Source Forge, or it may already be available in your distribution.</p>
+
+<p>Again we will use one of the machines as a server that receives the data and the other as a client that sends the information.</p>
+
+<p>Basic usage<br />
+On th server machine</p>
+
+<div>| ``` nc -v -v -l -n  2222 &gt;/dev/null listening on [any] 2222 ... ``` |
+|---|
+
+</div>
+<p>On the client machine</p>
+
+<div>| ``` time yes\|nc -v -v -n 10.1.1.1 2222 &gt;/dev/null ``` |
+|---|
+
+</div>
+<p>On client stop the process after 10 seconds (more or less) with ctrl-c, you’ll get something like:</p>
+
+<div>| ``` sent 87478272, rcvd 0  real 0m9.993s user 0m2.075s sys 0m0.939s ``` |
+|---|
+
+</div>
+<p>On the server machine, note the data received (in bytes)</p>
+
+<div>| ```  sent 0, rcvd 87478392 ``` |
+|---|
+
+</div>
+<p>Now multiply the bytes rcvd by 8 to get total bits, then divide by the time: Result in this example is 70Mb/s</p>
+
+<p>Reference: http://deice.daug.net/netcat_speed.html</p>
+
+<h3 id="bandwidth-test-controller-bwctl"><a href="http://www.internet2.edu/performance/bwctl/">Bandwidth Test Controller (BWCTL)</a></h3>
+
+<p>BWCTL is a command line client application and a scheduling and policy daemon. These tests can measure maximum TCP bandwidth, with various tuning options available, or, by doing a UDP test, the delay, jitter, and datagram loss of a network.</p>
+
+<p>The bwctl client application works by contacting a bwctld process on the two test endpoint systems. BWCTL will work as a 3-party application. The client can arrange a test between two servers on two different systems. If the local system is intended to be one of the endpoints of the test, bwctl will detect whether a local bwctld is running and will handle the required server functionality if needed.</p>
+
+<p>The bwctl client is used to request the type of throughput test wanted. Furthermore, it requests when the test should be executed. bwctld either responds with a tentative reservation or a test denied message. Once bwctl is able to get a matching reservation from both bwctld processes (one for each host involved in the test), it confirms the reservation. Then, the bwctld processes run the test and return the results. The results are returned to the client from both sides of the test. Additionally, the bwctld processes share the results from their respective sides of the test with each other.</p>
+
+<p><a href="http://www.monkeyandlamb.co.uk/itblog/wp-content/uploads/2014/01/bwctl-example.png"><img src="http://www.monkeyandlamb.co.uk/itblog/wp-content/uploads/2014/01/bwctl-example-300x245.png" alt="bwctl-example" /></a></p>
+
+<p>For more information check the man page: http://www.internet2.edu/performance/bwctl/manpages.html[/expand]</p>
+
+  </div><a class="u-url" href="/2014/01/linux-test-bandwidth-between-two-servers/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Dave-infintiy&#39;s rough techblog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Dave-infintiy&#39;s rough techblog</li><li><a class="u-email" href="mailto:yetmoredaves@gmail.com">yetmoredaves@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/dave-infinity"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">dave-infinity</span></a></li><li><a href="https://www.twitter.com/dave-infinity"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">dave-infinity</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>A techblog from an infrastructure and security engineer working on Linuxy and Windows systems</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>IPv4 Subnet Calculating | Dave-infintiy’s rough techblog</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="IPv4 Subnet Calculating" />
+<meta name="author" content="Dave" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Calculating the Netmask Length (also called a prefix):" />
+<meta property="og:description" content="Calculating the Netmask Length (also called a prefix):" />
+<link rel="canonical" href="http://localhost:4000/2019/02/ipv4-subnet-calculating/" />
+<meta property="og:url" content="http://localhost:4000/2019/02/ipv4-subnet-calculating/" />
+<meta property="og:site_name" content="Dave-infintiy’s rough techblog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-02-25T13:29:56+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="IPv4 Subnet Calculating" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Dave"},"dateModified":"2019-02-25T13:29:56+00:00","datePublished":"2019-02-25T13:29:56+00:00","description":"Calculating the Netmask Length (also called a prefix):","headline":"IPv4 Subnet Calculating","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2019/02/ipv4-subnet-calculating/"},"url":"http://localhost:4000/2019/02/ipv4-subnet-calculating/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Dave-infintiy's rough techblog" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Dave-infintiy&#39;s rough techblog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">IPv4 Subnet Calculating</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2019-02-25T13:29:56+00:00" itemprop="datePublished">Feb 25, 2019
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Dave</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h3 id="calculating-the-netmask-length-also-called-a-prefix">Calculating the Netmask Length (also called a prefix):</h3>
+
+<p><a href="https://networkengineering.stackexchange.com/questions/7106/how-do-you-calculate-the-prefix-network-subnet-and-host-numbers">https://networkengineering.stackexchange.com/questions/7106/how-do-you-calculate-the-prefix-network-subnet-and-host-numbers</a></p>
+
+<p>Convert the dotted-decimal representation of the netmask to binary. Then, count the number of contiguous 1 bits, starting at the most significant bit in the first octet (i.e. the left-hand-side of the binary number).</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre class="wp-block-code"&gt;```
+255.255.248.0   in binary: 11111111 11111111 11111000 00000000
+                           -----------------------------------
+                           I counted twenty-one 1s             -------&gt; /21
+
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+The prefix of 128.42.5.4 with a 255.255.248.0 netmask is /21.
+
+## Calculating the Network Address:
+
+The network address is the logical AND of the respective bits in the binary representation of the IP address and network mask. Align the bits in both addresses, and perform a logical AND on each pair of the respective bits. Then convert the individual octets of the result back to decimal.
+
+Logical AND truth table:
+
+&lt;figure class="wp-block-image"&gt;![Logical AND](https://i.stack.imgur.com/e5tIQ.png)&lt;/figure&gt;```
+&lt;pre class="wp-block-code"&gt;```
+128.42.5.4      in binary: 10000000 00101010 00000101 00000100
+255.255.248. 0   in binary: 11111111 11111111 11111000 00000000
+                           ----------------------------------- [Logical AND]
+                           10000000 00101010 00000000 00000000 ------&gt; 128.42.0.0
+
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+As you can see, the network address of 128.42.5.4/21 is 128.42.0.0
+
+## Calculating the Broadcast Address:
+
+The broadcast address converts all host bits to 1s…
+
+Remember that our IP address in decimal is:
+
+</code></pre></div></div>
+<pre class="wp-block-code">```
+128.42.5.4      in binary: 10000000 00101010 00000101 00000100
+
+```
+```
+
+The network mask is:
+
+```
+<pre class="wp-block-code">```
+255.255.248.0   in binary: 11111111 11111111 11111000 00000000
+
+```
+```
+
+This means our host bits are the last 11 bits of the IP address, because we find the host mask by inverting the network mask:
+
+```
+<pre class="wp-block-code">```
+Host bit mask            : 00000000 00000000 00000hhh hhhhhhhh
+
+```
+```
+
+To calculate the broadcast address, we force all host bits to be 1s:
+
+```
+<pre class="wp-block-code">```
+128.42.5.4      in binary: 10000000 00101010 00000101 00000100
+Host bit mask            : 00000000 00000000 00000hhh hhhhhhhh
+                           ----------------------------------- [Force host bits]
+                           10000000 00101010 00000111 11111111 ----&gt; 128.42.7.255
+
+```
+```
+
+## Calculating subnets:
+
+You haven’t given enough information to calculate subnets for this network; as a general rule you build subnets by reallocating some of the host bits as network bits for each subnet. Many times there isn’t one right way to subnet a block… depending on your constraints, there could be several valid ways to subnet a block of addresses.
+
+Let’s assume we will break 128.42.0.0/21 into 4 subnets that must hold at least 100 hosts each…
+
+<figure class="wp-block-image">![subnetting](https://i.stack.imgur.com/wHlF8.png)</figure>In this example, we know that you need at least a /25 prefix to contain 100 hosts; I chose a /24 because it falls on an octet boundary. Notice that the network address for each subnet borrows host bits from the parent network block.
+
+### Finding the required subnet masklength or netmask:
+
+How did I know that I need at least a /25 masklength for 100 hosts? Calculate the prefix by backing into the number of host bits required to contain 100 hosts. One needs 7 host bits to contain 100 hosts. Officially this is calculated with:
+
+*Host bits* = Log<sub>2</sub>(Number-of-hosts) = Log<sub>2</sub>(100) = 6.643
+
+Since IPv4 addresses are 32 bits wide, and we are using the host bits (i.e. least significant bits), simply subtract 7 from 32 to calculate the minimum subnet prefix for each subnet… 32 – 7 = 25.
+
+### The lazy way to break 128.42.0.0/21 into four equal subnets:
+
+Since we only want four subnets from the whole 128.42.0.0/21 block, we could use /23 subnets. I chose /23 because we need 4 subnets… i.e. an extra two bits added to the netmask.
+
+This is an equally-valid answer to the constraint, using /23 subnets of 128.42.0.0/21…
+
+<figure class="wp-block-image">![subnetting, 2nd option](https://i.stack.imgur.com/nKRVg.png)</figure>## Calculating the host number:
+
+This is what we’ve already done above… just reuse the host mask from the work we did when we calculated the broadcast address of 128.42.5.4/21… This time I’ll use 1s instead of `h`, because we need to perform a logical AND on the network address again.
+
+```
+<pre class="wp-block-code">```
+128.42.5.4      in binary: 10000000 00101010 00000101 00000100
+Host bit mask            : 00000000 00000000 00000111 11111111
+                           ----------------------------------- [Logical AND]
+                           00000000 00000000 00000101 00000100 -----&gt; 0.0.5.4
+
+```
+```
+
+## Calculating the maximum possible number of hosts in a subnet:
+
+To find the maximum number of hosts, look at the number of binary bits in the host number above. The easiest way to do this is to subtract the netmask length from 32 (number of bits in an IPv4 address). This gives you the number of host bits in the address. At that point…
+
+*Maximum Number of hosts* = 2\*\*(32 – netmask\_length) – 2
+
+The reason we subtract 2 above is because the all-ones and all-zeros host numbers are reserved. The all-zeros host number is the network number; the all-ones host number is the broadcast address.
+
+Using the example subnet of 128.42.0.0/21 above, the number of hosts is…
+
+*Maximum Number of hosts* = 2\*\*(32 – 21) – 2 = 2048 – 2 = 2046
+
+## Finding the maximum netmask (minimum hostmask) which contains two IP addresses:
+
+Suppose someone gives us two IP addresses and expects us to find the longest netmask which contains both of them; for example, what if we had:
+
+- 128.42.5.17
+- 128.42.5.67
+
+The easiest thing to do is to convert both to binary and look for the longest string of network-bits from the left-hand side of the address.
+
+```
+<pre class="wp-block-code">```
+128.42.5.17     in binary: 10000000 00101010 00000101 00010001
+128.42.5.67     in binary: 10000000 00101010 00000101 01000011
+                           ^                           ^     ^
+                           |                           |     |
+                           +--------- Network ---------+Host-+
+                             (All bits are the same)    Bits
+
+```
+```
+
+In this case the maximum netmask (minimum hostmask) would be /25
+
+NOTE: If you try starting from the right-hand side, don’t get tricked just because you find one matching column of bits; there could be unmatched bits beyond those matching bits. Honestly, the safest thing to do is to start from the left-hand side.
+</pre></pre></pre></pre></pre></pre>
+
+  </div><a class="u-url" href="/2019/02/ipv4-subnet-calculating/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Dave-infintiy&#39;s rough techblog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Dave-infintiy&#39;s rough techblog</li><li><a class="u-email" href="mailto:yetmoredaves@gmail.com">yetmoredaves@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/dave-infinity"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">dave-infinity</span></a></li><li><a href="https://www.twitter.com/dave-infinity"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">dave-infinity</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>A techblog from an infrastructure and security engineer working on Linuxy and Windows systems</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

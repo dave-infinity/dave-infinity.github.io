@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Setup SSH access on bitbucket for a machine | Dave-infintiy’s rough techblog</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="Setup SSH access on bitbucket for a machine" />
+<meta name="author" content="Dave" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="https://confluence.atlassian.com/bitbucket/set-up-git-and-mercurial-ubuntu-linux-269982882.html" />
+<meta property="og:description" content="https://confluence.atlassian.com/bitbucket/set-up-git-and-mercurial-ubuntu-linux-269982882.html" />
+<link rel="canonical" href="http://localhost:4000/2015/08/setup-ssh-access-on-bitbucket-for-a-machine/" />
+<meta property="og:url" content="http://localhost:4000/2015/08/setup-ssh-access-on-bitbucket-for-a-machine/" />
+<meta property="og:site_name" content="Dave-infintiy’s rough techblog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2015-08-25T14:44:02+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Setup SSH access on bitbucket for a machine" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Dave"},"dateModified":"2015-08-25T14:44:02+01:00","datePublished":"2015-08-25T14:44:02+01:00","description":"https://confluence.atlassian.com/bitbucket/set-up-git-and-mercurial-ubuntu-linux-269982882.html","headline":"Setup SSH access on bitbucket for a machine","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2015/08/setup-ssh-access-on-bitbucket-for-a-machine/"},"url":"http://localhost:4000/2015/08/setup-ssh-access-on-bitbucket-for-a-machine/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Dave-infintiy's rough techblog" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Dave-infintiy&#39;s rough techblog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Setup SSH access on bitbucket for a machine</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2015-08-25T14:44:02+01:00" itemprop="datePublished">Aug 25, 2015
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Dave</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p><a href="https://confluence.atlassian.com/bitbucket/set-up-git-and-mercurial-ubuntu-linux-269982882.html">https://confluence.atlassian.com/bitbucket/set-up-git-and-mercurial-ubuntu-linux-269982882.html</a></p>
+
+<h2 id="step-1-install-git">Step 1. Install Git</h2>
+
+<p>Ubuntu uses the apt package management system, which provides the command line utility apt-get and optional graphical interfaces, such as Synaptic and Aptitude. We’ll use apt-get to install packages, but if you’re more comfortable with GUIs, those options are available. Open a terminal window on your local system and do the following:</p>
+
+<ol>
+  <li>Enter the following command to install Git: &lt;div class="panel"&gt;&lt;div class="panelContent"&gt;<code class="language-plaintext highlighter-rouge">$ sudo apt-get install git</code>&lt;/div&gt;&lt;/div&gt;</li>
+  <li>Verify the installation was successful by typing <code class="language-plaintext highlighter-rouge">which git</code> at the command line. &lt;div class="panel"&gt;&lt;div class="panelContent"&gt;<code class="language-plaintext highlighter-rouge">$ which git&lt;br&gt;&lt;/br&gt;/opt/local/bin/git</code>&lt;/div&gt;&lt;/div&gt;</li>
+  <li>Configure your username using the following command. &lt;div class="panel"&gt;&lt;div class="panelContent"&gt;<code class="language-plaintext highlighter-rouge">$ git config --global user.name "Emma Paris"</code>&lt;/div&gt;&lt;/div&gt;</li>
+  <li>Configure your email address using the following command. &lt;div class="panel"&gt;&lt;div class="panelContent"&gt;<code class="language-plaintext highlighter-rouge">$ git config --global user.email "eparis@atlassian.com"</code>&lt;/div&gt;&lt;/div&gt;&lt;div class="panelContent"&gt;&lt;/div&gt;</li>
+</ol>
+
+<h2 id="step-2-ensure-you-have-an-ssh-client-installed">Step 2. Ensure you have an SSH client installed</h2>
+
+<p>SSH is most likely included with your version of Mac OS or Linux. To make sure, do the following to verify your installation:</p>
+
+<ol>
+  <li>From your terminal window, enter the following command, which identifies the version of SSH you have installed.<br />
+ If SSH is installed, you see something similar to the following: &lt;div class="panel panel-default"&gt;&lt;div class="panel-body"&gt;<code class="language-plaintext highlighter-rouge">$ ssh -v&lt;br&gt;&lt;/br&gt;OpenSSH_5.6p1, OpenSSL 0.9.8r 8 Feb 2011&lt;br&gt;&lt;/br&gt;usage: ssh [-1246AaCfgKkMNnqsTtVvXxYy] [-b bind_address] [-c cipher_spec]&lt;br&gt;&lt;/br&gt;[-D [bind_address:]port] [-e escape_char] [-F configfile]&lt;br&gt;&lt;/br&gt;[-I pkcs11] [-i identity_file]&lt;br&gt;&lt;/br&gt;[-L [bind_address:]port:host:hostport]&lt;br&gt;&lt;/br&gt;[-l login_name] [-m mac_spec] [-O ctl_cmd] [-o option] [-p port]&lt;br&gt;&lt;/br&gt;[-R [bind_address:]port:host:hostport] [-S ctl_path]&lt;br&gt;&lt;/br&gt;[-W host:port] [-w local_tun[:remote_tun]]&lt;br&gt;&lt;/br&gt;[user@]hostname [command]&gt;</code>&lt;/div&gt;&lt;/div&gt;If you have <code class="language-plaintext highlighter-rouge">ssh</code> installed, the terminal returns version information.<br />
+ If you don’t have <code class="language-plaintext highlighter-rouge">ssh</code> installed, install it now.</li>
+  <li>
+    <p>List the contents of your <code class="language-plaintext highlighter-rouge">~/.ssh</code> directory.<br />
+ If you don’t have an <code class="language-plaintext highlighter-rouge">.ssh</code> directory, don’t worry, you’ll create it the next section. If you have a <code class="language-plaintext highlighter-rouge">.ssh</code> directory or you may see something like this: &lt;div class="panel panel-default"&gt;&lt;div class="panel-body"&gt;<code class="language-plaintext highlighter-rouge">$ ls -a ~/.ssh&lt;br&gt;&lt;/br&gt;known_hosts</code>&lt;/div&gt;&lt;/div&gt;If you have defined a default identity, you’ll see the two <code class="language-plaintext highlighter-rouge">id_*</code> files:</p>
+
+    <div class="panel panel-default"><div class="panel-body">`$ ls -a ~/.ssh<br />&lt;/br&gt;.        ..        id_rsa        id_rsa.pub    known_hosts`</div></div>
+    <p>In this case, the default identity used RSA encryption (<code class="language-plaintext highlighter-rouge">id_rsa.pub</code>). If you want to use an existing default identity for your Bitbucket account, skip the next section and go to <a href="https://confluence.atlassian.com/bitbucket/set-up-ssh-for-git-728138079.html#SetupSSHforGit-startagent">start the ssh-agent and load your keys</a>.</p>
+  </li>
+</ol>
+
+<h2 id="step-3-set-up-your-default-identity">Step 3. Set up your default identity</h2>
+
+<p>By default, the system adds keys for all identities to the <code class="language-plaintext highlighter-rouge">/Users/&lt;yourname&gt;/.ssh</code> directory on Mac OSX, or <code class="language-plaintext highlighter-rouge">/home/&lt;yourname&gt;/.ssh</code> on Linux. This procedure creates a default identity. If you have a default identity and you want to use it for Bitbucket, skip this step and go to <a href="https://confluence.atlassian.com/bitbucket/set-up-ssh-for-git-728138079.html#SetupSSHforGit-startagent">start the ssh-agent and load your keys</a>. If you have an existing default identity but you forgot the passphrase, you can also use this procedure to overwrite your default identity and create a fresh one.</p>
+
+<div class="panel panel-default"><div class="panel-wrapper"><div class="panel-heading">**Want to Use Multiple Identities?**</div><div class="panel-body">You can create multiple SSH identities. Doing this is an advanced topic and beyond the scope of this tutorial. For information on how to create multiple identities, see [Configure multiple SSH identities for GitBash, Mac OSX, &amp; Linux](https://confluence.atlassian.com/bitbucket/configure-multiple-ssh-identities-for-gitbash-mac-osx-linux-271943168.html).
+
+</div></div></div>
+<p>Use the following procedure to create a new default identity.</p>
+
+<ol>
+  <li>Open a terminal in your local system.</li>
+  <li>Enter <code class="language-plaintext highlighter-rouge">ssh-keygen</code> at the command line.<br />
+ The command prompts you for a file where you want to save the key. If the <code class="language-plaintext highlighter-rouge">.ssh</code> directory doesn’t exist, the system creates one for you. &lt;div class="panel panel-default"&gt;&lt;div class="panel-body"&gt;<code class="language-plaintext highlighter-rouge">$ ssh-keygen&lt;br&gt;&lt;/br&gt;Generating public/private rsa key pair.&lt;br&gt;&lt;/br&gt;Enter file in which to save the key (/Users/emmap1/.ssh/id_rsa):</code>&lt;/div&gt;&lt;/div&gt;</li>
+  <li>Press the Enter or Return key to accept the default location.</li>
+  <li>Enter and re-enter a passphrase when prompted.<br />
+ Unless you need a key for a process such as script, you should always provide a passphrase. The command creates your default identity with its public and private keys. The whole interaction will look similar to the following: &lt;div class="panel panel-default"&gt;&lt;div class="panel-body"&gt;<code class="language-plaintext highlighter-rouge">$ ssh-keygen&lt;br&gt;&lt;/br&gt;Generating public/private rsa key pair.&lt;br&gt;&lt;/br&gt;Enter file in which to save the key (/Users/emmap1/.ssh/id_rsa):&lt;br&gt;&lt;/br&gt;Created directory '/Users/emmap1/.ssh'.&lt;br&gt;&lt;/br&gt;Enter passphrase (empty for no passphrase):&lt;br&gt;&lt;/br&gt;Enter same passphrase again:&lt;br&gt;&lt;/br&gt;Your identification has been saved in /Users/emmap1/.ssh/id_rsa.&lt;br&gt;&lt;/br&gt;Your public key has been saved in /Users/emmap1/.ssh/id_rsa.pub.&lt;br&gt;&lt;/br&gt;The key fingerprint is:&lt;br&gt;&lt;/br&gt;4c:80:61:2c:00:3f:9d:dc:08:41:2e:c0:cf:b9:17:69 emmap1@myhost.local&lt;br&gt;&lt;/br&gt;The key's randomart image is:&lt;br&gt;&lt;/br&gt;+--[ RSA 2048]----+&lt;br&gt;&lt;/br&gt;|*o+ooo.          |&lt;br&gt;&lt;/br&gt;|.+.=o+ .         |&lt;br&gt;&lt;/br&gt;|. *.* o .        |&lt;br&gt;&lt;/br&gt;| . = E o         |&lt;br&gt;&lt;/br&gt;|    o . S        |&lt;br&gt;&lt;/br&gt;|   . .           |&lt;br&gt;&lt;/br&gt;|     .           |&lt;br&gt;&lt;/br&gt;|                 |&lt;br&gt;&lt;/br&gt;|                 |&lt;br&gt;&lt;/br&gt;+-----------------+</code>&lt;/div&gt;&lt;/div&gt;</li>
+  <li>List the contents of <code class="language-plaintext highlighter-rouge">~/.ssh</code> to view the key files. &lt;div class="panel panel-default"&gt;&lt;div class="panel-body"&gt;<code class="language-plaintext highlighter-rouge">$ ls -a ~/.ssh</code>&lt;/div&gt;&lt;/div&gt;</li>
+</ol>
+
+<h2 id="step-4-start-the-ssh-agent-and-load-your-keys"><span class="confluence-anchor-link" id="SetupSSHforGit-startagent"></span>Step 4. Start the ssh-agent and load your keys</h2>
+
+<p>If you are running OSX 10.6.8 or later you can skip this step. The OSX 10.6.8 system asks for your connection parameters the first time you try to establish a SSH connection. Then, it automatically starts the <code class="language-plaintext highlighter-rouge">ssh-agent</code> for you. If you don’t have OSX 10.6.8 or are running another Linux operating system, do the following:</p>
+
+<ol>
+  <li>Open a terminal window and enter the <code class="language-plaintext highlighter-rouge">ps -e | grep [s]sh-agent </code>command to see if the agent is running. &lt;div class="panel panel-default"&gt;&lt;div class="panel-body"&gt;<code class="language-plaintext highlighter-rouge">$ ps -e | grep [s]sh-agent&lt;br&gt;&lt;/br&gt;9060 ?? 0:00.28 /usr/bin/ssh-agent -l</code>&lt;/div&gt;&lt;/div&gt;</li>
+  <li>If the agent isn’t running, start it manually with the following command: &lt;div class="panel panel-default"&gt;&lt;div class="panel-body"&gt;<code class="language-plaintext highlighter-rouge">$ ssh-agent /bin/bash</code>&lt;/div&gt;&lt;/div&gt;</li>
+  <li>Load your new identity into the <code class="language-plaintext highlighter-rouge">ssh-agent</code> management program using the <code class="language-plaintext highlighter-rouge">ssh-add</code> command. &lt;div class="panel panel-default"&gt;&lt;div class="panel-body"&gt;<code class="language-plaintext highlighter-rouge">$ ssh-add ~/.ssh/id_rsa&lt;br&gt;&lt;/br&gt;Enter passphrase for /Users/emmap1/.ssh/id_rsa:&lt;br&gt;&lt;/br&gt;Identity added: /Users/emmap1/.ssh/id_rsa (/Users/emmpa1/.ssh/id_rsa)</code>&lt;/div&gt;&lt;/div&gt;</li>
+  <li>Use the <code class="language-plaintext highlighter-rouge">ssh-add</code> command to list the keys that the agent is managing. &lt;div class="panel panel-default"&gt;&lt;div class="panel-body"&gt;<code class="language-plaintext highlighter-rouge">$ ssh-add -l&lt;br&gt;&lt;/br&gt;2048 7a:9c:b2:9c:8e:4e:f4:af:de:70:77:b9:52:fd:44:97 /Users/manthony/.ssh/id_rsa (RSA)</code>&lt;/div&gt;&lt;/div&gt;</li>
+</ol>
+
+<h2 id="step-5-install-the-public-key-on-your-bitbucket-account">Step 5. Install the public key on your Bitbucket account</h2>
+
+<ol>
+  <li>From Bitbucket, choose <strong><em>avatar</em> &gt; Manage account</strong> from the application menu.<br />
+ The system displays the <strong>Account settings</strong> page.</li>
+  <li>Click <strong>SSH keys</strong>.<br />
+ The <strong>SSH Keys</strong> page displays. If you have any existing keys, those appear on this page.</li>
+  <li>
+    <p>Back in your terminal window, copy the contents of your public key file.<br />
+ For example, in Linux you can <code class="language-plaintext highlighter-rouge">cat</code> the contents. &lt;div class="panel"&gt;&lt;div class="panelContent"&gt;<code class="language-plaintext highlighter-rouge">$ cat ~/.ssh/id_rsa.pub</code>&lt;/div&gt;&lt;/div&gt;In Mac OSX, the following command copies the output to the clipboard:</p>
+
+    <div class="panel"><div class="panelContent">`$ pbcopy &lt; ~/.ssh/id_rsa.pub`</div></div>
+  </li>
+  <li>Back in your browser, enter a <strong>Label</strong> for your new key, for example, <code class="language-plaintext highlighter-rouge">Default public key</code>.</li>
+  <li>Paste the copied public key into the SSH <strong>Key</strong> field:</li>
+</ol>
+
+  </div><a class="u-url" href="/2015/08/setup-ssh-access-on-bitbucket-for-a-machine/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Dave-infintiy&#39;s rough techblog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Dave-infintiy&#39;s rough techblog</li><li><a class="u-email" href="mailto:yetmoredaves@gmail.com">yetmoredaves@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/dave-infinity"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">dave-infinity</span></a></li><li><a href="https://www.twitter.com/dave-infinity"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">dave-infinity</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>A techblog from an infrastructure and security engineer working on Linuxy and Windows systems</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Crashplan backup server on the pi | Dave-infintiy’s rough techblog</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="Crashplan backup server on the pi" />
+<meta name="author" content="Dave" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Complete credit to http://www.bionoren.com/blog/2013/02/raspberry-pi-crashplan/#comment-97" />
+<meta property="og:description" content="Complete credit to http://www.bionoren.com/blog/2013/02/raspberry-pi-crashplan/#comment-97" />
+<link rel="canonical" href="http://localhost:4000/2014/04/crashplan-backup-server-on-the-pi/" />
+<meta property="og:url" content="http://localhost:4000/2014/04/crashplan-backup-server-on-the-pi/" />
+<meta property="og:site_name" content="Dave-infintiy’s rough techblog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2014-04-14T09:49:35+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Crashplan backup server on the pi" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Dave"},"dateModified":"2014-04-14T09:49:35+01:00","datePublished":"2014-04-14T09:49:35+01:00","description":"Complete credit to http://www.bionoren.com/blog/2013/02/raspberry-pi-crashplan/#comment-97","headline":"Crashplan backup server on the pi","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2014/04/crashplan-backup-server-on-the-pi/"},"url":"http://localhost:4000/2014/04/crashplan-backup-server-on-the-pi/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Dave-infintiy's rough techblog" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Dave-infintiy&#39;s rough techblog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Crashplan backup server on the pi</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2014-04-14T09:49:35+01:00" itemprop="datePublished">Apr 14, 2014
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Dave</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>Complete credit to http://www.bionoren.com/blog/2013/02/raspberry-pi-crashplan/#comment-97</p>
+
+<p>and</p>
+
+<p>https://melgrubb.wordpress.com/2014/08/01/raspberry-pi-home-server-part-10-crashplan/</p>
+
+<p>These are my personal notes on getting Crashplan up and running on a Raspberry Pi running Wheezy 2015-05-05. Some words may be copied straight out from the above two threads so full credit to them – THIS IS NOT MY WORK!</p>
+
+<p><strong>REPEAT : This is NOT MY work, only my process for personal notes!</strong></p>
+
+<h2 id="step-1--installing-raspian-wheezy">Step 1 : Installing Raspian Wheezy</h2>
+
+<p>First download the image file from:<br />
+<a href="https://www.raspberrypi.org/downloads/"><br />
+https://www.raspberrypi.org/downloads/</a></p>
+
+<p>Then, if running from Windows download the disk imaging tool:</p>
+
+<p><a href="http://sourceforge.net/projects/win32diskimager/">http://sourceforge.net/projects/win32diskimager/</a></p>
+
+<p>Image the disk using the tool!</p>
+
+<p>Connect up the Pi and boot up for the raspi-config splash screen.</p>
+
+<h3 id="step-2--configuring-the-pi">Step 2 : Configuring the Pi</h3>
+
+<p>I’m a newbie still but this is how I decided to configure the pi:</p>
+
+<ol>
+  <li>Expand file system</li>
+  <li>Overclock : Medium</li>
+  <li>Enable SSH</li>
+  <li>Exit raspi-config</li>
+  <li>Add Public keys for ssh access to ~/.ssh/authorized_keys , more info <a href="https://help.ubuntu.com/community/SSH/OpenSSH/Keys">https://help.ubuntu.com/community/SSH/OpenSSH/Keys</a></li>
+  <li>Create iptables rules to provide some limits, this is achieved by ```
+ iptables-restore &lt; yourIptableFileHere
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    
+ a yourIptableFileHere example:
+    
+</code></pre></div>    </div>
+    <p># Generated by iptables-save v1.4.21 on Sat May 23 13:51:53 2015
+ *filter</p>
+
+    <p># Loopback accept
+ -A INPUT -s 127.0.0.1/32 -i lo -j ACCEPT
+ -A INPUT -d 127.0.0.0/8 -j REJECT –reject-with icmp-port-unreachable</p>
+
+    <p># Accept established
+ -A INPUT -m state –state RELATED,ESTABLISHED -j ACCEPT</p>
+
+    <p># ACCEPT SSH
+ -A INPUT -p tcp -m state –state NEW -m tcp –dport 22 -j ACCEPT</p>
+
+    <p># Accept incoming for Crashplan 4242
+ -A INPUT -p tcp –dport 4242 -j ACCEPT
+ -A INPUT -p udp –dport 4282 -j ACCEPT</p>
+
+    <p># accept local network
+ -A INPUT -s x.x.x.x/24 -j ACCEPT
+ -A INPUT -s x.x.x.x/24 -p icmp -j ACCEPT</p>
+
+    <p># Log all other attempts limit to 5 mins
+ -A INPUT -m limit –limit 5/min -j LOG –log-prefix “iptables denied: “ –log-level 7
+ # limit ssh attempts in particular
+ -A INPUT -p tcp –syn –dport 3333 -m connlimit –connlimit-above 3 -j REJECT
+ # also http
+ -A INPUT -p tcp –syn –dport 80 -m connlimit –connlimit-above 20 -j REJECT –reject-with tcp-reset</p>
+
+    <p># Drop everything else
+ -A INPUT -j DROP
+ -A FORWARD -j DROP</p>
+
+    <p># Allow outbound
+ -A OUTPUT -j ACCEPT</p>
+
+    <p>COMMIT
+ ```</p>
+  </li>
+  <li>Install iptables-persistent when you’re happy with the ruleset</li>
+  <li>[Optional] Change your SSH port to match ruleset</li>
+</ol>
+
+<h3 id="step-3--preparing-the-storage">Step 3 : Preparing the storage</h3>
+
+<p>The Crashplan application can be quite intense on the disk and the pi’s default swap file on the SD card is not going to cut it.</p>
+
+<p>First thing I did was move the swap file to a 2GB USB drive attached to the Pi.</p>
+
+<ol>
+  <li>Get the device location of the USB drive: ```
+ sudo dmesg
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    
+ My drive had an entry for “VERBATIM STORE N GO”, further down I saw it listed as
+    
+</code></pre></div>    </div>
+    <p>sda:sda1
+ ```</p>
+  </li>
+  <li>Format the drive as ext4 : <code class="language-plaintext highlighter-rouge">
+ sudo mkfs.ext4 /dev/sda1 -L usbswap
+</code></li>
+  <li>Create the directory to mount the drive : <code class="language-plaintext highlighter-rouge">
+ sudo mkdir /media/usbswap
+</code></li>
+  <li>Mount the directory: ```
+ sudo mount -t ext4 /dev/sda1 /media/usbswap
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    
+ then check for errors :
+    
+</code></pre></div>    </div>
+    <p>ls -l /media/usbswap
+ ```</p>
+  </li>
+</ol>
+
+<p>1. I have this working on a Raspberry Pi Model B. Started with the NOOBS 8G SD Card. I used information from above, the Oracle Java 1.7 post, and several other pages to build a Pi with 1TB WD Passport attached. My MacBook Air has been backing up to it for over an hour so far with no issues. Many thanks to Jon Rogers, Bion, Brad Peterson, and others for contributions toward getting this done.<br />
+I am posting my documentation which sections just duplicate some of the above post and comments. There are some differences and I also document setting up the USB drive, etc. all in one place in case it helps someone. Rather than use a variable like path/to/swapfile, I use the real names in case someone will benefit from an actual example. Make sure you adjust accordingly.<br />
+CrashPlan (headless) on Raspberry Pi<br />
+Using the NOOBS v1.2.1 SD on a B Model with 512Mb<br />
+Using a WD MyPassport 1TB NTFS USB Drive formerly on a Windows 7 box<br />
+Install Raspbian (default selection in NOOBS)<br />
+The unit will boot into raspi-config, choose option 8, advanced options<br />
+Choose option A5, Update this tool to the latest version<br />
+Set Keyboard, Locale, and Timezone if not UK:<br />
+Choose option 4, Internationalization Options<br />
+Choose I1, Change Locale, and follow the prompts (e.g. en_US.UTF-8 UTF-8)<br />
+Choose I2, Change Timezone, and follow the prompts<br />
+Choose I3, Change Keyboard, and follow the prompts<br />
+Optional, set host name (good if you have multiple units):<br />
+Return to option 8, advanced options<br />
+Select A2, Hostname<br />
+Optional, overclock the unit:<br />
+Select option 7, Overclock<br />
+Select Modest for a 14% boost in MHz with no overvolt to start or no overclock. Get it working first so you know if the overclock is the culprit if you have problems.<br />
+Select Finish when done with configuration options and allow a reboot.<br />
+Install GIT (in case the newest version is not installed – mine was up to date):<br />
+sudo apt-get install git-core<br />
+Install Update Tool (in case the newest version is not installed – mine was up to date):<br />
+sudo apt-get install rpi-update<br />
+Upgrade Firmware (this can take some time):<br />
+sudo rpi-update<br />
+Check Firmware (mine was June 17 2013 20:49:11):<br />
+sudo vcgencmd version<br />
+Reboot:<br />
+sudo reboot<br />
+Recheck Firmware (mine was Jan 10 2014 16:58:06):<br />
+sudo vcgencmd version<br />
+If you haven’t already, mount your USB drive.<br />
+Find your drive’s location:<br />
+sudo dmesg<br />
+I found the entries associated with the drive as it came up “Direct-Access WD My Passport…”<br />
+Following this down, I can see it is sda: sda1<br />
+If necessary, format the drive, ext4 is recommended:<br />
+sudo mkfs.ext4 /dev/sda1 -L cpusb01<br />
+To mount the USB drive, create a directory in mnt:<br />
+sudo mkdir /media/usbhd<br />
+Mount the directory:<br />
+sudo mount -t ext4 /dev/sda1 /media/usbhd<br />
+If no errors, you should be able to do a directory listing on the mounted volume:<br />
+ls -l /media/usbhd<br />
+Note: to unmount the drive (before unplugging) issue the following command:<br />
+sudo umount /media/usbhd<br />
+Since I plan to leave this drive attached as a primary backup volume, I want to automount it on reboot. Because I may add more USB drives in the future, the safest way to mount the drives is using its Unique Identifier (UUID).<br />
+To find the UUID, enter this command:<br />
+ls -laF /dev/disk/by-uuid<br />
+This gave me the following (this drive only):<br />
+F474B7AA74B76DCC -&gt; ../../sda1<br />
+I then modify /etc/fstab to mount this drive automatically:<br />
+sudo vi /etc/fstab<br />
+I append this line:<br />
+UUID=F474B7AA74B76DCC /media/usbhd ntfs nofail,user,auto,rw 0 0<br />
+After saving and quitting (:wq), I test it manually by first unmounting:<br />
+sudo umount /media/usbhd<br />
+And then mounting with:<br />
+sudo mount -a<br />
+This mounts the drive using the entry in /etc/fstab.<br />
+Test to be sure:<br />
+ls -l /media/usbhd<br />
+Thanks to Brad Peterson (above): Raspbian by default will have 100MB swap on the SD card. This is not a good idea. It is small and it will kill the SD card. Since we have an external USB drive attached as backup media, we will use this for swap instead.<br />
+Initial setup (the first command may take a while with no feedback, be patient):<br />
+sudo dd if=/dev/zero of=/media/usbhd/swapfile bs=1M count=1024<br />
+sudo mkswap /media/usbhd/swapfile<br />
+sudo chown root:root /media/usbhd/swapfile<br />
+sudo chmod 0600 /media/usbhd/swapfile<br />
+Add the additional swap space just created (takes a while as well):<br />
+sudo swapon /media/usbhd/swapfile<br />
+Verify the additional swap space:<br />
+free -h<br />
+This should now report 1.1G<br />
+Now we make it mount at boot time.<br />
+sudo vi /etc/fstab<br />
+Insert the following after the USB mount:<br />
+/media/usbhd/swapfile swap swap defaults 0 0<br />
+Reboot and see if it is still 1.1G<br />
+sudo reboot<br />
+free -h<br />
+Now to stop Raspbian from creating the 100M swap on the SD card:<br />
+sudo apt-get purge dphys-swapfile<br />
+Reboot again and validate only 1G of swap:<br />
+sudo reboot<br />
+free -h<br />
+Now on to installing Java. We are going to try Oracle Java since it offers significant performance advantages over OpenJDK on ARM platforms. Courtesy of eben athttp://www.raspberrypi.org/archives/4920.<br />
+sudo apt-get update &amp;&amp; sudo apt-get install oracle-java7-jdk<br />
+Download CrashPlan for Linux and extract it:<br />
+tar -xvf CrashPlan_3.5.3_Linux.tgz<br />
+Install CrashPlan (important: install as root and from the CrashPlan-install directory – I got several errors trying to run it using Crashplan-install/install.sh):<br />
+su (if you haven’t set the root password, usesudo psswd)<br />
+cd CrashPlan-install<br />
+./install.sh<br />
+exit<br />
+** Make sure you change the default backup directory to /media/usbhd/crashplan/<br />
+Start the CrashPlan Engine:<br />
+sudo /usr/local/crashplan/bin/CrashPlanEngine start<br />
+Validate it is running:<br />
+/usr/local/crashplan/bin/CrashPlanEngine status<br />
+It will crash because libtux.so included by CrashPlan is compiled for 32-bit Intel which will not run on an ARM processor. Here is the fix:<br />
+Download the patched libjtux and md5 library, courtesy of Jon Rogers.<br />
+Extract as necessary and copy the .so files to /usr/local/crashplan/ replacing the files that are there.<br />
+Then:<br />
+sudo apt-get install libjna-java<br />
+Now, per Bion’s post, edit /usr/local/crashplan/bin/CrashPlanEngine and find the line that begins with FULL_CP= (its around the start case) add this to the beginning of the string:<br />
+/usr/share/java/jna.jar:<br />
+Start the CrashPlan Engine again:<br />
+sudo /usr/local/crashplan/bin/CrashPlanEngine start<br />
+Validate it is running:<br />
+/usr/local/crashplan/bin/CrashPlanEngine status<br />
+Next we move on to running a remote client. I am not going to detail this since CrashPlan has it detailed on one page here:</p>
+
+<p>REPLY<br />
+2. Greg Aldrich says:<br />
+01/11/2014 AT 12:28 PM<br />
+I have multiple edits for this commentary.<br />
+For the formatting of the USB drive, I had an old volume name in there as I ran through this process twice. Where I wrote:<br />
+sudo mkfs.ext4 /dev/sda1 -L cpusb01<br />
+The cpusb01 should be usbhd to be consistent with the rest of the document or this will look like it’s working but will fail once you start backing up (because your swap and backup location will be on the SD card).<br />
+That line should read:<br />
+sudo mkfs.ext4 /dev/sda1 -L usbhd<br />
+I tested this all again and it worked. I am getting over 80 Mbps right now and I do plan to go back and experiment with overclocking.<br />
+One other thing I found which may be helpful was in:<br />
+/usr/local/crashplan/conf/my.service.xml<br />
+You will find the following line:<br />
+/usr/local/crashplan/cache<br />
+I edited mine to:<br />
+/media/usbhd/crashplan/cache<br />
+If it is a fresh install, that is it. If you already have a cache built up, you will want to move that before you restart the service.<br />
+The same goes for the log files. You will find “/usr/local/crashplan/log/xxxx.log” entries in my.services.xml as well.<br />
+Finally, the headless client link was missing a quotation mark. The last sentence should have read:<br />
+Next we move on to running a remote client. I am not going to detail this since CrashPlan has it detailed on one page here.</p>
+
+<h1 id="option-2">OPTION 2:</h1>
+
+<p>Copied from <strong>https://melgrubb.com/2014/08/01/raspberry-pi-home-server-part-10-crashplan/</strong> for posterity! 🙂</p>
+
+<h2 id="update-20160517">Update 2016/05/17</h2>
+
+<p>If you tried recently to install CrashPlan and it failed, or wouldn’t stay running for very long, it looks like the most recent installer has fixed whatever was broken. The current download from Code42’s site should be version 4.7 or newer, and readers are reporting that all is well again.</p>
+
+<p>If, like me, a previous auto-update broke your existing installation, then I suggest uninstalling CrashPlan like this (From memory, forgive me if I get something wrong)</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd /mnt/data/public/downloads/crashplan-install
+sudo ./uninstall -i /usr/local/crashplan
+</code></pre></div></div>
+
+<p>Then download and install the latest version from Code42. You’ll need to repeat all of the steps in this article, but as long as you point the backups to the same directory you were using before, CrashPlan should pick them up and continue using them, so you don’t have to start completely over. You <em>will</em> need to reinstall and re-patch the UI, and then sign in to your account again, just like the first time around.</p>
+
+<hr />
+
+<h2 id="updated-20150207">Updated 2015/02/07:</h2>
+
+<p>Recently, Code42 (CrashPlan’s developer) updated their installation files, and the instructions in this article stopped working. Thanks to the work of several readers (see the comments), I’ve been able to revisit this article and update the instructions so that they work once again.</p>
+
+<p>See the end of this article for additional troubleshooting information if you find that your installation mysteriously stops working one day.</p>
+
+<h2 id="overview">Overview</h2>
+
+<p>One of the main jobs of a proper “home server” is to back up the other computers on the network. You could accomplish this through the file shares I covered earlier in the series, but I’d like to try something a little more ambitious.</p>
+
+<p>There’s a great product out there called “CrashPlan” (<a href="http://www.code42.com/crashplan">www.code42.com/crashplan</a>). The company has subscription offerings that will store your backups in their “cloud”, similar to other products like Carbonite (<a href="http://www.carbonite.com/">www.carbonite.com</a>), but if you can supply your own storage, CrashPlan is free.</p>
+
+<p>The free version of CrashPlan can back up to a local drive on the same computer, or to another computer that is also running CrashPlan. Your Raspberry Pi Home Server can be that “other computer”, and handle the backups for all of the computers in your house.</p>
+
+<p><strong>Note:</strong> It <em>is</em> possible to get CrashPlan to backup to a share on your local network, too, but it involves jumping through some symbolically-linked hoops, and won’t be covered here.</p>
+
+<h2 id="acknowledgements">Acknowledgements</h2>
+
+<p>I didn’t figure all this stuff out on my own, not by a long shot. I am standing on the shoulders of other geeks here. In 2012, <a href="http://www.jonrogers.co.uk/">Jon Rogers</a> wrote a <a href="http://www.jonrogers.co.uk/2012/05/crashplan-on-the-raspberry-pi/">blog post</a> about getting CrashPlan running on the Raspberry Pi. That article is largely the basis for this one.</p>
+
+<p>In February of 2013, <a href="http://www.bionoren.com/">Bion Ren</a> posted an <a href="http://www.bionoren.com/blog/2013/02/raspberry-pi-crashplan/">updated version</a> of Jon’s instructions, replacing OpenJDK with Oracle’s Java 8 preview. He also called attention to a post by <a href="https://crashplan.zendesk.com/entries/390250-crashplan-on-sheevaplug">Torbjörn</a> that solves a major configuration issue, and a <a href="http://www.bionoren.com/blog/2013/02/raspberry-pi-crashplan/#comment-97">comment</a> by Brad Peterson that addresses a rather serious stability issue with regards to swap file use.</p>
+
+<p>I am posting this because I wanted to gather together a complete, updated set of end-to-end instructions for adding CrashPlan to the Raspberry Pi Home Server I’ve been describing in this series. As I have pointed out before, I am by no means a Linux expert. I could not have done this without the work of those that went before me.</p>
+
+<h2 id="before-you-start">Before you start</h2>
+
+<p>CrashPlan was not written with tiny computers like the Raspberry Pi in mind. It expects to be running on a computer with more resources in general, and more memory in particular. When it doesn’t have enough memory, it will start paging to the swap file. Whether or not this will wear out your SD card is a rather contentious subject, and I’m not going to pretend that I know the answer to that one. One thing is for sure, though, SD card-based swap files are slow.</p>
+
+<p>As a result, I cannot recommend running CrashPlan on a Raspberry Pi unless you have moved your swap file (and I recommend your root filesystem as well) onto a proper hard drive as covered in my “<a href="https://melgrubb.wordpress.com/2014/08/01/raspberry-pi-home-server-part-6-adding-a-hard-drive/" title="Raspberry Pi Home Server: Part 6, Adding a hard drive">Adding a hard drive</a>” post. If you skipped that article, this isn’t going to work for you. The SD card just doesn’t have enough space to hold backups. In order to serve as a useful CrashPlan backup destination, you’re going to have to have a big hard drive anyway, so you may as well take full advantage of it.</p>
+
+<p>In addition, CrashPlan does some pretty heavy lifting in the background, compressing and pruning backups, and doing general housekeeping. This can use a lot of CPU, and make the rest of your server’s functions slow to respond. As I’m writing this, my own CrashPlan instance is using up about 60% of my CPU time compressing backups from my primary computer. CrashPlan is usually pretty good at getting out of the way when other programs need to think, at least on the desktop.</p>
+
+<p>YMMV</p>
+
+<h2 id="java">Java</h2>
+
+<p>CrashPlan runs on Java, which means it can run on anything with a Java runtime. Current Raspbian images (2015-01-31 at the time of this update) already include the Java Runtime, version 8. You can check this by typing the following at the command line:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre class="brush: bash;"&gt;java –version
+</code></pre></div></div>
+
+<p>If it says “1.8.0” or above, you’re all set to go. If not, you may need to install the Java Runtime Engine (JRE) yourself. Unfortunately, I can’t find a simple JRE installer for the raspberry pi at this time, so you’ll just have to install the whole Java Development Kit (JDK). Only do this if you don’t already have JRE8, as checked in the last step.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre class="brush: bash;"&gt;sudo apt-get install oracle-java8-jdk
+</code></pre></div></div>
+
+<p>There is an additional piece you’ll need in order for CrashPlan to work. According to a user called <a href="https://crashplan.zendesk.com/entries/390250-crashplan-on-sheevaplug">Torbjörn</a> on the CrashPlan forums, you’ll also need the Java Native Access (JNA) library. Install them both at once like this:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre class="brush: bash;"&gt;sudo apt-get install libjna-java
+</code></pre></div></div>
+
+<p>When the Java installation completes, you are ready to install CrashPlan itself.</p>
+
+<h2 id="get-the-crashplan-installer">Get the CrashPlan installer</h2>
+
+<p>Since there are new versions being released all the time, I can’t give you a simple url to “wget”. Go to <a href="http://www.code42.com/crashplan/thankyou/?os=linux" title="http://www.code42.com/crashplan/thankyou/?os=linux">http://www.code42.com/crashplan/thankyou/?os=linux</a>, from a browser on the Pi itself, and the download should start automatically. I used the new “Web” browser that’s part of the Raspbian image, so the file ended up in /home/pi/Downloads. Depending on your browser, your downloads may go somewhere else. If you can’t figure out where they are going, just download the package from your primary computer, and copy it over on a flash drive.</p>
+
+<p>When the download is complete, find the .tgz file and extract it. Since I was already in the desktop environment to run the browser, I took advantage of the modern amenities, right-clicked the file and picked “Extract here” from the context menu. Sometimes it’s nice to live in the future, if only for a moment.</p>
+
+<p>If you want to do it from the command line, go to the folder where your .tgz file is:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre class="brush: bash;"&gt;cd /mnt/data/Downloads
+</code></pre></div></div>
+
+<p>…and type the following:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre class="brush: bash;"&gt;tar zxvf FILENAME.tgz
+</code></pre></div></div>
+
+<h2 id="install-crashplan">Install CrashPlan</h2>
+
+<p>Navigate to the folder where you just extracted the installer (Note: your folder may be different):</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre class="brush: bash;"&gt;cd ~/Downloads/CrashPlan-install
+</code></pre></div></div>
+
+<p>Execute the installer from the command line.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre class="brush: bash;"&gt;sudo ./install.sh
+</code></pre></div></div>
+
+<p>The install script will prompt you for anything it needs, including accepting a really long EULA that you probably won’t really read (q exits the reader). You can accept most of the defaults and let the installer create any missing folders, but one directory you should probably change is the backup location.</p>
+
+<p>Unless you are backing up something very very small, like another Raspberry Pi, the root partition is not going to be big enough to hold the files. Change the backup location to somewhere on the data partition. I set mine to “/mnt/data/CrashPlan”, and let the installer create the folder. You’ll get a summary and a confirmation prompt like this:</p>
+
+<p>Double check all of your values, and then let the installer go. It’s a surprisingly fast installation. If there were no problems, you should see a confirmation like this:</p>
+
+<p>At this point, you have CrashPlan installed, but it’s not very happy. Although the installer says the engine is installed and running, it’s actually not. You can check on the status of the CrashPlan service like this:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre class="brush: bash;"&gt;service crashplan status
+</code></pre></div></div>
+
+<p>The answer will probably say “CrashPlan Engine is stopped.”, and even if you try to start is manually, checking its status will still say “stopped”.</p>
+
+<p>The trouble is that the installer downloaded it’s own private copy of the Java Runtime Engine, version 7 (JRE7). Normally, this would just be an irritating waste of storage space, having multiple copies of the JRE around, but the one CrashPlan installed isn’t even the right architecture. The CrashPlan installer has installed a JRE that assumes it’s on a desktop processor, specifically something i586-ish (Pentium, Core, etc.)</p>
+
+<p>Don’t worry about it if you don’t know what that means. All it means to us is that we’re going to have to trick CrashPlan into running on the JRE that’s already on the Pi, instead of the one it installed itself. Thanks to Rainer Boehme and Matt for showing me this in the comments.</p>
+
+<p>The first order of business is to blow away the useless x86 version of JRE7.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre class="brush: bash;"&gt;sudo rm -r /usr/local/crashplan/jre
+</code></pre></div></div>
+
+<p>Next, we’ll create a “symbolic link”, which is a kind of shortcut on your hard drive. Symbolic links make things in one place appear to be somewhere else, or even in multiple places. You can use them to keep one physical copy of a file, but have it appear in many different places. Here, we’re going to use one to make the raspberry pi-friendly JRE8 appear where CrashPlan put its raspberry-unfriendly JRE7.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre class="brush: bash;"&gt;sudo ln -s /usr/lib/jvm/jdk-8-oracle-arm32-vfp-hflt /usr/local/crashplan/jre
+</code></pre></div></div>
+
+<h2 id="patch-crashplan-to-work-on-the-pi">Patch CrashPlan to work on the Pi</h2>
+
+<p>CrashPlan is now installed, but it’s not very happy. If you were to look in the/usr/local/crashplan/log/engine_error.log file right now, you’d see a complaint about the /usr/local/crashplan/libjtux.so file being the wrong version. Luckily for us, Jon Rogers already fixed that problem.</p>
+
+<p>Return to the terminal, and go to the /usr/local/crashplan folder where you will find the file in question.</p>
+
+<p>Remove the bad libjtux.so file, and replace it with the one that Jon Rogers patched.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre class="brush: bash;"&gt;cd /usr/local/crashplan
+sudo rm libjtux.so
+sudo wget &lt;a href="http://www.jonrogers.co.uk/wp-content/uploads/2012/05/libjtux.so"&gt;http://www.jonrogers.co.uk/wp-content/uploads/2012/05/libjtux.so&lt;/a&gt;
+</code></pre></div></div>
+
+<p>There’s also something wrong with the libmd5.s0 file, so replace that one the same way.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre class="brush: bash;"&gt;sudo rm libmd5.so
+sudo wget http://www.jonrogers.co.uk/wp-content/uploads/2012/05/libmd5.so -O ./libmd5.so
+</code></pre></div></div>
+
+<p>These two files should allow the CrashPlan engine to start up.</p>
+
+<p>Next, edit the CrashPlanEngine file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre class="brush: bash;"&gt;sudo nano /usr/local/crashplan/bin/CrashPlanEngine
+</code></pre></div></div>
+
+<p>Find (ctrl-w) the line that starts with “FULL_CP=”, and add “/usr/share/java/jna.jar:” (don’t forget the colon) to the beginning of the string value.</p>
+
+<p>Exit nano, saving the file (ctrl-x,y,enter)</p>
+
+<h2 id="start-crashplan">Start CrashPlan</h2>
+
+<p>To check whether everything is working, try launching CrashPlan manually.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre class="brush: bash;"&gt;sudo service crashplan start
+sudo service crashplan status
+</code></pre></div></div>
+
+<p>If everything went well, you should get a message indicating that the CrashPlan service is running.</p>
+
+<p><a href="https://melgrubb.files.wordpress.com/2014/07/image88.png"><img src="https://melgrubb.files.wordpress.com/2014/07/image_thumb97.png?w=966&amp;h=609" alt="image" title="image" /></a></p>
+
+<h2 id="configure-crashplan-to-auto-start">Configure CrashPlan to auto-start</h2>
+
+<p>Having a backup system like CrashPlan won’t do you much good if it doesn’t start back up again after your power goes out. Type the following command to automatically configure CrashPlan to auto-start after a reboot.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre class="brush: bash;"&gt;sudo update-rc.d crashplan defaults
+</code></pre></div></div>
+
+<p>To make sure that it worked, reboot the Raspberry Pi, log back in, and check the status of the service. It should be running.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre class="brush: bash;"&gt;sudo reboot
+…
+sudo service crashplan status
+</code></pre></div></div>
+
+<p><a href="https://melgrubb.files.wordpress.com/2014/07/image90.png"><img src="https://melgrubb.files.wordpress.com/2014/07/image_thumb99.png?w=966&amp;h=609" alt="image" title="image" /></a></p>
+
+<h2 id="patch-the-crashplan-ui">Patch the CrashPlan UI</h2>
+
+<p>At this point, you have a working CrashPlan server, but no way to communicate with it. You need to get a GUI talking to the CrashPlan engine so that you can configure backups, change preferences, and generally fiddle with the knobs.</p>
+
+<p>LiquidState has a very detailed <a href="http://www.liquidstate.net/blog/technology/how-to-manage-your-crashplan-server-remotely/">walkthrough</a> of configuring CrashPlan to answer to a UI running on a different computer. If that’s how you want to do things, then go ahead, but it’s not that much harder to get the UI running on the Pi’s own X desktop.</p>
+
+<p>If you were to try the CrashPlan icon that the installer has placed on your X desktop right now, it wouldn’t work because the version of the Standard Widget Toolkit (SWT) library that CrashPlan installed won’t work on the Raspberry Pi. You can double-click that icon all day and it will never get you anywhere until we fix this problem.</p>
+
+<p>Install a compatible version of the SWT library like this:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre class="brush: bash;"&gt;sudo apt-get install libswt-gtk-3-java libswt-cairo-gtk-3-jni
+</code></pre></div></div>
+
+<p>Next, replace the SWT library that CrashPlan installed with the compatible one.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre class="brush: bash;"&gt;sudo cp /usr/lib/java/swt-gtk-3.8.2.jar /usr/local/crashplan/lib/swt.jar
+</code></pre></div></div>
+
+<p><strong>Note:</strong> The version of this file is subject to change, so if the command complains, use tab-completion to help find the correct filename. Type up to “/usr/lib/java/swt” and then hit the Tab key to fill in the rest. This file has changed more than once since this article was first published.</p>
+
+<p>You can now run the CrashPlan UI directly from the shortcut the installer put on your X desktop. The first run can be pretty slow, so give it some time.</p>
+
+<p>You’ll either need to connect to an existing CrashPlan account, or create a new one. It’s been so long since I signed up, that I honestly couldn’t walk you through the steps anymore, but all you’re going to need is what’s included in the free version.</p>
+
+<h2 id="back-up-your-stuff">Back up your stuff</h2>
+
+<p>Now that you have a CrashPlan server, it’s time to start backing things up. Install the CrashPlan software on the computer you want to back up, and open the UI. Sign in using the same account information you used above.</p>
+
+<p>From here on, it’s just business as usual. Choose what you want to back up, and select “another computer” for the destination. If you signed in with the same account on the client and server, they should see each other in the list, and you can pick the Raspberry Pi as your backup location.</p>
+
+<p>If your computers have trouble seeing each other, I’d suggest looking in the <a href="http://support.code42.com/CrashPlan">support</a>section of the CrashPlan site. CrashPlan does a pretty good job of opening its own firewall holes via UPnP, but perhaps your router doesn’t support that, or maybe you’ve turned it off on purpose. Such networking issues are beyond the scope of this article. Your mileage may vary. Google is your friend.</p>
+
+<p><strong>Warning:</strong> The first time you back up another computer it will take a very long time, and it’s going to peg the Raspberry Pi’s CPU, just like when MiniDLNA was indexing your media. Don’t worry, you’re not going to hurt the Pi. Mine was at 100% CPU usage for more than a day, and the CPU temperature never rose above 64°C. As long as the temperature stays below 80°C, you have nothing to worry about. Subsequent backups will also run up the CPU, but not for nearly as long.</p>
+
+<h2 id="the-crashpi-secure-off-site-backups">The CrashPi: Secure, off-site backups</h2>
+
+<p>Now we come to the real payoff, and the part that’s going to keep your stuff safe in the event of a fire or flood. When you use CrashPlan to back up to another computer, that other computer does <em>not</em> have to be on the same local network as the computer it’s backing up. It can be anywhere on the internet. It could be on the other side of town, or in a different state.</p>
+
+<p>A Raspberry Pi is cheap enough that you could just Velcro one to the side of a big USB drive and leave the whole thing at a buddy’s house. If your buddy does the same, and parks a CrashPi (as I am now calling it) at <em>your</em> house, then you’ll both be protected in the event of a disaster… unless, of course, you live in the same apartment building. You should choose a location for your off-site backups that is far enough away that both sites are unlikely to fall victim to the same disaster.</p>
+
+<p>To build a CrashPi, all you need to do is build another Raspberry Pi Home Server, leaving out all the parts that CrashPlan doesn’t need, which is actually most of them. Follow this subset of the Raspberry Pi Home Server blog series, and you’ll have made a CrashPi.</p>
+
+<ol>
+  <li><a href="https://melgrubb.wordpress.com/2014/08/01/raspberry-pi-home-server-part-2-installing-the-os/" title="Raspberry Pi Home Server: Part 2, Installing the OS">Installing the OS</a>:<br />
+ Start with a small, cheap SD card. You only need 4GB.</li>
+  <li><a href="https://melgrubb.wordpress.com/2014/08/01/raspberry-pi-home-server-part-3-configuring-the-os/" title="Raspberry Pi Home Server: Part 3, Configuring the OS">Configuring the OS</a>:<br />
+ If you want SSH access to maintain the CrashPi remotely, your buddy will have to punch a hole in the firewall, or put the CrashPi in his/her DMZ.</li>
+  <li><a href="https://melgrubb.wordpress.com/2014/08/01/raspberry-pi-home-server-part-4-web-administration/" title="Raspberry Pi Home Server: Part 4, Web Administration">Web Administration</a>: (Optional)<br />
+ This will let you check in on your CrashPi to perform maintenance, install updates, etc.<br />
+ Your buddy will have to punch a hole in the firewall, or put the CrashPi in his/her DMZ.</li>
+  <li>This post:<br />
+ Obviously</li>
+</ol>
+
+<p>You may have noticed something CrashPlan calls a “backup code”. This is a unique code that identifies a specific CrashPlan installation. You can give this code to a friend to let them back things up to your server, even though you have different accounts. For instance, when the kids head off to college, you might want to let them use your Raspberry Pi Home Server as a backup destination. All they’ll need is that particular computer’s “backup code”, which you can get from “Friends” tab in the CrashPlan UI.</p>
+
+<h2 id="whats-next">What’s next?</h2>
+
+<p>As far as core home server functionality goes, the Raspberry Pi is already doing a lot. It’s sharing files and media on the local network, downloading things for you, and backing up your computers, even over the internet when you’re away from home.</p>
+
+<p>What more could you possibly want?</p>
+
+<p>How about Virtual Private Networking (VPN) access to your home network when you’re away? Sound good? In the <a href="https://melgrubb.wordpress.com/2014/08/01/raspberry-pi-home-server-part-11-openvpn-2/" title="Raspberry Pi Home Server: Part 11, OpenVPN">next post</a>, we’ll set up OpenVPN so that you can have all the safety and security of your home network, even from the sketchiest of airport coffee shop networks.</p>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+
+<p>I have a sneaking suspicion that this article is going to see more updates than most, so I’m starting a section here at the bottom to catch any updates.</p>
+
+<h3 id="crashplan-ui-has-stopped-working">CrashPlan UI has stopped working!</h3>
+
+<p>If you have already installed CrashPlan in the past, and find that the UI doesn’t work anymore after performing an apt-get update/upgrade, you’ll need to repeat the final step of the article once again to put things back to normal. Simply run the following commands to replace the SWT library that CrashPlan installs with one that is compatible with the Pi, and you should be up and running again.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre class="brush: bash;"&gt;sudo cp /usr/lib/java/swt-gtk-3.8.0.jar /usr/local/crashplan/lib/swt.jar
+</code></pre></div></div>
+
+<p>You may need to do this each time you do an apt-get update/upgrade, unfortunately. I haven’t quite figured out what causes the problem just yet, but since CrashPlan wasn’t installed through apt-get, that shouldn’t be it. Just remember this in case your UI stops working one day.</p>
+
+  </div><a class="u-url" href="/2014/04/crashplan-backup-server-on-the-pi/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Dave-infintiy&#39;s rough techblog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Dave-infintiy&#39;s rough techblog</li><li><a class="u-email" href="mailto:yetmoredaves@gmail.com">yetmoredaves@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/dave-infinity"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">dave-infinity</span></a></li><li><a href="https://www.twitter.com/dave-infinity"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">dave-infinity</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>A techblog from an infrastructure and security engineer working on Linuxy and Windows systems</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

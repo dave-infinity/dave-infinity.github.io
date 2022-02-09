@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Powershell : Move Enabled Computers to Holding OU | Dave-infintiy’s rough techblog</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="Powershell : Move Enabled Computers to Holding OU" />
+<meta name="author" content="Dave" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Introduction" />
+<meta property="og:description" content="Introduction" />
+<link rel="canonical" href="http://localhost:4000/2019/11/powershell-move-enabled-computers-to-holding-ou/" />
+<meta property="og:url" content="http://localhost:4000/2019/11/powershell-move-enabled-computers-to-holding-ou/" />
+<meta property="og:site_name" content="Dave-infintiy’s rough techblog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-11-26T15:12:47+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Powershell : Move Enabled Computers to Holding OU" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Dave"},"dateModified":"2019-11-26T15:12:47+00:00","datePublished":"2019-11-26T15:12:47+00:00","description":"Introduction","headline":"Powershell : Move Enabled Computers to Holding OU","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2019/11/powershell-move-enabled-computers-to-holding-ou/"},"url":"http://localhost:4000/2019/11/powershell-move-enabled-computers-to-holding-ou/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Dave-infintiy's rough techblog" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Dave-infintiy&#39;s rough techblog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Powershell : Move Enabled Computers to Holding OU</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2019-11-26T15:12:47+00:00" itemprop="datePublished">Nov 26, 2019
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Dave</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h2 id="introduction">Introduction</h2>
+
+<p>This script loops through the $SourceOUs (a list of OUs from AD), identifies any enabled computers therein and moves them to the defined $TargetOU . It then emails $emailTo with a list of all affected computers and asks that the relevant IT teams are informed.</p>
+
+<p>The reason for this action is to ensure that all bound and active computers fall under the scope of SCCM control which currently only affects machines within the prescribed OU structure.</p>
+
+<p><strong>This is far from ideal but it’s a temporary fix.</strong></p>
+
+<h2 id="input">Input</h2>
+
+<p>None</p>
+
+<h2 id="output">Output</h2>
+
+<p>An email is generated where a local SMTP server is available to route the email request</p>
+
+<h2 id="logging">Logging</h2>
+
+<p>Currently the logging is managed from within the script and will need to have the related variables customized to the script’s location.</p>
+
+<p>$LOGTIME is s timestamp in the format “yyyy-MM-dd_hh-mm-ss”</p>
+
+<p>Log call within the script: <br />
+“$LOGTIME &lt;&lt;TEXT TO LOG&gt;&gt;” | Out-File $LOG -Append -Force</p>
+
+<p>The script is then contained with a try{} catch{} parameter with logging output for all exception messages and items.</p>
+
+<p>I’ve also tried to log throughout each action within the script so both SUCCESS and ERRORs are logged which provides a debugging method (at least I should know where it falls over!).</p>
+
+<h2 id="usage-examples">Usage Examples</h2>
+
+<p>Call the script, no parameters defined.</p>
+
+<h2 id="dependancies">Dependancies</h2>
+
+<p>emailer.psm1</p>
+
+<h2 id="the-script">The Script</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre class="wp-block-code"&gt;```
+# Name      : computerObjectManage
+# Author    : Dave 
+# Created   : 31/05/2019
+# UPDATED   : 04/07/2019
+# Version   : v2.0
+# Ticket#   : XXXX
+# Scope     : AD Computer Objects which are enabled and located in the AD OUs
+# Input(s)  : None
+# Output(s) : Log file of actions taken and an email to $emailTo if any computer objects were moved, including the account which bound them to the domain.
+  
+  
+####################################################
+# This script is designed to be located on [REDACTED] at  [REDACTED]  and run with user rights to move computer objects from the  [REDACTED] 
+# It will be called nightly via a Scheduled Task defined on the server.
+#
+# 1. Identify all computer objects in AD which are enabled and which exist in either the OU
+# 2. Parse the event logs on all Domain Controllers for Event ID 4741 and record the computername and username of the binder
+# 3. Log those computer names, distinguished names, descriptions and username of the binder to a log file
+# 4. Move those computer objects to the $TargetOU
+# 5. Email $emailTo with a list of the computers moved, the username who bound them, the computer's distinguished names and their descriptions.
+####################################################
+  
+# Variables:
+# Files
+$LOGFILEDIR = "&lt;&lt;INPUTE LOGFILE DIR HERE&gt;&gt;" # the full path of the log file for the script to output to
+$LOGFILENAME =  "computerObjectManage.ps1.log" # the full name of the log file for the script to output to
+$LOG = ($LOGFILEDIR + "\" + $LOGFILENAME)
+$LOGTIME = Get-Date -Format "yyyy-MM-dd_hh-mm-ss"
+  
+# Text Strings
+$SourceOUs =  [REDACTED] 
+$TargetOU =  [REDACTED] 
+$emailer = "&lt;&lt;FULL PATH OF emailer.psm1 HERE&gt;&gt;"
+ 
+# eventlog querying variables
+$domain = "you.domain.com"
+$dcou =  [REDACTED] 
+$dcs = get-adcomputer -filter * -properties name -searchbase $dcou | select name
+# set the hashtable variable to record the eventlog results from the domain controllers
+$domainBindEvents = @{}
+  
+# Email settings
+$emailTo = "your@email.com"
+$emailFrom = "yourscript@email.com"
+  
+# Email subject and the first section of the body
+$subject_output =  [REDACTED] 
+  
+Import-Module -Name $emailer #-Verbose
+  
+# Prepare the logging
+##################################################################################
+# Check for the $LOGFILEDIR &amp; $LOGFILENAME and create them if they don't exist
+# NOTE: No logging until this happens except to STDOUT (Screen)
+# Test for the folder and create if it doesn't exist:
+##################################################################################
+  
+Try
+    {
+      
+        if(! (Test-Path -Path $LOGFILEDIR )){
+                New-Item -ItemType directory -Path $LOGFILEDIR
+            }
+        if(! (Test-Path $LOGFILEDIR\$LOGFILENAME  )){
+            New-Item -ItemType file -Path $LOGFILEDIR\$LOGFILENAME
+        }
+          
+    }
+Catch
+    {
+        $ErrorMessage = $_.Exception.Message
+        $FailedItem = $_.Exception.ItemName
+    }
+  
+"$LOGTIME BEGIN STARTING SCRIPT" | Out-File $LOG -Append -Force
+  
+  
+##################################################################################
+# Main
+##################################################################################
+  
+Try
+    {
+        # Using the list of $SourceOUs (defined at the start of this script) loop through each OU and add any computers' distinguished names and which are ENABLED to the $targetcomps array.
+        $targetcomps = foreach ($OU in $SourceOUs) { get-adcomputer -filter {enabled -eq "True"} -properties Name, DistinguishedName, Description -SearchBase "$OU" | select DistinguishedName, Name, Description}
+        # test to see if there were any computers discovered and added to the $targetcomps array by inspecting it's length.
+        # If computers were discovered then continue, else log that there weren't and exit the script.
+          
+        if ($targetcomps.length -eq 0) {
+            "$LOGTIME COMPLETED No computers were discovered in $($SourceOUs)" | Out-File $LOG -Append -Force
+            exit
+            #write-host "no targetcomps"
+        }
+        else {
+            # If there were computers in the default OUs:
+             
+            # Check the event logs on all DC's for the event ID 4741 in the Security eventlog and
+            # add any entries' computer name and account which bound it to the the hashtable $domainBindEvents
+            try {
+             
+                foreach ($dc in $dcs){
+                 
+                    # Loop through each DC in the $dcou OU and for each one:
+                    # Set the FQDN to $dcfqdn
+                    $dcfqdn = $dc.name + $domain
+                     
+                    try{
+                     
+                        # Add all events matching 4741 from the Security event log to the $dc4741events hashtable
+                        "$LOGTIME INFO querying $($dcfqdn) for 4741 events..." | Out-File $LOG -Append -Force
+                        $dc4741events += get-winevent -computername $dcfqdn -FilterHashtable @{logname='security';id=4741}
+                    }
+                    catch
+                    {
+                        # if there were no events continue to the next DC
+                        $ErrorMessage = $_.Exception.Message
+                        $FailedItem = $_.Exception.ItemName
+                        "$LOGTIME ERROR $($ErrorMessage) $($FailedItem)" | Out-File $LOG -Append -Force #LOGACTION
+                        continue
+                    }
+                     
+                    # If events were found then:
+                    if ($dc4741events) {
+                     
+                        foreach ($event in $dc4741events){
+                                         
+                            # expand the event and assign the 8th item to $computername and the 4th to $userwhobound
+                            $computername = $event.Properties[8]
+                            $userwhobound = $event.Properties[4]
+                             
+                            # Update the hashtable $domainBindEvents with the new values
+                            $domainBindEvents[$computername.value.SubString(0,$computername.value.Length-1)] = $userwhobound.value
+                            "$LOGTIME INFO Events Found on $($computername.value.SubString(0,$computername.value.Length-1)) bound by $($userwhobound.value) " | Out-File $LOG -Append -Force
+                        }
+                    }
+                }
+ 
+            }
+            catch
+            {
+                $ErrorMessage = $_.Exception.Message
+                $FailedItem = $_.Exception.ItemName
+                "$LOGTIME ERROR $($ErrorMessage) $($FailedItem)" | Out-File $LOG -Append -Force #LOGACTION
+            }
+             
+            # Loop through the list of computers which were discovered in a default OU
+            foreach ($comp in $targetcomps) {
+             
+                # Loop through the $boundcompevents.keys
+                foreach ($boundcompevent in $domainBindEvents.keys){
+                    #write-host "$($boundcompevent)"
+                    # Compare the $comp with the key values of the $domainBindEvents to see if there's a match:
+                    #write-host "DOES $($boundcompevent) EQUAL $($comp.Name.tolower())?  "
+                    if ($boundcompevent.tolower() -eq $comp.Name.tolower()){
+                        #write-host true
+                        # If there is a match then:
+                        # Assign the username of the account which bound the matching computer to the domain and break out of this sub-forloop
+                        $usernamebinder = $domainBindEvents.$boundcompevent
+                        break
+                    }
+                    else
+                    {
+                        #write-host false
+                        # If no matching computer was identified in the event log IDs 4741 assign the fixed string to the $usernamebinder requesting the receiver of the email alert investigate.
+                        $usernamebinder = "UNKNOWN, could not identify a user from the 4741 event ID's on the DCs - manual identification required"
+                        #Log the
+                        "$LOGTIME INFO No matching event log for binding $($comp.name.tolower()) - it didn't match $($boundcompevent.tolower())"| Out-File $LOG -Append -Force
+                    }
+                }
+                 
+                # Move the Computer Object to the $TargetOU
+                move-adobject -identity $comp.DistinguishedName  -targetpath $TargetOU  
+                  
+                #Log the move computer object action
+                "$LOGTIME INFO $($comp.Name) LOCATED AT $($comp.DistinguishedName) WAS MOVED TO THE _WindowsClients\WindowsClientsNeedOURelocation OU"| Out-File $LOG -Append -Force
+                 
+                # Add the computer name, distinguishedName, Description and the username of the person who bound the computer to the domain to the email body
+                $body_output_complist += "`n" + "COMPUTER_NAME = " + $comp.Name +  "    USERNAME_THAT_BOUND_COMPUTER = " + $usernamebinder +  "    COMPUTER_DESCRIPTION = " + $comp.Description +  "    COMPUTER_DISTINGUISHED_NAME=" + $comp.DistinguishedName + "`n"
+            }
+                          
+        #Email the results
+        $body = $body_output + " " + $body_output_complist
+        "$LOGTIME INFO Sending email to $($emailTo) reporting the computers that were discovered and moved ....  "| Out-File $LOG -Append -Force
+        emailer $emailTo $emailFrom $subject_output $body
+        "$LOGTIME SUCCESS Email sent  "| Out-File $LOG -Append -Force         
+        "$LOGTIME FINISH The script has completed  "| Out-File $LOG -Append -Force
+         
+        }
+    }
+Catch
+    {
+        $ErrorMessage = $_.Exception.Message
+        $FailedItem = $_.Exception.ItemName
+        "$LOGTIME ERROR $($ErrorMessage) $($FailedItem)" | Out-File $LOG -Append -Force #LOGACTION
+        exit
+    }
+</code></pre></div></div>
+<p>```</p>
+
+  </div><a class="u-url" href="/2019/11/powershell-move-enabled-computers-to-holding-ou/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Dave-infintiy&#39;s rough techblog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Dave-infintiy&#39;s rough techblog</li><li><a class="u-email" href="mailto:yetmoredaves@gmail.com">yetmoredaves@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/dave-infinity"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">dave-infinity</span></a></li><li><a href="https://www.twitter.com/dave-infinity"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">dave-infinity</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>A techblog from an infrastructure and security engineer working on Linuxy and Windows systems</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

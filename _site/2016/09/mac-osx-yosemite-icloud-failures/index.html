@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Mac OSX Yosemite &#038; iCloud Failures | Dave-infintiy’s rough techblog</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="Mac OSX Yosemite &#038; iCloud Failures" />
+<meta name="author" content="Dave" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="The Analysis" />
+<meta property="og:description" content="The Analysis" />
+<link rel="canonical" href="http://localhost:4000/2016/09/mac-osx-yosemite-icloud-failures/" />
+<meta property="og:url" content="http://localhost:4000/2016/09/mac-osx-yosemite-icloud-failures/" />
+<meta property="og:site_name" content="Dave-infintiy’s rough techblog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2016-09-16T15:09:32+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Mac OSX Yosemite &#038; iCloud Failures" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Dave"},"dateModified":"2016-09-16T15:09:32+01:00","datePublished":"2016-09-16T15:09:32+01:00","description":"The Analysis","headline":"Mac OSX Yosemite &#038; iCloud Failures","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2016/09/mac-osx-yosemite-icloud-failures/"},"url":"http://localhost:4000/2016/09/mac-osx-yosemite-icloud-failures/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Dave-infintiy's rough techblog" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Dave-infintiy&#39;s rough techblog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Mac OSX Yosemite &amp;#038; iCloud Failures</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2016-09-16T15:09:32+01:00" itemprop="datePublished">Sep 16, 2016
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Dave</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h3 id="the-analysis">The Analysis</h3>
+
+<p>I received a report from an OSX Yosemite user who found documents saved on their iMac had stopped synchronizing to iCloud as they weren’t visible there or on the user’s MacAir.</p>
+
+<p>Inspection showed the files in question had a grey dotted cloud next to their name in finder.</p>
+
+<h3 id="the-tests">The Tests</h3>
+
+<p>Documents created on the MacAir were synchronized back to the iMac so iCloud was working to some degree.</p>
+
+<p>Creating a new document on the iMac resulted in the grey dotted cloud next to the document but nothing in the iCloud web interface.</p>
+
+<p>Using the following command to inspect the “bird” daemon log indicated a fault with an alias file, locating that file I discovered it pointed to a non-existent file.</p>
+
+<p>brctl log -w</p>
+
+<p>I moved the broken alias out of the iCloud drive and the errors disappeared from the log but nothing appeared to be synchronizing.</p>
+
+<p>I took a backup of the data (in addition to the Time Machine backup that is in permanent operation).</p>
+
+<p>I then :</p>
+
+<ol>
+  <li>Stopped the “bird” daemon with “killall bird” on the terminall</li>
+  <li>Moved the “~/Library/Mobile\ Documents” folder to the desktop (“~/Desktop/Mobile\ Documents”)</li>
+  <li>Renamed the database store folder for the iCloud service “~/Library/Application\ Support/CloudDocs/”</li>
+  <li>Moved the folder from step 2 (“~/Desktop/Mobile\ Documents”) back into place at “~/Library/Mobile\ Documents”</li>
+  <li>Rebooted the iMac and waited 12 hours (overnight).</li>
+</ol>
+
+<p>The next day I inspected the machine and found around 40% of documents appeared to have re-synchronized, 10% had the dotted grey cloud and the remaining 50% had lost their file icon and instead had a dotted grey square for an icon!</p>
+
+<p>I looked at Activity Monitor and inspected the “bird” process, it had read and written over 30GB of data to the disk, considering the user’s iCloud drive was around 3GB in use this seemed odd.</p>
+
+<p>I restarted the iMac and waited a further 6 hours, upon returning all files had synchronized successfully and everything was well!</p>
+
+  </div><a class="u-url" href="/2016/09/mac-osx-yosemite-icloud-failures/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Dave-infintiy&#39;s rough techblog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Dave-infintiy&#39;s rough techblog</li><li><a class="u-email" href="mailto:yetmoredaves@gmail.com">yetmoredaves@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/dave-infinity"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">dave-infinity</span></a></li><li><a href="https://www.twitter.com/dave-infinity"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">dave-infinity</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>A techblog from an infrastructure and security engineer working on Linuxy and Windows systems</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

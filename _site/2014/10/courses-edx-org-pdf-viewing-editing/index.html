@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>courses.edx.org: PDF viewing, editing | Dave-infintiy’s rough techblog</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="courses.edx.org: PDF viewing, editing" />
+<meta name="author" content="Dave" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Modifying PDFs with pdftk" />
+<meta property="og:description" content="Modifying PDFs with pdftk" />
+<link rel="canonical" href="http://localhost:4000/2014/10/courses-edx-org-pdf-viewing-editing/" />
+<meta property="og:url" content="http://localhost:4000/2014/10/courses-edx-org-pdf-viewing-editing/" />
+<meta property="og:site_name" content="Dave-infintiy’s rough techblog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2014-10-17T08:31:06+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="courses.edx.org: PDF viewing, editing" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Dave"},"dateModified":"2014-10-17T08:31:06+01:00","datePublished":"2014-10-17T08:31:06+01:00","description":"Modifying PDFs with pdftk","headline":"courses.edx.org: PDF viewing, editing","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2014/10/courses-edx-org-pdf-viewing-editing/"},"url":"http://localhost:4000/2014/10/courses-edx-org-pdf-viewing-editing/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Dave-infintiy's rough techblog" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Dave-infintiy&#39;s rough techblog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">courses.edx.org: PDF viewing, editing</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2014-10-17T08:31:06+01:00" itemprop="datePublished">Oct 17, 2014
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Dave</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p><strong>Modifying PDFs with pdftk</strong></p>
+
+<p>At times, you may want to merge, split, or rotate PDF files; not all of these operations can be achieved while using a PDF viewer. A great way to do this is to use the “PDF Toolkit”, <strong>pdftk</strong>, to perform a very large variety of sophisticated tasks. Some of these operations include:</p>
+
+<ul>
+  <li>Merging/Splitting/Rotating PDF documents</li>
+  <li>Repairing corrupted PDF pages</li>
+  <li>Pulling single pages from a file</li>
+  <li>Encrypting and decrypting PDF files</li>
+  <li>Adding, updating, and exporting a PDF’s <strong>metadata</strong></li>
+  <li>Exporting bookmarks to a text file</li>
+  <li>Filling out PDF forms</li>
+</ul>
+
+<p>In short, there’s very little <strong>pdftk</strong> cannot do when it comes to working with PDF files; it is indeed the Swiss Army knife of PDF tools.</p>
+
+<p><strong>Using pdftk</strong></p>
+
+<p>You can accomplish a wide variety of tasks using <strong>pdftk</strong> including:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>Command</strong></th>
+      <th style="text-align: center"><strong>Usage</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">pdftk 1.pdf 2.pdf cat output 12.pdf</td>
+      <td style="text-align: center">Merge the two documents 1.pdf and 2.pdf. The output will be saved to 12.pdf.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">pdftk A=1.pdf cat A1-2 output new.pdf</td>
+      <td style="text-align: center">Write only pages 1 and 2 of 1.pdf. The output will be saved to new.pdf.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">pdftk A=1.pdf cat A1-endright output new.pdf</td>
+      <td style="text-align: center">Rotate all pages of 1.pdf 90 degrees clockwise and save result in new.pdf<strong>.</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Encrypting PDF Files</strong></p>
+
+<p>If you’re working with PDF files that contain confidential information and you want to ensure that only certain people can view the PDF file, you can apply a password to it using the user_pw option. One can do this by issuing a command such as:</p>
+
+<p>$ pdftk public.pdf output private.pdf user_pw PROMPT</p>
+
+<p>When you run this command, you will receive a prompt to set the required password, which can have a maximum of 32 characters. A new file, private.pdf, will be created with the identical content as public.pdf, but anyone will need to type the password to be able to view it.</p>
+
+<p><strong>Using Additional Tools</strong></p>
+
+<p>You can use other tools, such as <strong>pdfinfo</strong>, <strong>flpsed</strong>, and <strong>pdfmod</strong> to work with PDF files.</p>
+
+<p><strong>pdfinfo</strong> can extract information about PDF files, especially when the files are very large or when a graphical interface is not available.</p>
+
+<p><strong>flpsed</strong> can add data to a PostScript document. This tool is specifically useful for filling in forms or adding short comments into the document.</p>
+
+<p><strong>pdfmod</strong> is a simple application that provides a graphical interface for modifying PDF documents. Using this tool, you can reorder, rotate, and remove pages; export images from a document; edit the title, subject, and author; add keywords; and combine documents using drag-and-drop action.</p>
+
+<p>For example, to collect the details of a document, you can use the following command:<br />
+$ pdfinfo /usr/share/doc/readme.pdf</p>
+
+<p><strong>Converting Between PostScript and PDF</strong></p>
+
+<p>Most users today are far more accustomed to working with files in PDF format, viewing them easily either on the Internet through their browser or locally on their machine. The PostScript format is still important for various technical reasons that the general user will rarely have to deal with.</p>
+
+<p>From time to time you may need to convert files from one format to the other, and there are very simple utilities for accomplishing that task. <strong>ps2pdf</strong> and <strong>pdf2ps</strong> are part of the <strong>ghostscript</strong> package installed on or available on all Linux distributions. As an alternative, there are <strong>pstopdf</strong> and <strong>pdftops</strong> which are usually part of the <strong>poppler</strong> package which may need to be added through your package manager. Unless you are doing a lot of conversions or need some of the fancier options (which you can read about in the <strong>man pages</strong> for these utilities) it really doesn’t matter which ones you use.</p>
+
+<p>Some usage examples:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>Command</strong></th>
+      <th style="text-align: center"><strong>Usage</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">pdf2ps file.pdf</td>
+      <td style="text-align: center">Converts file.pdf to <strong>file.ps</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: center">ps2pdf file.ps</td>
+      <td style="text-align: center">Converts<strong>file.ps</strong> to <strong>**file.pdf</strong>**</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">pstopdf input.ps output.pdf</td>
+      <td style="text-align: center">Converts **input.ps to output.pdf</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">pdftops input.pdf output.pdf</td>
+      <td style="text-align: center">Converts <strong>input.pdf</strong> to output.ps</td>
+    </tr>
+  </tbody>
+</table>
+
+  </div><a class="u-url" href="/2014/10/courses-edx-org-pdf-viewing-editing/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Dave-infintiy&#39;s rough techblog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Dave-infintiy&#39;s rough techblog</li><li><a class="u-email" href="mailto:yetmoredaves@gmail.com">yetmoredaves@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/dave-infinity"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">dave-infinity</span></a></li><li><a href="https://www.twitter.com/dave-infinity"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">dave-infinity</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>A techblog from an infrastructure and security engineer working on Linuxy and Windows systems</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

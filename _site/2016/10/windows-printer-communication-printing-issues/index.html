@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Windows Printer Communication / Printing Issues | Dave-infintiy’s rough techblog</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="Windows Printer Communication / Printing Issues" />
+<meta name="author" content="Dave" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="This post is intended to cover a number of printing issues in Windows, I’ll add cases and solutions over time." />
+<meta property="og:description" content="This post is intended to cover a number of printing issues in Windows, I’ll add cases and solutions over time." />
+<link rel="canonical" href="http://localhost:4000/2016/10/windows-printer-communication-printing-issues/" />
+<meta property="og:url" content="http://localhost:4000/2016/10/windows-printer-communication-printing-issues/" />
+<meta property="og:site_name" content="Dave-infintiy’s rough techblog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2016-10-11T13:12:49+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Windows Printer Communication / Printing Issues" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Dave"},"dateModified":"2016-10-11T13:12:49+01:00","datePublished":"2016-10-11T13:12:49+01:00","description":"This post is intended to cover a number of printing issues in Windows, I’ll add cases and solutions over time.","headline":"Windows Printer Communication / Printing Issues","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2016/10/windows-printer-communication-printing-issues/"},"url":"http://localhost:4000/2016/10/windows-printer-communication-printing-issues/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Dave-infintiy's rough techblog" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Dave-infintiy&#39;s rough techblog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Windows Printer Communication / Printing Issues</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2016-10-11T13:12:49+01:00" itemprop="datePublished">Oct 11, 2016
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Dave</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>This post is intended to cover a number of printing issues in Windows, I’ll add cases and solutions over time.</p>
+
+<h3 id="printer-was-installed-and-connected-via-usb-but-jobs-showing-in-the-queue-and-not-printing--cancelling-preventing-anything-else-from-printing">Printer was installed and connected via USB but jobs showing in the queue and not printing / cancelling, preventing anything else from printing</h3>
+
+<ol>
+  <li>
+    <div>Click the [Start Orb]</div>
+  </li>
+  <li>
+    <div>Type: “services.msc” (without the quotation marks) into the search bar at the bottom of the [Start Menu]</div>
+  </li>
+  <li>
+    <div>A single result named “services” should appear, [Left Mouse Click] that link to open the Services Admin Console.</div>
+  </li>
+  <li>
+    <div>Locate the “Print Spooler” service in the list, a healthy print spooler service should look like the image below:</div>
+    <div>![Inline images 1](https://mail.google.com/mail/u/0/?ui=2&amp;ik=1eac106c97&amp;view=fimg&amp;th=1578aa387ded9d0d&amp;attid=0.1&amp;disp=emb&amp;realattid=ii_1578a932400a3bec&amp;attbid=ANGjdJ9g3-fKgH1QCjZ7IDdXOKEdDe4JzhRkpsqAHnVuxQJIA22j2kp8fQs7hDCWS-P7MMqlDRgiqW_KbySw4BUbvu8C4tX0i10ynfmHloyYuKsYhDpJU0Te6LocQKI&amp;sz=w1124-h40&amp;ats=1476187857050&amp;rm=1578aa387ded9d0d&amp;zw&amp;atsh=1)</div>
+  </li>
+  <li>
+    <div>If yours is in a “Stopped” state then continue to step 6, otherwise [Right Mouse Click] on the list entry for the service and [Left Mouse Click] “Stop”.</div>
+  </li>
+  <li>
+    <div>Now open Windows Explorer (My Computer for example), navigate to the following directly and delete all of the files you see in there: C:\Windows\System32\<wbr />&lt;/wbr&gt;spool\PRINTERS</div>
+  </li>
+  <li>
+    <div>Back to the “services admin console”, [Right Mouse Click] on the list entry for the service and [Left Mouse Click] “Start”.</div>
+  </li>
+  <li>
+    <div>If the service fails to start then note down the error message and let me know.</div>
+  </li>
+</ol>
+
+  </div><a class="u-url" href="/2016/10/windows-printer-communication-printing-issues/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Dave-infintiy&#39;s rough techblog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Dave-infintiy&#39;s rough techblog</li><li><a class="u-email" href="mailto:yetmoredaves@gmail.com">yetmoredaves@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/dave-infinity"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">dave-infinity</span></a></li><li><a href="https://www.twitter.com/dave-infinity"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">dave-infinity</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>A techblog from an infrastructure and security engineer working on Linuxy and Windows systems</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

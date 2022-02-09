@@ -1,13 +1,654 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-02-08T16:21:16+00:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Dave-infintiy’s rough techblog</title><subtitle>A techblog from an infrastructure and security engineer working on Linuxy and Windows systems</subtitle><entry><title type="html">Welcome to Jekyll!</title><link href="http://localhost:4000/jekyll/update/2022/02/08/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to Jekyll!" /><published>2022-02-08T16:18:59+00:00</published><updated>2022-02-08T16:18:59+00:00</updated><id>http://localhost:4000/jekyll/update/2022/02/08/welcome-to-jekyll</id><content type="html" xml:base="http://localhost:4000/jekyll/update/2022/02/08/welcome-to-jekyll.html"><![CDATA[<p>You’ll find this post in your <code class="language-plaintext highlighter-rouge">_posts</code> directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run <code class="language-plaintext highlighter-rouge">jekyll serve</code>, which launches a web server and auto-regenerates your site when a file is updated.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-02-09T11:02:04+00:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Dave-infintiy’s rough techblog</title><subtitle>A techblog from an infrastructure and security engineer working on Linuxy and Windows systems</subtitle><entry><title type="html">Git Command Ref</title><link href="http://localhost:4000/2021/11/git-command-ref/" rel="alternate" type="text/html" title="Git Command Ref" /><published>2021-11-26T10:22:15+00:00</published><updated>2021-11-26T10:22:15+00:00</updated><id>http://localhost:4000/2021/11/git-command-ref</id><content type="html" xml:base="http://localhost:4000/2021/11/git-command-ref/"><![CDATA[<p>git rebase -i HEAD~</p>
 
-<p>To add new posts, simply add a file in the <code class="language-plaintext highlighter-rouge">_posts</code> directory that follows the convention <code class="language-plaintext highlighter-rouge">YYYY-MM-DD-name-of-post.ext</code> and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.</p>
+<p>git rebase -i HEAD~&lt;#commit number to squash&gt;</p>]]></content><author><name>oxcompdave</name></author><category term="git" /><summary type="html"><![CDATA[git rebase -i HEAD~]]></summary></entry><entry><title type="html">smbclient</title><link href="http://localhost:4000/2021/09/smbclient/" rel="alternate" type="text/html" title="smbclient" /><published>2021-09-28T19:54:01+01:00</published><updated>2021-09-28T19:54:01+01:00</updated><id>http://localhost:4000/2021/09/smbclient</id><content type="html" xml:base="http://localhost:4000/2021/09/smbclient/"><![CDATA[<p>The following command enabled me to send a file from a linux host to a Windows SMB share</p>
 
-<p>Jekyll also offers powerful support for code snippets:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre class="wp-block-code"&gt;```
+smbclient "//&lt;HOST / IP&gt;/&lt;SHARENAME&gt;" -U $username -c "put /path/to/local/linux/file $targetfilename_on_windows_host"
+</code></pre></div></div>
+<p>```</p>]]></content><author><name>oxcompdave</name></author><category term="Powershell" /><category term="powershell" /><summary type="html"><![CDATA[The following command enabled me to send a file from a linux host to a Windows SMB share]]></summary></entry><entry><title type="html">Transmission NordVPN Service</title><link href="http://localhost:4000/2021/02/transmission-nordvpn-service/" rel="alternate" type="text/html" title="Transmission NordVPN Service" /><published>2021-02-05T16:40:25+00:00</published><updated>2021-02-05T16:40:25+00:00</updated><id>http://localhost:4000/2021/02/transmission-nordvpn-service</id><content type="html" xml:base="http://localhost:4000/2021/02/transmission-nordvpn-service/"><![CDATA[<p>The following is a script I wrote to update the transmission-daemon ipv4 bind address with whatever is assigned to my devices tun0 interface.</p>
 
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">print_hi</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
-  <span class="nb">puts</span> <span class="s2">"Hi, </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">"</span>
-<span class="k">end</span>
-<span class="n">print_hi</span><span class="p">(</span><span class="s1">'Tom'</span><span class="p">)</span>
-<span class="c1">#=&gt; prints 'Hi, Tom' to STDOUT.</span></code></pre></figure>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre class="wp-block-code"&gt;```
+#!/bin/bash
 
-<p>Check out the <a href="https://jekyllrb.com/docs/home">Jekyll docs</a> for more info on how to get the most out of Jekyll. File all bugs/feature requests at <a href="https://github.com/jekyll/jekyll">Jekyll’s GitHub repo</a>. If you have questions, you can ask them on <a href="https://talk.jekyllrb.com/">Jekyll Talk</a>.</p>]]></content><author><name></name></author><category term="jekyll" /><category term="update" /><summary type="html"><![CDATA[You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run jekyll serve, which launches a web server and auto-regenerates your site when a file is updated.]]></summary></entry></feed>
+############################################################################################################
+#A script to update the transmission bind-address-ipv4 value with the active tun0 IP from NordVPN.
+#
+#This script:
+#
+#       - Hard codes the transmission-daemon settings.json path
+#       - Grabs the "bind-address-ipv4" line from the settings.json file
+#       - Grabs the active IP on NordVPNs tun0 iface
+#       - exits if there is no ip on tun0 iface and logs an error
+#       - compares the settings.json ip with the tun0 ip:
+#               If theyre different:
+#                       - stops the transmission-daemon service
+#                       - updates settings.json line "bind-address-ipv4" with the tun0 IP
+#                       - starts the ransmission-daemon service
+#                       - logs the change as local0.info and exits cleanly
+#               If theyre the same:
+#                       - logs the match as local0.info and exits cleanly
+############################################################################################################
+# Called via the simple service:
+#
+# NAME: /etc/systemd/system/update-transd-wnordvpnip.service
+#
+#[Unit]
+#Description=Run script to update transmission config with nordvpn IP after nordvpnd.service has connected
+#Requires=nordvpnd.service
+#After=transmission-daemon.service
+#
+#[Service]
+#Type=simple
+#RemainAfterExit=yes
+#ExecStart=/usr/local/bin/update_transmission_with_vpnip.sh
+#Restart=on-failure
+#RestartSec=10
+#KillMode=process
+#
+#[Install]
+#WantedBy=multi-user.target
+#/etc/systemd/system/update-transd-wnordvpnip.service
+############################################################################################################
+
+############################################################################################################
+# Define with the variables - these could be moved to script arguments in the future
+############################################################################################################
+# The transmission setttings file
+transconf="/var/lib/transmission/.config/transmission-daemon/settings.json"
+
+# locate the IP bind address and assign it
+transbindip=$(grep "bind-address-ipv4" ${transconf})
+
+# Get the ipv4 address of vpn tun0:
+tunip=$(ifconfig tun0 | grep 'inet' | awk '{print $2}')
+
+############################################################################################################
+# Define the functions of the script
+############################################################################################################
+check_service_response(){
+
+        if [ $? == 0 ]; then
+                printf "\n$1 service $2"
+        else
+                printf "\n$1 service failed $2, exiting...\n\n"
+                logger -p local0.err "transmission-ip-update : Failed to $2 the $1 service"
+                exit 2
+        fi
+}
+
+change_service_state(){
+
+        if [ $(systemctl is-active $1)  == "active" ]; then
+		
+                printf "\nStopping the $1 service...\n\n"
+                systemctl stop $1
+                check_service_response transmission-daemon 'stop'
+				
+        else
+		
+                printf "\nStarting the $1 service...\n\n"
+                systemctl start $1
+                check_service_response transmission-daemon 'start'
+				
+        fi
+}
+
+update_transd_bindip(){
+        change_service_state transmission-daemon
+
+        printf "\nUpdating the $transconf file with the new IP $tunip\n\n"
+        # update the $transconf with the $tunip
+        sed -i "s/\"bind-address-ipv4\": \".*\",/\"bind-address-ipv4\": \"$tunip\",/g" ${transconf}
+
+        # start the transmission-daemon service
+        change_service_state transmission-daemon
+}
+
+eval_and_update_transdbindip(){
+        # If there is not tun0 IP then log the error and wait 5 mins
+        if [[ ${tunip} == "" || ${tunip} == "0.0.0.0"  ]]; then
+
+                printf "\nThere is no IP assigned to tun0\n\n"
+                # Log the failure as an error and exit on code 2
+                logger -p local0.err "transmission-ip-update : NordVPNs tun0 interface has no IP assigned"
+
+        # if the transmission-daemon ipv4bindIP is the same as the tun0 IP on the VPN just log and wait 5 mins
+        elif  [ "${transbindip}" == "    \"bind-address-ipv4\": \"${tunip}\"," ]; then
+
+                printf "\nThe Transmission daemon and tun0 IP match\n\n"
+                logger -p local0.info "transmission-ip-update : NordVPNs tun0 ip ${tunip} matches the file (${transconf} = ${transbindip})"
+
+        # if the transmission-daemon ipv4bindIP is not the same as the tun0 IPs then update the config and service
+        elif [ "${transbindip}" != "    \"bind-address-ipv4\": \"${tunip}\"," ]; then
+
+                printf "\nThe transmission-daemon $transbindip does not match $tunip\n\n"
+                logger -p local0.info "transmission-ip-update : new tun0 IP ${tunip} discovered, updating ${transconf}"
+                update_transd_bindip
+
+        fi
+}
+
+############################################################################################################
+# Main Section, 5 minute infinite while loop calling functions &amp; resetting $tunip variable
+############################################################################################################
+while true; do
+
+	# First refresh the $tunip &amp; $transbindip variables with the latest values
+	tunip=$(ifconfig tun0 | grep 'inet' | awk '{print $2}')
+	transbindip=$(grep "bind-address-ipv4" ${transconf})
+
+	# Then call the function to compare the tun0 iface IP ($tunip) with the
+	# transmission-daemon settings.json bind ipv4 ($transbindip) and take action
+	eval_and_update_transdbindip
+
+	# Then sleep for 5 mins and repeat these checks forever
+	sleep 5m
+
+done
+############################################################################################################
+# END
+############################################################################################################
+</code></pre></div></div>
+<p>```</p>]]></content><author><name>oxcompdave</name></author><category term="Linux" /><category term="bash" /><category term="settings.json" /><category term="systemd" /><category term="transmission" /><category term="transmission-daemon" /><summary type="html"><![CDATA[The following is a script I wrote to update the transmission-daemon ipv4 bind address with whatever is assigned to my devices tun0 interface.]]></summary></entry><entry><title type="html">Ansible Notes</title><link href="http://localhost:4000/2021/01/ansible-notes/" rel="alternate" type="text/html" title="Ansible Notes" /><published>2021-01-05T20:31:42+00:00</published><updated>2021-01-05T20:31:42+00:00</updated><id>http://localhost:4000/2021/01/ansible-notes</id><content type="html" xml:base="http://localhost:4000/2021/01/ansible-notes/"><![CDATA[<p>Vim indentation config</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre class="wp-block-preformatted"&gt;autocmd FileType yaml setlocal ai ts=2 sw=2 et
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre class="wp-block-preformatted" id="block-45551288-477e-4b01-919f-86f254b0ecf4"&gt;facts associated with a managed host can be obtained using the command:
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre class="wp-block-code"&gt;```
+ansible system_hostname -i inventory_file -m setup
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+**ansible-playbook** command with the `--ask-pass` for:
+
+</code></pre></div></div>
+<pre class="wp-block-code">```
+- name: Public key is deployed to managed hosts for Ansible
+  hosts: all
+
+  tasks:
+    - name: Ensure key is in root's ~/.ssh/authorized_hosts
+      authorized_key:
+        user: root
+        state: present
+        key: ''
+      with_file:
+        - ~/.ssh/id_rsa.pub
+```
+```
+</pre>]]></content><author><name>oxcompdave</name></author><category term="Ukategorisert" /><summary type="html"><![CDATA[Vim indentation config]]></summary></entry><entry><title type="html">RHEL Useful Commands</title><link href="http://localhost:4000/2020/11/rhel-useful-commands/" rel="alternate" type="text/html" title="RHEL Useful Commands" /><published>2020-11-05T12:11:15+00:00</published><updated>2020-11-05T12:11:15+00:00</updated><id>http://localhost:4000/2020/11/rhel-useful-commands</id><content type="html" xml:base="http://localhost:4000/2020/11/rhel-useful-commands/"><![CDATA[<p>The following are some basic command references</p>
+
+<p>Systemctl</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre class="wp-block-code"&gt;```
+systemctl reload-or-restart &lt;servicename&gt;
+
+systemctl list-unit-files --state=[enabled|disabled]
+
+systemctl list-unit-files --type=[service|other]
+
+systemctl list-dependencies &lt;servicename&gt;
+
+systemctl [mask|unmask] &lt;servicename&gt;
+
+systemctl enable [--now] &lt;servicename&gt;
+
+systemctl disable [--now] &lt;servicename&gt;
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+Output redirection (bash)
+
+</code></pre></div></div>
+<pre class="wp-block-code">```
+#redirect stdout to overwrite a file	
+command &gt; file
+#redirect stdout to append to a file	
+command &gt;&gt; file
+#redirect stderr to overwrite a file	
+command 2&gt; file
+#discard stderr error messages by redirecting to /dev/null
+command 2&gt; /dev/null
+#redirect stdout and stderr to overwrite the same file
+command &gt; file 2&gt;&amp;1
+command &amp;&gt;file
+#redirect stdout and stderr to append to the same file
+command &gt;&gt; file  2&gt;&amp;1
+command &amp;&gt;&gt;file
+```
+```
+
+Bash shell expansions
+
+{item1,item2…} for each of the items in the list
+
+$VARIABLE – include the value of the variable
+
+$() command substitution, execute the command and use the STDOUT results within the current command  
+e.g.: **`echo The day is $(date +%A).`**
+
+<figure class="wp-block-table">| glob pattern | results |
+|---|---|
+| \* | zero or more characters. |
+| ? | A single character |
+| \[*`abc...`*\] | Any one character in the selection |
+| \[!*`abc...`*\] | Any one character *not* in the selection |
+| \[^*`abc...`*\] | Any one character *not* in the selection |
+| \[\[:alpha:\]\] | Any single alphabetic character |
+| \[\[:lower:\]\] | Any single lowercase character |
+| \[\[:upper:\]\] | Any single uppercase character |
+| \[\[:alnum:\]\] | Any single alphabetic character or digit |
+| \[\[:punct:\]\] | Any single printable character not a space or alphanumeric |
+| \[\[:digit:\]\] | Any single digit from 0 to 9. |
+| \[\[:space:\]\] | Any single white space character |
+
+</figure>SELinux
+
+```
+<pre class="wp-block-code">```
+# list processes with SELinux contexts
+ps axZ
+
+#list files with SELinux contexts
+ls -Z
+
+# Manage system wide SELinux
+/etc/selinux/config
+
+getenforce
+
+setenforce
+
+
+# he kernel argument enforcing=0 boots the system into permissive mode; 
+# enforcing=1 sets enforcing mode.
+# Disable SELinux completely by passing on the kernel parameter 
+# selinux=0 disables
+# selinux=1 enables  
+
+# change context temporarily:
+chcon -t httpd_sys_content_t 
+
+# restore default contexts recursively -R with verbose output -v:
+restorecon -Rv [directory|file]
+
+# Inspect contexts
+semanage fcontext -l
+
+# Apply new context permanently (all files and directories below /virtual):
+semanage fcontext -a -t httpd_sys_content_t '/virtual(/.*)?'
+restorecon -RFvv /virtual
+
+# SELinux boolean controls
+# list all current boolean settings:
+getsebool -a
+
+# switch a boolean on or off temporarily:
+setsebool <boolean name=""> [on|off]
+
+# switch a boolean on or off permanently:
+setsebool -P <boolean name=""> [on|off]
+
+# list boolean states running which differ from the default state :
+semanage boolean -l -C
+
+# Investigate SELinux events:
+tail /var/log/audit/audit.log
+# look for "type=AVC" or "avc:  denied" or "scontext="
+
+tail /var/log/messages
+# look for "SELinux is preventing" and within the log "sealert -l <identifier>"
+
+# To gather more detailed information on the SELinux event, using the identifier in the messages log:
+sealert -l <identifier>
+
+# also you can search messages for SELinux via:
+ausearch -m AVC -ts recent
+```
+```
+
+Disk Management
+
+```
+<pre class="wp-block-code">```
+# list all block devices
+lsblk 
+
+# list /dev/vda partition table
+parted /dev/vda print
+
+# first define the partition table type 
+parted /dev/vda mklabel  [msdos|gpt]
+
+# create a partition of type xfs from the start to 1GB in size
+parted /dev/vda mkpart primary xfs 2048s 1000MB
+
+# for swap for the next logical partition and 500MB in size:
+mkfs.xfs /dev/vda mkpart <name> linux-swap 1001MB 1501MB
+swapon /dev/vda2
+swapon --show
+
+# make it permanent
+lsblk --fs /dev/vda2
+UUID=cb7f71ca-ee82-430e-ad4b-7dda12632328  swap  swap  defaults  0 0
+
+# format that parition with a filesystem
+mkfs.xfs /dev/vda1
+
+
+```
+```
+</name></pre></identifier></identifier></boolean></boolean></pre></pre>]]></content><author><name>oxcompdave</name></author><category term="Ukategorisert" /><summary type="html"><![CDATA[The following are some basic command references]]></summary></entry><entry><title type="html">Vi reminders</title><link href="http://localhost:4000/2020/09/vi-reminders/" rel="alternate" type="text/html" title="Vi reminders" /><published>2020-09-25T13:43:09+01:00</published><updated>2020-09-25T13:43:09+01:00</updated><id>http://localhost:4000/2020/09/vi-reminders</id><content type="html" xml:base="http://localhost:4000/2020/09/vi-reminders/"><![CDATA[<h2 id="cursor-movement">Cursor movement</h2>
+
+<ul>
+  <li>h – move left</li>
+  <li>j – move down</li>
+  <li>k – move up</li>
+  <li>l – move right</li>
+  <li>w – jump by start of words (punctuation considered words)</li>
+  <li>W – jump by words (spaces separate words)</li>
+  <li>e – jump to end of words (punctuation considered words)</li>
+  <li>E – jump to end of words (no punctuation)</li>
+  <li>b – jump backward by words (punctuation considered words)</li>
+  <li>B – jump backward by words (no punctuation)</li>
+  <li>0 – (zero) start of line</li>
+  <li>^ – first non-blank character of line</li>
+  <li>$ – end of line</li>
+  <li>G – Go To command (prefix with number – 5G goes to line 5)</li>
+</ul>
+
+<p><strong>Note:</strong> Prefix a cursor movement command with a number to repeat it. For example, 4j moves down 4 lines.</p>
+
+<h2 id="insert-mode--insertingappending-text">Insert Mode – Inserting/Appending text</h2>
+
+<ul>
+  <li>i – start insert mode at cursor</li>
+  <li>I – insert at the beginning of the line</li>
+  <li>a – append after the cursor</li>
+  <li>A – append at the end of the line</li>
+  <li>o – open (append) blank line below current line (no need to press return)</li>
+  <li>O – open blank line above current line</li>
+  <li>ea – append at end of word</li>
+  <li>Esc – exit insert mode</li>
+</ul>
+
+<h2 id="editing">Editing</h2>
+
+<ul>
+  <li>r – replace a single character (does not use insert mode)</li>
+  <li>J – join line below to the current one</li>
+  <li>cc – change (replace) an entire line</li>
+  <li>cw – change (replace) to the end of word</li>
+  <li>c$ – change (replace) to the end of line</li>
+  <li>s – delete character at cursor and subsitute text</li>
+  <li>S – delete line at cursor and substitute text (same as cc)</li>
+  <li>xp – transpose two letters (delete and paste, technically)</li>
+  <li>u – undo</li>
+  <li>. – repeat last command</li>
+</ul>
+
+<h2 id="marking-text-visual-mode">Marking text (visual mode)</h2>
+
+<ul>
+  <li>v – start visual mode, mark lines, then do command (such as y-yank)</li>
+  <li>V – start Linewise visual mode</li>
+  <li>o – move to other end of marked area</li>
+  <li>Ctrl+v – start visual block mode</li>
+  <li>O – move to Other corner of block</li>
+  <li>aw – mark a word</li>
+  <li>ab – a () block (with braces)</li>
+  <li>aB – a {} block (with brackets)</li>
+  <li>ib – inner () block</li>
+  <li>iB – inner {} block</li>
+  <li>Esc – exit visual mode</li>
+</ul>
+
+<h2 id="visual-commands">Visual commands</h2>
+
+<ul>
+  <li>&gt; – shift right</li>
+  <li>&lt; – shift left</li>
+  <li>y – yank (copy) marked text</li>
+  <li>d – delete marked text</li>
+  <li>~ – switch case</li>
+</ul>
+
+<h2 id="cut-and-paste">Cut and Paste</h2>
+
+<ul>
+  <li>yy – yank (copy) a line</li>
+  <li>2yy – yank 2 lines</li>
+  <li>yw – yank word</li>
+  <li>y$ – yank to end of line</li>
+  <li>p – put (paste) the clipboard after cursor</li>
+  <li>P – put (paste) before cursor</li>
+  <li>dd – delete (cut) a line</li>
+  <li>dw – delete (cut) the current word</li>
+  <li>x – delete (cut) current character</li>
+</ul>
+
+<h2 id="exiting">Exiting</h2>
+
+<ul>
+  <li>:w – write (save) the file, but don’t exit</li>
+  <li>:wq – write (save) and quit</li>
+  <li>:q – quit (fails if anything has changed)</li>
+  <li>:q! – quit and throw away changes</li>
+</ul>
+
+<h2 id="searchreplace">Search/Replace</h2>
+
+<ul>
+  <li>/<em>pattern</em> – search for pattern</li>
+  <li>?<em>pattern</em> – search backward for pattern</li>
+  <li>n – repeat search in same direction</li>
+  <li>N – repeat search in opposite direction</li>
+  <li>:%s/<em>old</em>/<em>new</em>/g – replace all <em>old</em> with <em>new</em> throughout file</li>
+  <li>:%s/<em>old</em>/<em>new</em>/gc – replace all <em>old</em> with <em>new</em> throughout file with confirmations</li>
+</ul>
+
+<h2 id="working-with-multiple-files">Working with multiple files</h2>
+
+<ul>
+  <li>:e <em>filename</em> – Edit a file in a new buffer</li>
+  <li>:bnext (or :bn) – go to next buffer</li>
+  <li>:bprev (of :bp) – go to previous buffer</li>
+  <li>:bd – delete a buffer (close a file)</li>
+  <li>:sp <em>filename</em> – Open a file in a new buffer and split window</li>
+  <li>ctrl+ws – Split windows</li>
+  <li>ctrl+ww – switch between windows</li>
+  <li>ctrl+wq – Quit a window</li>
+  <li>ctrl+wv – Split windows vertically</li>
+</ul>
+
+<p>thanks to Tim at <a href="https://www.worldtimzone.com">https://www.worldtimzone.com</a></p>]]></content><author><name>oxcompdave</name></author><category term="Linux" /><category term="cheat" /><category term="vi" /><category term="vim" /><summary type="html"><![CDATA[Cursor movement]]></summary></entry><entry><title type="html">iDrac 6, Linux, Firefox &amp;#038; Natively Unsupported Virtual Console</title><link href="http://localhost:4000/2020/09/idrac-6-linux-firefox-natively-unsupported-virtual-console/" rel="alternate" type="text/html" title="iDrac 6, Linux, Firefox &amp;#038; Natively Unsupported Virtual Console" /><published>2020-09-03T11:36:57+01:00</published><updated>2020-09-03T11:36:57+01:00</updated><id>http://localhost:4000/2020/09/idrac-6-linux-firefox-natively-unsupported-virtual-console</id><content type="html" xml:base="http://localhost:4000/2020/09/idrac-6-linux-firefox-natively-unsupported-virtual-console/"><![CDATA[<p>So after a couple of hours toying and reading online (links to other pages which aided me in this assessment at the end of this post) I’d like to record the specific binaries and config changes I needed to make to access an elderly iDrac6 Virtual Console session from Firefox.</p>
+
+<p>My environment:<br />
+Client:<br />
+Fedora 32<br />
+Firefox 80</p>
+
+<p>Elderly Dell Server:<br />
+iDrac 6<br />
+Firmware 3.75 (Build 5)</p>
+
+<ol>
+  <li>Downloaded, verified &amp; installed the latest Oracle Java version in a .rpm format from <br />
+ https://www.java.com/en/download/linux_manual.jsp</li>
+  <li>Run the /usr/java/latest/bin/jcontrol to open the Oracle Java control panel. <br />
+ Navigate to the “Security” tab, ensure “High” is the selected security level and then add your iDrac website address to the “Exception Site List” as shown in the example image below:</li>
+</ol>
+
+<figure class="wp-block-image size-large is-resized">![](https://www.oxfordshirecomputing.co.uk/wp-content/uploads/2020/09/image.png)<figcaption>Oracle Java Control Panel Site Exception Example</figcaption></figure>
+<p>3. Next, for my version of iDrac which uses the MD5 algorithm for security I needed to permit this, it is disabled by default in modern Java.<br />
+Edit <strong>/usr/java/jre1.8.0_261-i586/lib/security/java.security</strong> (your version may vary of course) and locate the following line, around about line number 612:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre class="wp-block-code"&gt;```
+jdk.jar.disabledAlgorithms=MD2, MD5, RSA keySize &lt; 1024, DSA keySize &lt; 1024
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+4\. Copy and paste this line below itself, comment out the original and then edit the copy to read as follows (removing the MD5 entry)
+
+</code></pre></div></div>
+<pre class="wp-block-code">```
+jdk.jar.disabledAlgorithms=MD2, RSA keySize &lt; 1024, DSA keySize &lt; 1024
+```
+```
+
+5\. That’s it, now visit the iDrac web interface, download the .jnlp file and run it with the following command:
+
+```
+<pre class="wp-block-code">```
+javaws /path/to/the/downloaded/filename.jnlp
+```
+```
+
+Do remember to restore the commented line and comment the edited line in your **/usr/java/jre1.8.0\_261-i586/lib/security/java.security** file after use – not good to leave insecure algorithms available to a commonly exploited platform!
+
+References:  
+&lt;https://velenux.wordpress.com/2017/06/07/workaround-for-javaws-jnpl-error-cannot-grant-permissions-to-unsigned-jars/&gt;
+
+&lt;https://unix.stackexchange.com/questions/143805/running-unsigned-javaws-code&gt;
+</pre></pre>]]></content><author><name>Dave</name></author><category term="Dell" /><category term="Linux" /><category term="idrac" /><category term="java re" /><category term="java security" /><category term="jnlp" /><summary type="html"><![CDATA[So after a couple of hours toying and reading online (links to other pages which aided me in this assessment at the end of this post) I’d like to record the specific binaries and config changes I needed to make to access an elderly iDrac6 Virtual Console session from Firefox. My environment: Client: Fedora 32 Firefox 80]]></summary></entry><entry><title type="html">Dell Perc RAID CLI</title><link href="http://localhost:4000/2020/07/dell-perc-raid-cli/" rel="alternate" type="text/html" title="Dell Perc RAID CLI" /><published>2020-07-07T09:01:34+01:00</published><updated>2020-07-07T09:01:34+01:00</updated><id>http://localhost:4000/2020/07/dell-perc-raid-cli</id><content type="html" xml:base="http://localhost:4000/2020/07/dell-perc-raid-cli/"><![CDATA[<p>The following are a few commands using the Dell perccli64 tool which can be downloaded from Dell (<a href="https://www.dell.com/support/home/en-uk/drivers/driversdetails?driverId=F48C2">https://www.dell.com/support/home/en-uk/drivers/driversdetails?driverId=F48C2</a>)</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre class="wp-block-code"&gt;```
+/opt/MegaRAID/perccli/perccli64 /c0 show 
+/opt/MegaRAID/perccli/perccli64 /c0 /e32 show
+</code></pre></div></div>
+<p>```</p>]]></content><author><name>Dave</name></author><category term="Linux" /><category term="dell" /><category term="perc" /><summary type="html"><![CDATA[The following are a few commands using the Dell perccli64 tool which can be downloaded from Dell (https://www.dell.com/support/home/en-uk/drivers/driversdetails?driverId=F48C2)]]></summary></entry><entry><title type="html">OSSEC Rule Examples</title><link href="http://localhost:4000/2020/04/ossec-rule-examples-ref-https-akmalhisyam-my-blog-ossec-creating-custom-rules/" rel="alternate" type="text/html" title="OSSEC Rule Examples" /><published>2020-04-29T14:32:48+01:00</published><updated>2020-04-29T14:32:48+01:00</updated><id>http://localhost:4000/2020/04/ossec-rule-examples-ref-https-akmalhisyam-my-blog-ossec-creating-custom-rules</id><content type="html" xml:base="http://localhost:4000/2020/04/ossec-rule-examples-ref-https-akmalhisyam-my-blog-ossec-creating-custom-rules/"><![CDATA[<h2 id="direct-copy-from-the-blog-httpsakmalhisyammyblogossec-creating-custom-rules-for-my-reference--thanks-akmal">Direct copy from the blog <a href="https://akmalhisyam.my/blog/ossec-creating-custom-rules">https://akmalhisyam.my/blog/ossec-creating-custom-rules </a>for my reference – thanks Akmal!</h2>
+
+<p>When parsing log, OSSEC will look at level 0 first, and then highest level -&gt; lowest levelOSSEC will not produce alert for rules with level 0It is best to put custom rules in local_rules.xml or other file to avoid being overwritten during upgradeossec-logtest is a very useful tool to test your rules &amp; decoder</p>
+
+<h2 id="example">Example</h2>
+
+<h4 id="silencing-certain-rules">Silencing certain rules</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre class="wp-block-code"&gt;```
+&lt;rule id="100030" level="0"&gt;
+  &lt;if_sid&gt;503,502&lt;/if_sid&gt;
+  &lt;description&gt;List of rules to be ignored.&lt;/description&gt;
+&lt;/rule&gt;
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+OSSEC will not produce any alert when rule 502 and 503 is triggered
+
+- - - - - -
+
+#### Ignore alert if rules triggered by certain IP
+
+</code></pre></div></div>
+<pre class="wp-block-code">```
+<rule id="100225" level="0">
+  <if_sid>40101</if_sid>
+  <srcip>127.0.0.1</srcip>
+  <description>Ignore this</description>
+</rule>
+```
+```
+
+If rule 40101 triggered by 127.0.0.1, dont produce any alert
+
+- - - - - -
+
+#### Ignore alert if contains certain strings
+
+```
+<pre class="wp-block-code">```
+<rule id="100223" level="0">
+  <if_sid>1002</if_sid>
+  <match>terrorist|terror|femmefatale|heart-attack</match>
+  <description>Ignore 1002 false positive</description>
+</rule>
+```
+```
+
+OSSEC is using [OS\_match/sregex](https://ossec-docs.readthedocs.io/en/latest/syntax/regex.html) syntax in &lt;match&gt;
+
+- - - - - -
+
+#### Ignore alert if contains certain strings (using regex)
+
+```
+<pre class="wp-block-code">```
+<rule id="100207" level="4">
+  <if_sid>1002,1003</if_sid>
+  <regex>^WordPress database error You have an error in your SQL syntax(\.*)functionName$</regex>
+  <description>Unescaped SQL query, known issue</description>
+</rule>
+```
+```
+
+OSSEC is using [OS\_regex/regex](https://ossec-docs.readthedocs.io/en/latest/syntax/regex.html) syntax in &lt;regex&gt;
+
+- - - - - -
+
+#### Trigger custom rule when certain field match certain value in cdb list
+
+```
+<pre class="wp-block-code">```
+<rule id="100215" level="5">
+  <if_sid>31101</if_sid>
+  <list lookup="match_key" field="url">rules/badurl</list>
+  <description>URL is in badurl</description>
+</rule>
+```
+```
+
+- - - - - -
+
+#### Trigger custom rule when certain rules is fired x time within n second from same srcip
+
+```
+<pre class="wp-block-code">```
+<rule id="100216" level="10" frequency="4" timeframe="90">
+  <if_matched_sid>100215</if_matched_sid>
+  <same_source_ip />
+  <description>Multiple badurl access </description>
+  <description>from same source ip.</description>
+  <group>web_scan,recon,</group>
+</rule>
+```
+```
+
+- - - - - -
+
+#### Overriding rules
+
+```
+<pre class="wp-block-code">```
+<rule id="1003" level="13" overwrite="yes" maxsize="2000">
+  <description>Non standard syslog message (size too large).</description>
+</rule>
+```
+```
+
+Original rule 1003 have 10245 as its maxsize. Using overwrite=”yes” will make OSSEC overwrite certain field in original rule
+
+- - - - - -
+
+#### Custom rule group
+
+```
+<pre class="wp-block-code">```
+<group name="app_error">
+  <rule id="100207" level="4">
+    <if_sid>1002,1003</if_sid>
+    <regex>^WordPress database error You have an error in your SQL syntax(\.*)functionName$</regex>
+    <description>Unescaped SQL query, known issue</description>
+  </rule>
+
+  <rule id="100218" level="0">
+    <if_sid>1003</if_sid>
+    <match>WUID | WTB</match>
+    <description>ignorance is bliss</description>
+  </rule>
+</group>
+```
+```
+</pre></pre></pre></pre></pre></pre></pre>]]></content><author><name>Dave</name></author><category term="Linux" /><category term="Software" /><summary type="html"><![CDATA[Direct copy from the blog https://akmalhisyam.my/blog/ossec-creating-custom-rules for my reference – thanks Akmal!]]></summary></entry><entry><title type="html">Linux firewall-cmd</title><link href="http://localhost:4000/2020/03/linux-firewall-cmd/" rel="alternate" type="text/html" title="Linux firewall-cmd" /><published>2020-03-30T10:17:15+01:00</published><updated>2020-03-30T10:17:15+01:00</updated><id>http://localhost:4000/2020/03/linux-firewall-cmd</id><content type="html" xml:base="http://localhost:4000/2020/03/linux-firewall-cmd/"><![CDATA[<p>A few useful firewall-cmd syntax examples:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre class="wp-block-code"&gt;```
+firewall-cmd --permanent --add-rich-rule 'rule family="ipv4" service name="https" source address="&lt;&lt;CIDR SUBNET HERE&gt;&gt;"  accept'
+</code></pre></div></div>
+<p>```</p>]]></content><author><name>Dave</name></author><category term="Linux" /><category term="firewall" /><category term="firewall-cmd" /><summary type="html"><![CDATA[A few useful firewall-cmd syntax examples:]]></summary></entry></feed>

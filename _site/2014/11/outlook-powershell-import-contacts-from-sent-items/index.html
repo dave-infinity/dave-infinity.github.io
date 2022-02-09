@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Outlook : Powershell : Import contacts from sent items | Dave-infintiy’s rough techblog</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="Outlook : Powershell : Import contacts from sent items" />
+<meta name="author" content="Dave" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="`$outlook` `= ``new-object` `-com` `outlook.application` `$olFolders` `= ``&quot;Microsoft.Office.Interop.Outlook.OlDefaultFolders&quot;` `-as` `[type]` `$namespace` `= ``$outlook``.GetNameSpace(``&quot;MAPI&quot;``)` `$sentItems` `= ``$namespace``.getDefaultFolder(``$olFolders``::olFolderSentMail)` `$alreadyAddedEmails` `= @() ``#Empty Array` `$counter` `= 0;` `$totalItems` `= ``$sentItems``.items.count;` `Write-Host` `&quot;Scanning through&quot;` `$totalItems` `&quot;emails in SentItems&quot;` `$contacts` `= ``$outlook``.Session.GetDefaultFolder(``$olFolders``::olFolderSuggestedContacts)` `##############################################################################################################` `# FUNCTION - Adds Name/Email to SuggestedContacts - Unless it has already been added before (by this script).` `##############################################################################################################` `Function` `AddToSuggestedContactsIfNotAlreadyAdded (``$name``, ``$email``)` `{    ` `    ``if``((``$name` `-eq` `&quot;``&quot;) -or ($email -eq &quot;&quot;) -or ($name -eq $null) -or ($email -eq $null)){` `        ``return;` `    ``}    ` `    ``if ($name -like &#39;*@*&#39;) {` `    ``$name = $null` `    ``}` `    ``else {` `        ``$name = $name.Replace(&quot;``&#39;``&quot;, &quot;&quot;).Replace(&quot;&quot;&quot;&quot;, &quot;&quot;)` `    ``}` `    ``$contactAlreadyAdded = $false` `    ``foreach ($elem in $global:alreadyAddedEmails) {` `        ``if(($elem.ToLower() -eq $email.ToLower())){` `            ``$contactAlreadyAdded = $true` `        ``if ($name -eq $null) { $name = &quot;``** No Display Name **``&quot; }` `            ``Write-Host  ($global:counter)&quot;``/``&quot;($totalItems)  &quot;``SKIPPED ``&quot; $name.PadRight(25,&quot;` `&quot;) &quot;``-``&quot; $email` `            ``return;` `        ``}` `    ``}` `    ``if(!$contactAlreadyAdded )    {` `        ``$newcontact = $contacts.Items.Add()` `        ``$newcontact.FullName = $name` `        ``$newcontact.Email1Address = $email` `        ``$newcontact.Save()` `        ``$global:alreadyAddedEmails += $email` `    ``if ($name -eq $null) { $name = &quot;``** No Display Name **``&quot; }` `        ``Write-Host ($global:counter)&quot;``/``&quot;($totalItems)  &quot;``ADDED   ``&quot; $name.PadRight(25,&quot;` `&quot;) &quot;``-&quot; ``$email` `    ``}` `}` `# Loop through all emails in SentItems` `$sentItems``.Items | % { ` `    ``#Loop through each recipient` `    ``$_``.Recipients | %{` `        ``AddToSuggestedContactsIfNotAlreadyAdded ``$_``.Name ``$_``.Address` `    ``}` `    ``$global:counter` `= ``$global:counter` `+ 1` `}`" />
+<meta property="og:description" content="`$outlook` `= ``new-object` `-com` `outlook.application` `$olFolders` `= ``&quot;Microsoft.Office.Interop.Outlook.OlDefaultFolders&quot;` `-as` `[type]` `$namespace` `= ``$outlook``.GetNameSpace(``&quot;MAPI&quot;``)` `$sentItems` `= ``$namespace``.getDefaultFolder(``$olFolders``::olFolderSentMail)` `$alreadyAddedEmails` `= @() ``#Empty Array` `$counter` `= 0;` `$totalItems` `= ``$sentItems``.items.count;` `Write-Host` `&quot;Scanning through&quot;` `$totalItems` `&quot;emails in SentItems&quot;` `$contacts` `= ``$outlook``.Session.GetDefaultFolder(``$olFolders``::olFolderSuggestedContacts)` `##############################################################################################################` `# FUNCTION - Adds Name/Email to SuggestedContacts - Unless it has already been added before (by this script).` `##############################################################################################################` `Function` `AddToSuggestedContactsIfNotAlreadyAdded (``$name``, ``$email``)` `{    ` `    ``if``((``$name` `-eq` `&quot;``&quot;) -or ($email -eq &quot;&quot;) -or ($name -eq $null) -or ($email -eq $null)){` `        ``return;` `    ``}    ` `    ``if ($name -like &#39;*@*&#39;) {` `    ``$name = $null` `    ``}` `    ``else {` `        ``$name = $name.Replace(&quot;``&#39;``&quot;, &quot;&quot;).Replace(&quot;&quot;&quot;&quot;, &quot;&quot;)` `    ``}` `    ``$contactAlreadyAdded = $false` `    ``foreach ($elem in $global:alreadyAddedEmails) {` `        ``if(($elem.ToLower() -eq $email.ToLower())){` `            ``$contactAlreadyAdded = $true` `        ``if ($name -eq $null) { $name = &quot;``** No Display Name **``&quot; }` `            ``Write-Host  ($global:counter)&quot;``/``&quot;($totalItems)  &quot;``SKIPPED ``&quot; $name.PadRight(25,&quot;` `&quot;) &quot;``-``&quot; $email` `            ``return;` `        ``}` `    ``}` `    ``if(!$contactAlreadyAdded )    {` `        ``$newcontact = $contacts.Items.Add()` `        ``$newcontact.FullName = $name` `        ``$newcontact.Email1Address = $email` `        ``$newcontact.Save()` `        ``$global:alreadyAddedEmails += $email` `    ``if ($name -eq $null) { $name = &quot;``** No Display Name **``&quot; }` `        ``Write-Host ($global:counter)&quot;``/``&quot;($totalItems)  &quot;``ADDED   ``&quot; $name.PadRight(25,&quot;` `&quot;) &quot;``-&quot; ``$email` `    ``}` `}` `# Loop through all emails in SentItems` `$sentItems``.Items | % { ` `    ``#Loop through each recipient` `    ``$_``.Recipients | %{` `        ``AddToSuggestedContactsIfNotAlreadyAdded ``$_``.Name ``$_``.Address` `    ``}` `    ``$global:counter` `= ``$global:counter` `+ 1` `}`" />
+<link rel="canonical" href="http://localhost:4000/2014/11/outlook-powershell-import-contacts-from-sent-items/" />
+<meta property="og:url" content="http://localhost:4000/2014/11/outlook-powershell-import-contacts-from-sent-items/" />
+<meta property="og:site_name" content="Dave-infintiy’s rough techblog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2014-11-10T12:20:48+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Outlook : Powershell : Import contacts from sent items" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Dave"},"dateModified":"2014-11-10T12:20:48+00:00","datePublished":"2014-11-10T12:20:48+00:00","description":"`$outlook` `= ``new-object` `-com` `outlook.application` `$olFolders` `= ``&quot;Microsoft.Office.Interop.Outlook.OlDefaultFolders&quot;` `-as` `[type]` `$namespace` `= ``$outlook``.GetNameSpace(``&quot;MAPI&quot;``)` `$sentItems` `= ``$namespace``.getDefaultFolder(``$olFolders``::olFolderSentMail)` `$alreadyAddedEmails` `= @() ``#Empty Array` `$counter` `= 0;` `$totalItems` `= ``$sentItems``.items.count;` `Write-Host` `&quot;Scanning through&quot;` `$totalItems` `&quot;emails in SentItems&quot;` `$contacts` `= ``$outlook``.Session.GetDefaultFolder(``$olFolders``::olFolderSuggestedContacts)` `##############################################################################################################` `# FUNCTION - Adds Name/Email to SuggestedContacts - Unless it has already been added before (by this script).` `##############################################################################################################` `Function` `AddToSuggestedContactsIfNotAlreadyAdded (``$name``, ``$email``)` `{    ` `    ``if``((``$name` `-eq` `&quot;``&quot;) -or ($email -eq &quot;&quot;) -or ($name -eq $null) -or ($email -eq $null)){` `        ``return;` `    ``}    ` `    ``if ($name -like &#39;*@*&#39;) {` `    ``$name = $null` `    ``}` `    ``else {` `        ``$name = $name.Replace(&quot;``&#39;``&quot;, &quot;&quot;).Replace(&quot;&quot;&quot;&quot;, &quot;&quot;)` `    ``}` `    ``$contactAlreadyAdded = $false` `    ``foreach ($elem in $global:alreadyAddedEmails) {` `        ``if(($elem.ToLower() -eq $email.ToLower())){` `            ``$contactAlreadyAdded = $true` `        ``if ($name -eq $null) { $name = &quot;``** No Display Name **``&quot; }` `            ``Write-Host  ($global:counter)&quot;``/``&quot;($totalItems)  &quot;``SKIPPED ``&quot; $name.PadRight(25,&quot;` `&quot;) &quot;``-``&quot; $email` `            ``return;` `        ``}` `    ``}` `    ``if(!$contactAlreadyAdded )    {` `        ``$newcontact = $contacts.Items.Add()` `        ``$newcontact.FullName = $name` `        ``$newcontact.Email1Address = $email` `        ``$newcontact.Save()` `        ``$global:alreadyAddedEmails += $email` `    ``if ($name -eq $null) { $name = &quot;``** No Display Name **``&quot; }` `        ``Write-Host ($global:counter)&quot;``/``&quot;($totalItems)  &quot;``ADDED   ``&quot; $name.PadRight(25,&quot;` `&quot;) &quot;``-&quot; ``$email` `    ``}` `}` `# Loop through all emails in SentItems` `$sentItems``.Items | % { ` `    ``#Loop through each recipient` `    ``$_``.Recipients | %{` `        ``AddToSuggestedContactsIfNotAlreadyAdded ``$_``.Name ``$_``.Address` `    ``}` `    ``$global:counter` `= ``$global:counter` `+ 1` `}`","headline":"Outlook : Powershell : Import contacts from sent items","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2014/11/outlook-powershell-import-contacts-from-sent-items/"},"url":"http://localhost:4000/2014/11/outlook-powershell-import-contacts-from-sent-items/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Dave-infintiy's rough techblog" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Dave-infintiy&#39;s rough techblog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Outlook : Powershell : Import contacts from sent items</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2014-11-10T12:20:48+00:00" itemprop="datePublished">Nov 10, 2014
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Dave</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <div class="line number1 index0 alt2">`$outlook` `= ``new-object` `-com` `outlook.application`</div>
+<div class="line number2 index1 alt1">`$olFolders` `= ``"Microsoft.Office.Interop.Outlook.OlDefaultFolders"` `-as` `[type]`</div>
+<div class="line number3 index2 alt2">`$namespace` `= ``$outlook``.GetNameSpace(``"MAPI"``)`</div>
+<div class="line number4 index3 alt1">`$sentItems` `= ``$namespace``.getDefaultFolder(``$olFolders``::olFolderSentMail)`</div>
+<div class="line number5 index4 alt2">`$alreadyAddedEmails` `= @() ``#Empty Array`</div>
+<div class="line number6 index5 alt1">`$counter` `= 0;`</div>
+<div class="line number7 index6 alt2">`$totalItems` `= ``$sentItems``.items.count;`</div>
+<div class="line number8 index7 alt1">`Write-Host` `"Scanning through"` `$totalItems` `"emails in SentItems"`</div>
+<div class="line number9 index8 alt2">`$contacts` `= ``$outlook``.Session.GetDefaultFolder(``$olFolders``::olFolderSuggestedContacts)`</div>
+<div class="line number10 index9 alt1">`##############################################################################################################`</div>
+<div class="line number11 index10 alt2">`# FUNCTION - Adds Name/Email to SuggestedContacts - Unless it has already been added before (by this script).`</div>
+<div class="line number12 index11 alt1">`##############################################################################################################`</div>
+<div class="line number13 index12 alt2">`Function` `AddToSuggestedContactsIfNotAlreadyAdded (``$name``, ``$email``)`</div>
+<div class="line number14 index13 alt1">`{    `</div>
+<div class="line number15 index14 alt2">`    ``if``((``$name` `-eq` `"``") -or ($email -eq "") -or ($name -eq $null) -or ($email -eq $null)){`</div>
+<div class="line number16 index15 alt1">`        ``return;`</div>
+<div class="line number17 index16 alt2">`    ``}    `</div>
+<div class="line number18 index17 alt1">`    ``if ($name -like '*@*') {`</div>
+<div class="line number19 index18 alt2">`    ``$name = $null`</div>
+<div class="line number20 index19 alt1">`    ``}`</div>
+<div class="line number21 index20 alt2">`    ``else {`</div>
+<div class="line number22 index21 alt1">`        ``$name = $name.Replace("``'``", "").Replace("""", "")`</div>
+<div class="line number23 index22 alt2">`    ``}`</div>
+<div class="line number24 index23 alt1">`    ``$contactAlreadyAdded = $false`</div>
+<div class="line number25 index24 alt2">`    ``foreach ($elem in $global:alreadyAddedEmails) {`</div>
+<div class="line number26 index25 alt1">`        ``if(($elem.ToLower() -eq $email.ToLower())){`</div>
+<div class="line number27 index26 alt2">`            ``$contactAlreadyAdded = $true`</div>
+<div class="line number28 index27 alt1">`        ``if ($name -eq $null) { $name = "``** No Display Name **``" }`</div>
+<div class="line number29 index28 alt2">`            ``Write-Host  ($global:counter)"``/``"($totalItems)  "``SKIPPED ``" $name.PadRight(25,"` `") "``-``" $email`</div>
+<div class="line number30 index29 alt1">`            ``return;`</div>
+<div class="line number31 index30 alt2">`        ``}`</div>
+<div class="line number32 index31 alt1">`    ``}`</div>
+<div class="line number33 index32 alt2">`    ``if(!$contactAlreadyAdded )    {`</div>
+<div class="line number34 index33 alt1">`        ``$newcontact = $contacts.Items.Add()`</div>
+<div class="line number35 index34 alt2">`        ``$newcontact.FullName = $name`</div>
+<div class="line number36 index35 alt1">`        ``$newcontact.Email1Address = $email`</div>
+<div class="line number37 index36 alt2">`        ``$newcontact.Save()`</div>
+<div class="line number38 index37 alt1">`        ``$global:alreadyAddedEmails += $email`</div>
+<div class="line number39 index38 alt2">`    ``if ($name -eq $null) { $name = "``** No Display Name **``" }`</div>
+<div class="line number40 index39 alt1">`        ``Write-Host ($global:counter)"``/``"($totalItems)  "``ADDED   ``" $name.PadRight(25,"` `") "``-" ``$email`</div>
+<div class="line number41 index40 alt2">`    ``}`</div>
+<div class="line number42 index41 alt1">`}`</div>
+<div class="line number43 index42 alt2">`# Loop through all emails in SentItems`</div>
+<div class="line number44 index43 alt1">`$sentItems``.Items | % { `</div>
+<div class="line number45 index44 alt2">`    ``#Loop through each recipient`</div>
+<div class="line number46 index45 alt1">`    ``$_``.Recipients | %{`</div>
+<div class="line number47 index46 alt2">`        ``AddToSuggestedContactsIfNotAlreadyAdded ``$_``.Name ``$_``.Address`</div>
+<div class="line number48 index47 alt1">`    ``}`</div>
+<div class="line number49 index48 alt2">`    ``$global:counter` `= ``$global:counter` `+ 1`</div>
+<div class="line number50 index49 alt1">`}`</div>
+
+  </div><a class="u-url" href="/2014/11/outlook-powershell-import-contacts-from-sent-items/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Dave-infintiy&#39;s rough techblog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Dave-infintiy&#39;s rough techblog</li><li><a class="u-email" href="mailto:yetmoredaves@gmail.com">yetmoredaves@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/dave-infinity"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">dave-infinity</span></a></li><li><a href="https://www.twitter.com/dave-infinity"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">dave-infinity</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>A techblog from an infrastructure and security engineer working on Linuxy and Windows systems</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

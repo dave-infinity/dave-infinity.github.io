@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>RHEL Useful Commands | Dave-infintiy’s rough techblog</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="RHEL Useful Commands" />
+<meta name="author" content="oxcompdave" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="The following are some basic command references" />
+<meta property="og:description" content="The following are some basic command references" />
+<link rel="canonical" href="http://localhost:4000/2020/11/rhel-useful-commands/" />
+<meta property="og:url" content="http://localhost:4000/2020/11/rhel-useful-commands/" />
+<meta property="og:site_name" content="Dave-infintiy’s rough techblog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-11-05T12:11:15+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="RHEL Useful Commands" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"oxcompdave"},"dateModified":"2020-11-05T12:11:15+00:00","datePublished":"2020-11-05T12:11:15+00:00","description":"The following are some basic command references","headline":"RHEL Useful Commands","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2020/11/rhel-useful-commands/"},"url":"http://localhost:4000/2020/11/rhel-useful-commands/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Dave-infintiy's rough techblog" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Dave-infintiy&#39;s rough techblog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">RHEL Useful Commands</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2020-11-05T12:11:15+00:00" itemprop="datePublished">Nov 5, 2020
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">oxcompdave</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>The following are some basic command references</p>
+
+<p>Systemctl</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre class="wp-block-code"&gt;```
+systemctl reload-or-restart &lt;servicename&gt;
+
+systemctl list-unit-files --state=[enabled|disabled]
+
+systemctl list-unit-files --type=[service|other]
+
+systemctl list-dependencies &lt;servicename&gt;
+
+systemctl [mask|unmask] &lt;servicename&gt;
+
+systemctl enable [--now] &lt;servicename&gt;
+
+systemctl disable [--now] &lt;servicename&gt;
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+Output redirection (bash)
+
+</code></pre></div></div>
+<pre class="wp-block-code">```
+#redirect stdout to overwrite a file	
+command &gt; file
+#redirect stdout to append to a file	
+command &gt;&gt; file
+#redirect stderr to overwrite a file	
+command 2&gt; file
+#discard stderr error messages by redirecting to /dev/null
+command 2&gt; /dev/null
+#redirect stdout and stderr to overwrite the same file
+command &gt; file 2&gt;&amp;1
+command &amp;&gt;file
+#redirect stdout and stderr to append to the same file
+command &gt;&gt; file  2&gt;&amp;1
+command &amp;&gt;&gt;file
+```
+```
+
+Bash shell expansions
+
+{item1,item2…} for each of the items in the list
+
+$VARIABLE – include the value of the variable
+
+$() command substitution, execute the command and use the STDOUT results within the current command  
+e.g.: **`echo The day is $(date +%A).`**
+
+<figure class="wp-block-table">| glob pattern | results |
+|---|---|
+| \* | zero or more characters. |
+| ? | A single character |
+| \[*`abc...`*\] | Any one character in the selection |
+| \[!*`abc...`*\] | Any one character *not* in the selection |
+| \[^*`abc...`*\] | Any one character *not* in the selection |
+| \[\[:alpha:\]\] | Any single alphabetic character |
+| \[\[:lower:\]\] | Any single lowercase character |
+| \[\[:upper:\]\] | Any single uppercase character |
+| \[\[:alnum:\]\] | Any single alphabetic character or digit |
+| \[\[:punct:\]\] | Any single printable character not a space or alphanumeric |
+| \[\[:digit:\]\] | Any single digit from 0 to 9. |
+| \[\[:space:\]\] | Any single white space character |
+
+</figure>SELinux
+
+```
+<pre class="wp-block-code">```
+# list processes with SELinux contexts
+ps axZ
+
+#list files with SELinux contexts
+ls -Z
+
+# Manage system wide SELinux
+/etc/selinux/config
+
+getenforce
+
+setenforce
+
+
+# he kernel argument enforcing=0 boots the system into permissive mode; 
+# enforcing=1 sets enforcing mode.
+# Disable SELinux completely by passing on the kernel parameter 
+# selinux=0 disables
+# selinux=1 enables  
+
+# change context temporarily:
+chcon -t httpd_sys_content_t 
+
+# restore default contexts recursively -R with verbose output -v:
+restorecon -Rv [directory|file]
+
+# Inspect contexts
+semanage fcontext -l
+
+# Apply new context permanently (all files and directories below /virtual):
+semanage fcontext -a -t httpd_sys_content_t '/virtual(/.*)?'
+restorecon -RFvv /virtual
+
+# SELinux boolean controls
+# list all current boolean settings:
+getsebool -a
+
+# switch a boolean on or off temporarily:
+setsebool <boolean name=""> [on|off]
+
+# switch a boolean on or off permanently:
+setsebool -P <boolean name=""> [on|off]
+
+# list boolean states running which differ from the default state :
+semanage boolean -l -C
+
+# Investigate SELinux events:
+tail /var/log/audit/audit.log
+# look for "type=AVC" or "avc:  denied" or "scontext="
+
+tail /var/log/messages
+# look for "SELinux is preventing" and within the log "sealert -l <identifier>"
+
+# To gather more detailed information on the SELinux event, using the identifier in the messages log:
+sealert -l <identifier>
+
+# also you can search messages for SELinux via:
+ausearch -m AVC -ts recent
+```
+```
+
+Disk Management
+
+```
+<pre class="wp-block-code">```
+# list all block devices
+lsblk 
+
+# list /dev/vda partition table
+parted /dev/vda print
+
+# first define the partition table type 
+parted /dev/vda mklabel  [msdos|gpt]
+
+# create a partition of type xfs from the start to 1GB in size
+parted /dev/vda mkpart primary xfs 2048s 1000MB
+
+# for swap for the next logical partition and 500MB in size:
+mkfs.xfs /dev/vda mkpart <name> linux-swap 1001MB 1501MB
+swapon /dev/vda2
+swapon --show
+
+# make it permanent
+lsblk --fs /dev/vda2
+UUID=cb7f71ca-ee82-430e-ad4b-7dda12632328  swap  swap  defaults  0 0
+
+# format that parition with a filesystem
+mkfs.xfs /dev/vda1
+
+
+```
+```
+</name></pre></identifier></identifier></boolean></boolean></pre></pre>
+
+  </div><a class="u-url" href="/2020/11/rhel-useful-commands/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Dave-infintiy&#39;s rough techblog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Dave-infintiy&#39;s rough techblog</li><li><a class="u-email" href="mailto:yetmoredaves@gmail.com">yetmoredaves@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/dave-infinity"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">dave-infinity</span></a></li><li><a href="https://www.twitter.com/dave-infinity"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">dave-infinity</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>A techblog from an infrastructure and security engineer working on Linuxy and Windows systems</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

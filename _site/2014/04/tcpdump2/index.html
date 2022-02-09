@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>tcpdump2 | Dave-infintiy’s rough techblog</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="tcpdump2" />
+<meta name="author" content="Dave" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="verbatim from http://www.danielmiessler.com/study/tcpdump/" />
+<meta property="og:description" content="verbatim from http://www.danielmiessler.com/study/tcpdump/" />
+<link rel="canonical" href="http://localhost:4000/2014/04/tcpdump2/" />
+<meta property="og:url" content="http://localhost:4000/2014/04/tcpdump2/" />
+<meta property="og:site_name" content="Dave-infintiy’s rough techblog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2014-04-17T11:54:50+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="tcpdump2" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Dave"},"dateModified":"2014-04-17T11:54:50+01:00","datePublished":"2014-04-17T11:54:50+01:00","description":"verbatim from http://www.danielmiessler.com/study/tcpdump/","headline":"tcpdump2","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2014/04/tcpdump2/"},"url":"http://localhost:4000/2014/04/tcpdump2/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Dave-infintiy's rough techblog" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Dave-infintiy&#39;s rough techblog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">tcpdump2</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2014-04-17T11:54:50+01:00" itemprop="datePublished">Apr 17, 2014
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Dave</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>verbatim from <a href="http://www.danielmiessler.com/study/tcpdump/" title="http://www.danielmiessler.com/study/tcpdump/">http://www.danielmiessler.com/study/tcpdump/</a></p>
+
+<h1 id="a-tcpdump-tutorial-and-primer"><a href="http://www.danielmiessler.com/study/tcpdump/">A <code class="language-plaintext highlighter-rouge">tcpdump</code> Tutorial and Primer</a></h1>
+
+<div class="a2a_kit a2a_default_style" style="color: #333333;"></div>
+<p><img src="http://1-ps.googleusercontent.com/h/www.danielmiessler.com/images/tcp_header.gif.pagespeed.ce.AQlofC6nsX.gif" alt="tcp_header" /><br />
+<span class="image_attribution">Image from securitywizardry.com</span></p>
+
+<ul>
+  <li><a href="http://www.danielmiessler.com/study/tcpdump/#options">Options</a></li>
+  <li><a href="http://www.danielmiessler.com/study/tcpdump/#basics">Basic Usage</a></li>
+  <li><a href="http://www.danielmiessler.com/study/tcpdump/#common">Common Syntax</a></li>
+  <li><a href="http://www.danielmiessler.com/study/tcpdump/#writing">Writing to a File</a></li>
+  <li><a href="http://www.danielmiessler.com/study/tcpdump/#creative">Getting Creative</a></li>
+  <li><a href="http://www.danielmiessler.com/study/tcpdump/#advanced">Advanced</a></li>
+</ul>
+
+<p>[ Check out my latest post on the HP Security Blog: <a href="http://h30499.www3.hp.com/t5/Fortify-Application-Security/Thoughts-on-the-Heartbleed-Bug/ba-p/6442708#.U0gl_l5Nuf0">“Thoughts on the Heartbleed Bug”</a> ]</p>
+
+<p><a href="http://en.wikipedia.org/wiki/Tcpdump"><code class="language-plaintext highlighter-rouge">tcpdump</code></a> is the premier network analysis tool for <a href="http://en.wikipedia.org/wiki/Information_security">information security</a> professionals. Having a solid grasp of this über-powerful application is mandatory for anyone desiring a thorough understanding of <a href="http://en.wikipedia.org/wiki/TCPIP">TCP/IP</a>. Many prefer to use higher level analysis tools such as <a href="http://www.ethereal.com/"><span style="text-decoration: line-through;">Ethereal</span></a> <a href="http://www.wireshark.org/">Wireshark</a>, but I believe this to usually be a mistake.</p>
+
+<p>In a discipline so dependent on a true understanding of concepts vs.<a href="http://en.wikipedia.org/wiki/Rote_learning">rote learning</a>, it’s important to stay fluent in the underlying mechanics of the TCP/IP suite. A thorough grasp of these protocols allows one to troubleshoot at a level far beyond the average analyst, but mastery of the protocols is only possible through continued exposure to them.</p>
+
+<p>When using a tool that displays network traffic a more natural (raw) way the burden of analysis is placed directly on the human rather than the application. This approach cultivates continued and elevated understanding of the TCP/IP suite, and for this reason I<em>strongly</em> advocate using <code class="language-plaintext highlighter-rouge">tcpdump</code> instead of other tools whenever possible.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre class="codeblock" style="color: #333333;"&gt;&lt;strong&gt;15:31:34.079416&lt;/strong&gt; &lt;span style="color: orange;"&gt;IP&lt;/span&gt; (tos 0x0, ttl  &lt;span style="color: blue;"&gt;64&lt;/span&gt;, id 20244, offset 0, flags &lt;span style="color: red;"&gt;[DF]&lt;/span&gt;, 
+proto: TCP (6), length: &lt;span style="color: green;"&gt;60&lt;/span&gt;) source.35970 &gt; dest.80: S, cksum 0x0ac1 
+(correct), 2647022145:2647022145(0) win 5840&lt;span style="color: green;"&gt; 0x0000:  4500 003c 4f14 4000 
+4006 7417 0afb 0257  E..  0x0010:  4815 222a 8c82 0050 9dc6 5a41 0000 
+0000  H."*...P..ZA....  0x0020:  a002 16d0 0ac1 0000 0204 05b4 
+0402 080a  ................  0x0030:  14b4 1555 0000 0000 0103 0302&lt;/span&gt;
+</code></pre></div></div>
+
+<h2 id="options"><a name="options"></a>Options</h2>
+
+<p>Below are a few options (with examples) that will help you greatly when working with the tool. They’re easy to forget and/or confuse with other types of filters, i.e. ethereal, so hopefully this page can serve as a reference for you, as it does me.</p>
+
+<p>First off, I like to add a few options to the <code class="language-plaintext highlighter-rouge">tcpdump</code> command itself, depending on what I’m looking at. The first of these is <strong>-n</strong>, which requests that names are not resolved, resulting in the IPs themselves always being displayed. The second is <strong>-X</strong>, which displays both hex and ascii content within the packet. The final one is <strong>-S</strong>, which changes the display of sequence numbers to absolute rather than relative. The idea there is that you can’t see weirdness in the sequence numbers if they’re being hidden from you. Remember, the advantage of using <code class="language-plaintext highlighter-rouge">tcpdump</code> vs. another tool is getting manual interaction with the packets.</p>
+
+<p>It’s also important to note that <code class="language-plaintext highlighter-rouge">tcpdump</code> only takes the first <span style="text-decoration: line-through;">68</span> 96 bytes of data from a packet by default. If you would like to look at more, add the <strong>-s <em>number</em></strong> option to the mix, where <em>number</em> is the number of bytes you want to capture. I recommend using 0 (zero) for a snaplength, which gets everything. Here’s a short list of the options I use most:</p>
+
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">&lt;span style="color: blue;"&gt;-i any&lt;/span&gt;</code></strong> : Listen on all interfaces just to see if you’re seeing any traffic.</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">&lt;span style="color: blue;"&gt;-n&lt;/span&gt;</code></strong> : Don’t resolve hostnames.</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">&lt;span style="color: blue;"&gt;-nn&lt;/span&gt;</code></strong> : Don’t resolve hostnames <em>or</em> port names.</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">&lt;span style="color: blue;"&gt;-X&lt;/span&gt;</code></strong> : Show the packet’s <em>contents</em> in both <a href="http://en.wikipedia.org/wiki/Hexidecimal">hex</a> and <a href="http://en.wikipedia.org/wiki/Ascii">ASCII</a>.</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">-XX</code></strong> : Same as <strong><code class="language-plaintext highlighter-rouge">&lt;span style="color: blue;"&gt;-X&lt;/span&gt;</code></strong>, but also shows the ethernet header.</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">&lt;span style="color: blue;"&gt;-v, -vv, -vvv&lt;/span&gt;</code></strong> : Increase the amount of packet information you get back.</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">&lt;span style="color: blue;"&gt;-c&lt;/span&gt;</code></strong> : Only get <em>x</em> number of packets and then stop.</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">&lt;span style="color: blue;"&gt;-s&lt;/span&gt;</code></strong> : Define the <em>snaplength</em> (size) of the capture in bytes. Use<code class="language-plaintext highlighter-rouge">-s0</code> to get everything, unless you are intentionally capturing less.</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">&lt;span style="color: blue;"&gt;-S&lt;/span&gt;</code></strong> : Print absolute sequence numbers.</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">&lt;span style="color: blue;"&gt;-e&lt;/span&gt;</code></strong> : Get the ethernet header as well.</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">&lt;span style="color: blue;"&gt;-q&lt;/span&gt;</code></strong> : Show less protocol information.</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">&lt;span style="color: blue;"&gt;-E&lt;/span&gt;</code></strong> : Decrypt IPSEC traffic by providing an encryption key.</li>
+</ul>
+
+<p>[ The default snaplength as of <code class="language-plaintext highlighter-rouge">tcpdump</code> 4.0 has changed from 68 bytes to 96 bytes. While this will give you more of a packet to see, it still won’t get everything. Use <code class="language-plaintext highlighter-rouge">-s 1514</code> to get full coverage ]</p>
+
+<h2 id="basic-usage"><a name="basics"></a>Basic Usage</h2>
+
+<p>So, based on the kind of traffic I’m looking for, I use a different combination of options to <code class="language-plaintext highlighter-rouge">tcpdump</code>, as can be seen below:</p>
+
+<ol>
+  <li><strong>Basic communication</strong> <small>// see the basics without many options</small># <span class="first" style="color: red;">tcpdump</span> <span class="third" style="color: #0000ff;">-nS</span></li>
+  <li><strong>Basic communication (very verbose)</strong> <small>// see a good amount of traffic, with verbosity and no name help</small># <span class="first" style="color: red;">tcpdump</span> <span class="third" style="color: #0000ff;">-nnvvS</span></li>
+  <li><strong>A deeper look at the traffic</strong> <small>// adds -X for payload but doesn’t grab any more of the packet</small># <span class="first" style="color: red;">tcpdump</span> <span class="third" style="color: #0000ff;">-nnvvXS</span></li>
+  <li><strong>Heavy packet viewing</strong> <small>// the final “s” increases the snaplength, grabbing the whole packet</small># <span class="first" style="color: red;">tcpdump</span> <span class="third" style="color: #0000ff;">-nnvvXSs</span> <span class="fifth" style="color: #a52a2a;">1514</span></li>
+</ol>
+
+<p>Here’s a capture of exactly two (<code class="language-plaintext highlighter-rouge">-c2</code>) <a href="http://en.wikipedia.org/wiki/Icmp">ICMP</a> packets (a <a href="http://www.networksorcery.com/enp/protocol/icmp/msg8.htm">ping</a> and<a href="http://www.networksorcery.com/enp/protocol/icmp/msg0.htm">pong</a>) using some of the options described above. Notice how much we see about each packet.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre class="codeblock" style="color: #333333;"&gt;&lt;span style="color: red;"&gt;hermes&lt;/span&gt; &lt;span style="color: blue;"&gt;root&lt;/span&gt; # tcpdump -nnvXSs 0 -c2 icmp
+tcpdump: listening on eth0, link-type EN10MB (Ethernet), 23:11:10.370321 IP 
+(tos 0x20, ttl  48, id 34859, offset 0, flags [none], length: 84) 
+69.254.213.43 &gt; 72.21.34.42: icmp 64: echo request seq 0
+&lt;span style="color: green;"&gt;
+        0x0000:  4520 0054 882b 0000 3001 7cf5 45fe d52b  E..T.+..0.|.E..+
+        0x0010:  4815 222a 0800 3530 272a 0000 25ff d744  H."*..50'*..%..D
+        0x0020:  ae5e 0500 0809 0a0b 0c0d 0e0f 1011 1213  .^..............
+        0x0030:  1415 1617 1819 1a1b 1c1d 1e1f 2021 2223  .............!"#
+        0x0040:  2425 2627 2829 2a2b 2c2d 2e2f 3031 3233  $%&amp;'()*+,-./0123
+        0x0050:  3435 3637                                4567&lt;/span&gt;
+23:11:10.370344 IP (tos 0x20, ttl  64, id 35612, offset 0, flags [none], 
+length: 84) 72.21.34.42 &gt; 69.254.213.43: icmp 64: echo reply seq 0&lt;span style="color: green;"&gt;
+        0x0000:  4520 0054 8b1c 0000 4001 6a04 4815 222a  E..T....@.j.H."*
+        0x0010:  45fe d52b 0000 3d30 272a 0000 25ff d744  E..+..=0'*..%..D
+        0x0020:  ae5e 0500 0809 0a0b 0c0d 0e0f 1011 1213  .^..............
+        0x0030:  1415 1617 1819 1a1b 1c1d 1e1f 2021 2223  .............!"#
+        0x0040:  2425 2627 2829 2a2b 2c2d 2e2f 3031 3233  $%&amp;'()*+,-./0123
+        0x0050:  3435 3637                                4567&lt;/span&gt;
+2 packets captured
+2 packets received by filter
+0 packets dropped by kernel
+&lt;span style="color: red;"&gt;hermes&lt;/span&gt; &lt;span style="color: blue;"&gt;root&lt;/span&gt; # 
+</code></pre></div></div>
+
+<h2 id="common-syntax"><a name="common"></a>Common Syntax</h2>
+
+<p>Expressions allow you to trim out various types of traffic and find exactly what you’re looking for. Mastering the expressions and learning to combine them creatively is what makes one truly powerful with <code class="language-plaintext highlighter-rouge">tcpdump</code>. There are three main types of expression:<code class="language-plaintext highlighter-rouge">type</code>, <code class="language-plaintext highlighter-rouge">dir</code>, and <code class="language-plaintext highlighter-rouge">proto</code>.</p>
+
+<p>Type options are <code class="language-plaintext highlighter-rouge">host</code>, <code class="language-plaintext highlighter-rouge">net</code>, and <code class="language-plaintext highlighter-rouge">port</code>. Direction is indicated by <code class="language-plaintext highlighter-rouge">dir</code>, and there you can have <code class="language-plaintext highlighter-rouge">src</code>, <code class="language-plaintext highlighter-rouge">dst</code>, <code class="language-plaintext highlighter-rouge">src or dst</code>, and <code class="language-plaintext highlighter-rouge">src and dst</code>. Here are a few that you should definitely be comfortable with:</p>
+
+<ul>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">host</code></strong> <small>// look for traffic based on IP address (also works with hostname if you’re not using <strong>-n</strong>)</small># <span class="first" style="color: red;">tcpdump</span> <span class="second" style="color: green;">host</span> <span class="third" style="color: #0000ff;">1.2.3.4</span></p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">src</code></strong>, <strong><code class="language-plaintext highlighter-rouge">dst</code></strong> <small>// find traffic from only a source or destination (eliminates one side of a <strong>host</strong> conversation)</small># <span class="first" style="color: red;">tcpdump</span> <span class="second" style="color: green;">src</span> <span class="third" style="color: #0000ff;">2.3.4.5</span><br />
+  # <span class="first" style="color: red;">tcpdump</span> <span class="second" style="color: green;">dst</span> <span class="third" style="color: #0000ff;">3.4.5.6</span></p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">net</code></strong> <small>// capture an entire network using <a href="http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing">CIDR</a> notation</small># <span class="first" style="color: red;">tcpdump</span> <span class="second" style="color: green;">net</span> <span class="third" style="color: #0000ff;">1.2.3.0/24</span></p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">proto</code></strong> <small>// works for tcp, udp, and icmp. Note that you don’t have to type<code class="language-plaintext highlighter-rouge">proto</code></small># <span class="first" style="color: red;">tcpdump</span> <span class="second" style="color: green;">icmp</span></p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">port</code></strong> <small>// see only traffic to or from a certain port</small># <span class="first" style="color: red;">tcpdump</span> <span class="second" style="color: green;">port</span> <span class="third" style="color: #0000ff;">3389</span></p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">src, dst port</code></strong> <small>// filter based on the source or destination port</small># <span class="first" style="color: red;">tcpdump</span> <span class="second" style="color: green;">src</span> <span class="second" style="color: green;">port</span> <span class="third" style="color: #0000ff;">1025</span><br />
+  # <span class="first" style="color: red;">tcpdump</span> <span class="second" style="color: green;">dst</span> <span class="second" style="color: green;">port</span> <span class="third" style="color: #0000ff;">389</span></p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">src/dst, port, protocol</code></strong> <small>// combine all three</small># <span class="first" style="color: red;">tcpdump</span> <span class="second" style="color: green;">src</span> <span class="second" style="color: green;">port</span> <span class="third" style="color: #0000ff;">1025</span> and <span class="fourth" style="color: purple;">tcp</span><br />
+  # <span class="first" style="color: red;">tcpdump</span> <span class="second" style="color: green;">udp</span> and <span class="third" style="color: #0000ff;">src</span> <span class="third" style="color: #0000ff;">port</span> <span class="fourth" style="color: purple;">53</span></p>
+  </li>
+</ul>
+
+<p>You also have the option to filter by a <em>range</em> of ports instead of declaring them individually, and to only see packets that are above or below a certain size.</p>
+
+<ul>
+  <li>
+    <p><strong>Port Ranges</strong> <small>// see traffic to any port in a range</small><br />
+  <code class="language-plaintext highlighter-rouge">tcpdump &lt;span style="color: blue;"&gt;portrange&lt;/span&gt; &lt;span style="color: red;"&gt;21-23&lt;/span&gt;</code></p>
+  </li>
+  <li>
+    <p><strong>Packet Size Filter</strong> <small>// only see packets below or above a certain size (in bytes)</small><br />
+  <code class="language-plaintext highlighter-rouge">tcpdump &lt;span style="color: blue;"&gt;less&lt;/span&gt; &lt;span style="color: red;"&gt;32&lt;/span&gt;</code><br />
+  <code class="language-plaintext highlighter-rouge">tcpdump &lt;span style="color: blue;"&gt;greater&lt;/span&gt; &lt;span style="color: red;"&gt;128&lt;/span&gt;</code></p>
+  </li>
+</ul>
+
+<p>[ You can use the symbols for <em>less than</em>, <em>greater than</em>, and <em>less than or equal</em> / <em>greater than or equal signs</em> as well. ]</p>
+
+<p><small>// filtering for size using symbols</small></p>
+
+<p><code class="language-plaintext highlighter-rouge">tcpdump &lt;span style="color: blue;"&gt;&gt;&lt;/span&gt; &lt;span style="color: red;"&gt;32&lt;/span&gt;</code></p>
+
+<p><code class="language-plaintext highlighter-rouge">tcpdump &lt;span style="color: blue;"&gt;&lt;=&lt;/span&gt; &lt;span style="color: red;"&gt;128&lt;/span&gt;</code></p>
+
+<h2 id="writing-to-a-file"><a name="writing"></a>Writing to a File</h2>
+
+<p><code class="language-plaintext highlighter-rouge">tcpdump</code> allows you to send what you’re capturing to a file for later use using the <strong><code class="language-plaintext highlighter-rouge">-w</code></strong> option, and then to read it back using the <strong><code class="language-plaintext highlighter-rouge">-r</code></strong>option. This is an excellent way to capture raw traffic and then run it through various tools later.</p>
+
+<p>The traffic captured in this way is stored in <code class="language-plaintext highlighter-rouge">tcpdump</code> format, which is pretty much universal in the network analysis space. This means it can be read in by all sorts of tools, including <a href="http://www.wireshark.org/" title="Wireshark · Go deep.">Wireshark</a>, <a href="http://www.snort.org/" title="Snort :: Home Page">Snort</a>, etc.</p>
+
+<h4 id="capture-all-port-80-traffic-to-a-file">Capture all Port 80 Traffic to a File</h4>
+
+<p># <span class="first" style="color: red;">tcpdump -s 1514</span> <span class="second" style="color: green;">port</span> <span class="second" style="color: green;">80</span> <span class="third" style="color: #0000ff;">-w</span> <span class="fourth" style="color: purple;">capture_file</span></p>
+
+<p>Then, at some point in the future, you can then read the traffic back in like so:</p>
+
+<h4 id="read-captured-traffic-back-into-tcpdump">Read Captured Traffic back into <code class="language-plaintext highlighter-rouge">tcpdump</code></h4>
+
+<p># <span class="first" style="color: red;">tcpdump -r</span> <span class="second" style="color: green;">capture_file</span></p>
+
+<h2 id="getting-creative"><a name="creative"></a>Getting Creative</h2>
+
+<p>Expressions are nice, but the real magic of <code class="language-plaintext highlighter-rouge">tcpdump</code> comes from the ability to <em>combine</em> them in creative ways in order to isolate exactly what you’re looking for. There are three ways to do combinations, and if you’ve studied computers at all they’ll be pretty familar to you:</p>
+
+<ol>
+  <li><strong>AND</strong><br />
+ <em><code class="language-plaintext highlighter-rouge">&lt;span style="color: green;"&gt;and&lt;/span&gt;</code></em> or <code class="language-plaintext highlighter-rouge">&lt;span style="color: green;"&gt;&amp;&amp;&lt;/span&gt;</code></li>
+  <li><strong>OR</strong><br />
+ <em><code class="language-plaintext highlighter-rouge">&lt;span style="color: blue;"&gt;or&lt;/span&gt;</code></em> or <code class="language-plaintext highlighter-rouge">&lt;span style="color: blue;"&gt;||&lt;/span&gt;</code></li>
+  <li><strong>EXCEPT</strong><br />
+ <em><code class="language-plaintext highlighter-rouge">&lt;span style="color: red;"&gt;not&lt;/span&gt;</code></em> or <code class="language-plaintext highlighter-rouge">&lt;span style="color: red;"&gt;!&lt;/span&gt;</code></li>
+</ol>
+
+<h3 id="more-examples">More Examples</h3>
+
+<div id="commandentry" style="color: #333333;">\# TCP traffic from 10.5.2.3 destined for port 3389
+
+<span class="first" style="color: red;">tcpdump -nnvvS</span> <span class="second" style="color: green;">and</span> <span class="third" style="color: #0000ff;">src 10.5.2.3</span> <span class="fourth" style="color: purple;">and</span> <span class="fifth" style="color: #a52a2a;">dst port 3389</span>
+
+</div>
+<div id="commandentry" style="color: #333333;">\# Traffic originating from the 192.168 network headed for the 10 or 172.16 networks
+
+<span class="first" style="color: red;">tcpdump -nvX src net 192.168.0.0/16</span> <span class="second" style="color: green;">and</span> <span class="third" style="color: #0000ff;">dst net 10.0.0.0/8</span> <span class="fourth" style="color: purple;">or</span><span class="fifth" style="color: #a52a2a;">172.16.0.0/16</span>
+
+</div>
+<div id="commandentry" style="color: #333333;">\# Non-ICMP traffic destined for 192.168.0.2 from the 172.16 network
+
+<span class="first" style="color: red;">tcpdump -nvvXSs 1514 dst 192.168.0.2</span> <span class="second" style="color: green;">and</span> <span class="third" style="color: #0000ff;">src net</span> <span class="fourth" style="color: purple;">and</span> <span class="fifth" style="color: #a52a2a;">not icmp</span>
+
+</div>
+<div id="commandentry" style="color: #333333;">\# Traffic originating from Mars or Pluto that isn’t to the SSH port
+
+<span class="first" style="color: red;">tcpdump -vv src mars</span> <span class="second" style="color: green;">and</span> <span class="third" style="color: #0000ff;">not</span> <span class="fourth" style="color: purple;">dst port 22</span>
+
+</div>
+<p>As you can see, you can build queries to find just about anything you need. The key is to first figure out <em>precisely</em> what you’re looking for and then to build the syntax to isolate that specific type of traffic.</p>
+
+<h3 id="grouping">Grouping</h3>
+
+<p>Also keep in mind that when you’re building complex queries you might have to group your options using single quotes. Single quotes are used in order to tell <code class="language-plaintext highlighter-rouge">tcpdump</code> to ignore certain special characters — in this case the “( )” brackets. This same technique can be used to group using other expressions such as <code class="language-plaintext highlighter-rouge">host</code>, <code class="language-plaintext highlighter-rouge">port</code>, <code class="language-plaintext highlighter-rouge">net</code>, etc. Take a look at the command below:</p>
+
+<div id="commandentry" style="color: #333333;">\# Traffic that’s from 10.0.2.4 AND destined for ports 3389 or 22**(incorrect)**
+
+<span class="first" style="color: red;">tcpdump src 10.0.2.4 and</span> <span class="second" style="color: green;">(dst port 3389 or 22)</span>
+
+</div>
+<p>If you tried to run this otherwise very useful command, you’d get an error because of the parenthesis. You can either fix this by escaping the parenthesis (putting a before each one), or by putting the entire command within single quotes:</p>
+
+<div id="commandentry" style="color: #333333;">\# Traffic that’s from 10.0.2.4 AND destined for ports 3389 or 22**(correct)**
+
+<span class="first" style="color: red;">tcpdump ‘src 10.0.2.4 and</span> <span class="second" style="color: green;">(dst port 3389 or 22)’</span>
+
+</div>
+<h2 id="advanced"><a name="advanced"></a>Advanced</h2>
+
+<p>You can also filter based on specific portions of a packet, as well as combine multiple conditions into groups. The former is useful when looking for only SYNs or RSTs, for example, and the latter for even more advanced traffic isolation.</p>
+
+<p>[ Hint: An anagram for the TCP flags: <a href="http://danielmiessler.com/study/tcpflags/"><strong>U</strong>nskilled <strong>A</strong>ttackers <strong>P</strong>ester <strong>R</strong>eal<strong>S</strong>ecurity <strong>F</strong>olk</a> ]</p>
+
+<div id="commandentry" style="color: #333333;">Show me all URGENT **(URG)** packets…
+
+<span class="first" style="color: red;">\# tcpdump <span class="fourth" style="color: purple;">‘tcp\[13\]</span> &amp;</span> <span class="third" style="color: #0000ff;">32</span>!=<span class="fifth" style="color: #a52a2a;">0</span>‘
+
+</div>
+<div id="commandentry" style="color: #333333;">Show me all ACKNOWLEDGE **(ACK)** packets…
+
+<span class="first" style="color: red;">\# tcpdump <span class="fourth" style="color: purple;">‘tcp\[13\]</span> &amp;</span> <span class="third" style="color: #0000ff;">16</span>!=<span class="fifth" style="color: #a52a2a;">0</span>‘
+
+</div>
+<div id="commandentry" style="color: #333333;">Show me all PUSH **(PSH)** packets…
+
+<span class="first" style="color: red;">\# tcpdump <span class="fourth" style="color: purple;">‘tcp\[13\]</span> &amp;</span> <span class="third" style="color: #0000ff;">8</span>!=<span class="fifth" style="color: #a52a2a;">0</span>‘
+
+</div>
+<div id="commandentry" style="color: #333333;">Show me all RESET **(RST)** packets…
+
+<span class="first" style="color: red;">\# tcpdump <span class="fourth" style="color: purple;">‘tcp\[13\]</span> &amp;</span> <span class="third" style="color: #0000ff;">4</span>!=<span class="fifth" style="color: #a52a2a;">0</span>‘
+
+</div>
+<div id="commandentry" style="color: #333333;">Show me all SYNCHRONIZE **(SYN)** packets…
+
+<span class="first" style="color: red;">\# tcpdump <span class="fourth" style="color: purple;">‘tcp\[13\]</span> &amp;</span> <span class="third" style="color: #0000ff;">2</span>!=<span class="fifth" style="color: #a52a2a;">0</span>‘
+
+</div>
+<div id="commandentry" style="color: #333333;">Show me all FINISH **(FIN)** packets…
+
+<span class="first" style="color: red;">\# tcpdump <span class="fourth" style="color: purple;">‘tcp\[13\]</span> &amp;</span> <span class="third" style="color: #0000ff;">1</span>!=<span class="fifth" style="color: #a52a2a;">0</span>‘
+
+</div>
+<div id="commandentry" style="color: #333333;">Show me all SYNCHRONIZE/ACKNOWLEDGE**(SYNACK)** packets…
+
+<span class="first" style="color: red;">\# tcpdump <span class="fourth" style="color: purple;">‘tcp\[13\]</span><span class="third" style="color: #0000ff;">=18</span>‘</span>
+
+</div>
+<p>[ Note: Only the PSH, RST, SYN, and FIN flags are displayed in <code class="language-plaintext highlighter-rouge">tcpdump</code>‘s flag field output. URGs and ACKs are displayed, but they are shown elsewhere in the output rather than in the flags field ]</p>
+
+<p>Keep in mind the reasons these filters work. The filters above find these various packets because <code class="language-plaintext highlighter-rouge">tcp[13]</code> looks at offset 13 in the <a href="http://www.networksorcery.com/enp/protocol/tcp.htm">TCP header</a>, the number represents the location within the byte, and the !=0 means that the flag in question is set to 1, i.e. it’s on.</p>
+
+<p>As with most powerful tools, however, there are multiple ways to do things. The example below shows another way to capture packets with specific TCP flags set.</p>
+
+<div id="commandentry" style="color: #333333;">Capture TCP Flags Using the `tcpflags` Option…
+
+<span class="first" style="color: red;">\# tcpdump <span class="fourth" style="color: purple;">‘tcp\[tcpflags\]</span> &amp;</span> <span class="third" style="color: #0000ff;">&amp; tcp-syn != 0</span>‘
+
+</div>
+<h3 id="specialized-traffic">Specialized Traffic</h3>
+
+<p>Finally, there are a few quick recipes you’ll want to remember for catching specific and specialized traffic, such as IPv6 and malformed/likely-malicious packets.</p>
+
+<div id="commandentry" style="color: #333333;">IPv6 traffic
+
+<span class="first" style="color: red;">\# tcpdump <span class="fifth" style="color: #a52a2a;">ip6</span></span>
+
+</div>
+<div id="commandentry" style="color: #333333;">Packets with both the RST and SYN flags set (why?)
+
+<span class="first" style="color: red;">\# tcpdump <span class="fifth" style="color: #a52a2a;">‘tcp\[13\] = 6’</span></span>
+
+</div>
+<div id="commandentry" style="color: #333333;">Traffic with the ‘Evil Bit’ Set
+
+<span class="first" style="color: red;">\# tcpdump <span class="fifth" style="color: #a52a2a;">‘ip\[6\]</span> &amp; <span class="second" style="color: green;">128 != 0</span>‘</span>
+
+</div>
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Well, this primer should get you going strong, but <a href="http://www.tcpdump.org/tcpdump_man.html">the man page</a>should always be handy for the most advanced and one-off usage scenarios. I truly hope this has been useful to you, and feel free to<a href="http://danielmiessler.com/contact/">contact me</a> if you have any questions. ::</p>
+
+  </div><a class="u-url" href="/2014/04/tcpdump2/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Dave-infintiy&#39;s rough techblog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Dave-infintiy&#39;s rough techblog</li><li><a class="u-email" href="mailto:yetmoredaves@gmail.com">yetmoredaves@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/dave-infinity"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">dave-infinity</span></a></li><li><a href="https://www.twitter.com/dave-infinity"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">dave-infinity</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>A techblog from an infrastructure and security engineer working on Linuxy and Windows systems</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

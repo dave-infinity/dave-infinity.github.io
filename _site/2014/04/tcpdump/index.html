@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>tcpdump | Dave-infintiy’s rough techblog</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="tcpdump" />
+<meta name="author" content="Dave" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="verbatim from http://www.thegeekstuff.com/2010/08/tcpdump-command-examples/" />
+<meta property="og:description" content="verbatim from http://www.thegeekstuff.com/2010/08/tcpdump-command-examples/" />
+<link rel="canonical" href="http://localhost:4000/2014/04/tcpdump/" />
+<meta property="og:url" content="http://localhost:4000/2014/04/tcpdump/" />
+<meta property="og:site_name" content="Dave-infintiy’s rough techblog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2014-04-17T08:12:02+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="tcpdump" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Dave"},"dateModified":"2014-04-17T08:12:02+01:00","datePublished":"2014-04-17T08:12:02+01:00","description":"verbatim from http://www.thegeekstuff.com/2010/08/tcpdump-command-examples/","headline":"tcpdump","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2014/04/tcpdump/"},"url":"http://localhost:4000/2014/04/tcpdump/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Dave-infintiy's rough techblog" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Dave-infintiy&#39;s rough techblog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">tcpdump</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2014-04-17T08:12:02+01:00" itemprop="datePublished">Apr 17, 2014
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Dave</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>verbatim from <a href="http://www.thegeekstuff.com/2010/08/tcpdump-command-examples/" title="http://www.thegeekstuff.com/2010/08/tcpdump-command-examples/">http://www.thegeekstuff.com/2010/08/tcpdump-command-examples/</a></p>
+
+<p>tcpdump command is also called as packet analyzer.</p>
+
+<p>tcpdump command will work on most flavors of unix operating system. tcpdump allows us to save the packets that are captured, so that we can use it for future analysis. The saved file can be viewed by the same tcpdump command. We can also use open source software like wireshark to read the tcpdump pcap files.</p>
+
+<p>In this tcpdump tutorial, let us discuss some practical examples on how to use the tcpdump command.<br />
+<span id="more-5676"></span></p>
+
+<h3 id="1-capture-packets-from-a-particular-ethernet-interface-using-tcpdump--i">1. Capture packets from a particular ethernet interface using tcpdump -i</h3>
+
+<p>When you execute tcpdump command without any option, it will capture all the packets flowing through all the interfaces. -i option with tcpdump command, allows you to filter on a particular ethernet interface.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre style="color: #111111;"&gt;$ tcpdump -i eth1
+14:59:26.608728 IP xx.domain.netbcp.net.52497 &gt; valh4.lell.net.ssh: . ack 540 win 16554
+14:59:26.610602 IP resolver.lell.net.domain &gt; valh4.lell.net.24151:  4278 1/0/0 (73)
+14:59:26.611262 IP valh4.lell.net.38527 &gt; resolver.lell.net.domain:  26364+ PTR? 244.207.104.10.in-addr.arpa. (45)
+</code></pre></div></div>
+
+<p>In this example, tcpdump captured all the packets flows in the interface eth1 and displays in the standard output.</p>
+
+<p><strong>Note</strong>: <a href="http://www.thegeekstuff.com/2009/02/editcap-guide-11-examples-to-handle-network-packet-dumps-effectively/">Editcap</a> utility is used to select or remove specific packets from dump file and translate them into a given format.</p>
+
+<center style="color: #111111;"><div></div></center>
+<h3 id="2-capture-only-n-number-of-packets-using-tcpdump--c">2. Capture only N number of packets using tcpdump -c</h3>
+
+<p>When you execute tcpdump command it gives packets until you cancel the tcpdump command. Using -c option you can specify the number of packets to capture.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre style="color: #111111;"&gt;$ tcpdump -c 2 -i eth0
+listening on eth0, link-type EN10MB (Ethernet), capture size 96 bytes
+14:38:38.184913 IP valh4.lell.net.ssh &gt; yy.domain.innetbcp.net.11006: P 1457255642:1457255758(116) ack 1561463966 win 63652
+14:38:38.690919 IP valh4.lell.net.ssh &gt; yy.domain.innetbcp.net.11006: P 116:232(116) ack 1 win 63652
+2 packets captured
+13 packets received by filter
+0 packets dropped by kernel
+</code></pre></div></div>
+
+<p>The above tcpdump command captured only 2 packets from interface eth0.</p>
+
+<p><strong>Note:</strong><a href="http://www.thegeekstuff.com/2009/03/mergecap-and-tshark-merge-packet-dumps-and-analyze-network-traffic/"> Mergecap and TShark</a>: Mergecap is a packet dump combining tool, which will combine multiple dumps into a single dump file. Tshark is a powerful tool to capture network packets, which can be used to analyze the network traffic. It comes with wireshark network analyzer distribution.</p>
+
+<h3 id="3-display-captured-packets-in-ascii-using-tcpdump--a">3. Display Captured Packets in ASCII using tcpdump -A</h3>
+
+<p>The following tcpdump syntax prints the packet in ASCII.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre style="color: #111111;"&gt;$ tcpdump -A -i eth0
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on eth0, link-type EN10MB (Ethernet), capture size 96 bytes
+14:34:50.913995 IP valh4.lell.net.ssh &gt; yy.domain.innetbcp.net.11006: P 1457239478:1457239594(116) ack 1561461262 win 63652
+E.....@.@..]..i...9...*.V...]...P....h....E...&gt;{..U=...g.
+......G..7+KA....A...L.
+14:34:51.423640 IP valh4.lell.net.ssh &gt; yy.domain.innetbcp.net.11006: P 116:232(116) ack 1 win 63652
+E.....@.@....i...9...*.V..*]...P....h....7......X..!....Im.S.g.u:*..O&amp;....^#Ba...
+E..(R.@.|.....9...i.*...]...V..*P..OWp........
+</code></pre></div></div>
+
+<p><strong>Note:</strong> <a href="http://www.thegeekstuff.com/2009/03/ifconfig-7-examples-to-configure-network-interface/">Ifconfig</a> command is used to configure network interfaces</p>
+
+<h3 id="4-display-captured-packets-in-hex-and-ascii-using-tcpdump--xx">4. Display Captured Packets in HEX and ASCII using tcpdump -XX</h3>
+
+<p>Some users might want to analyse the packets in hex values. tcpdump provides a way to print packets in both ASCII and HEX format.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre style="color: #111111;"&gt;$tcpdump -XX -i eth0
+18:52:54.859697 IP zz.domain.innetbcp.net.63897 &gt; valh4.lell.net.ssh: . ack 232 win 16511
+        0x0000:  0050 569c 35a3 0019 bb1c 0c00 0800 4500  .PV.5.........E.
+        0x0010:  0028 042a 4000 7906 c89c 10b5 aaf6 0f9a  .(.*@.y.........
+        0x0020:  69c4 f999 0016 57db 6e08 c712 ea2e 5010  i.....W.n.....P.
+        0x0030:  407f c976 0000 0000 0000 0000            @..v........
+18:52:54.877713 IP 10.0.0.0 &gt; all-systems.mcast.net: igmp query v3 [max resp time 1s]
+        0x0000:  0050 569c 35a3 0000 0000 0000 0800 4600  .PV.5.........F.
+        0x0010:  0024 0000 0000 0102 3ad3 0a00 0000 e000  .$......:.......
+        0x0020:  0001 9404 0000 1101 ebfe 0000 0000 0300  ................
+        0x0030:  0000 0000 0000 0000 0000 0000            ............
+</code></pre></div></div>
+
+<h3 id="5-capture-the-packets-and-write-into-a-file-using-tcpdump--w">5. Capture the packets and write into a file using tcpdump -w</h3>
+
+<p>tcpdump allows you to save the packets to a file, and later you can use the packet file for further analysis.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre style="color: #111111;"&gt;$ tcpdump -w 08232010.pcap -i eth0
+tcpdump: listening on eth0, link-type EN10MB (Ethernet), capture size 96 bytes
+32 packets captured
+32 packets received by filter
+0 packets dropped by kernel
+</code></pre></div></div>
+
+<p>-w option writes the packets into a given file. The file extension should be .pcap, which can be read by any network protocol<br />
+analyzer.</p>
+
+<h3 id="6-reading-the-packets-from-a-saved-file-using-tcpdump--r">6. Reading the packets from a saved file using tcpdump -r</h3>
+
+<p>You can read the captured pcap file and view the packets for analysis, as shown below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre style="color: #111111;"&gt;$tcpdump -tttt -r data.pcap
+2010-08-22 21:35:26.571793 00:50:56:9c:69:38 (oui Unknown) &gt; Broadcast, ethertype Unknown (0xcafe), length 74:
+        0x0000:  0200 000a ffff 0000 ffff 0c00 3c00 0000  ............&lt;...
+        0x0010:  0000 0000 0100 0080 3e9e 2900 0000 0000  ........&gt;.).....
+        0x0020:  0000 0000 ffff ffff ad00 996b 0600 0050  ...........k...P
+        0x0030:  569c 6938 0000 0000 8e07 0000            V.i8........
+2010-08-22 21:35:26.571797 IP valh4.lell.net.ssh &gt; zz.domain.innetbcp.net.50570: P 800464396:800464448(52) ack 203316566 win 71
+2010-08-22 21:35:26.571800 IP valh4.lell.net.ssh &gt; zz.domain.innetbcp.net.50570: P 52:168(116) ack 1 win 71
+2010-08-22 21:35:26.584865 IP valh5.lell.net.ssh &gt; 11.154.12.255.netbios-ns: NBT UDP PACKET(137): QUERY; REQUEST; BROADC
+</code></pre></div></div>
+
+<h3 id="7-capture-packets-with-ip-address-using-tcpdump--n">7. Capture packets with IP address using tcpdump -n</h3>
+
+<p>In all the above examples, it prints packets with the DNS address, but not the ip address. The following example captures the packets and it will display the IP address of the machines involved.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre style="color: #111111;"&gt;$ tcpdump -n -i eth0
+15:01:35.170763 IP 10.0.19.121.52497 &gt; 11.154.12.121.ssh: P 105:157(52) ack 18060 win 16549
+15:01:35.170776 IP 11.154.12.121.ssh &gt; 10.0.19.121.52497: P 23988:24136(148) ack 157 win 113
+15:01:35.170894 IP 11.154.12.121.ssh &gt; 10.0.19.121.52497: P 24136:24380(244) ack 157 win 113
+</code></pre></div></div>
+
+<h3 id="8-capture-packets-with-proper-readable-timestamp-using-tcpdump--tttt">8. Capture packets with proper readable timestamp using tcpdump -tttt</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre style="color: #111111;"&gt;$ tcpdump -n -tttt -i eth0
+
+2010-08-22 15:10:39.162830 IP 10.0.19.121.52497 &gt; 11.154.12.121.ssh: . ack 49800 win 16390
+2010-08-22 15:10:39.162833 IP 10.0.19.121.52497 &gt; 11.154.12.121.ssh: . ack 50288 win 16660
+2010-08-22 15:10:39.162867 IP 10.0.19.121.52497 &gt; 11.154.12.121.ssh: . ack 50584 win 16586
+</code></pre></div></div>
+
+<h3 id="9-read-packets-longer-than-n-bytes">9. Read packets longer than N bytes</h3>
+
+<p>You can receive only the packets greater than n number of bytes using a filter ‘greater’ through tcpdump command</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre style="color: #111111;"&gt;$ tcpdump -w g_1024.pcap greater 1024
+</code></pre></div></div>
+
+<h3 id="10-receive-only-the-packets-of-a-specific-protocol-type">10. Receive only the packets of a specific protocol type</h3>
+
+<p>You can receive the packets based on the protocol type. You can specify one of these protocols — fddi, tr, wlan, ip, ip6, arp, rarp, decnet, tcp and udp. The following example captures only arp packets flowing through the eth0 interface.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre style="color: #111111;"&gt;$ tcpdump -i eth0 arp
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on eth0, link-type EN10MB (Ethernet), capture size 96 bytes
+19:41:52.809642 arp who-has valh5.lell.net tell valh9.lell.net
+19:41:52.863689 arp who-has 11.154.12.1 tell valh6.lell.net
+19:41:53.024769 arp who-has 11.154.12.1 tell valh7.lell.net
+</code></pre></div></div>
+
+<h3 id="11-read-packets-lesser-than-n-bytes">11. Read packets lesser than N bytes</h3>
+
+<p>You can receive only the packets lesser than n number of bytes using a filter ‘less’ through tcpdump command</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre style="color: #111111;"&gt;$ tcpdump -w l_1024.pcap  less 1024
+</code></pre></div></div>
+
+<h3 id="12-receive-packets-flows-on-a-particular-port-using-tcpdump-port">12. Receive packets flows on a particular port using tcpdump port</h3>
+
+<p>If you want to know all the packets received by a particular port on a machine, you can use tcpdump command as shown below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre style="color: #111111;"&gt;$ tcpdump -i eth0 port 22
+19:44:44.934459 IP valh4.lell.net.ssh &gt; zz.domain.innetbcp.net.63897: P 18932:19096(164) ack 105 win 71
+19:44:44.934533 IP valh4.lell.net.ssh &gt; zz.domain.innetbcp.net.63897: P 19096:19260(164) ack 105 win 71
+19:44:44.934612 IP valh4.lell.net.ssh &gt; zz.domain.innetbcp.net.63897: P 19260:19424(164) ack 105 win 71
+</code></pre></div></div>
+
+<h3 id="13-capture-packets-for-particular-destination-ip-and-port">13. Capture packets for particular destination IP and Port</h3>
+
+<p>The packets will have source and destination IP and port numbers. Using tcpdump we can apply filters on source or destination IP and port number. The following command captures packets flows in eth0, with a particular destination ip and port number 22.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre style="color: #111111;"&gt;$ tcpdump -w xpackets.pcap -i eth0 dst 10.181.140.216 and port 22
+</code></pre></div></div>
+
+<h3 id="14-capture-tcp-communication-packets-between-two-hosts">14. Capture TCP communication packets between two hosts</h3>
+
+<p>If two different process from two different machines are communicating through tcp protocol, we can capture those packets using tcpdump as shown below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre style="color: #111111;"&gt;$tcpdump -w comm.pcap -i eth0 dst 16.181.170.246 and port 22
+</code></pre></div></div>
+
+<p>You can open the file comm.pcap using any network protocol analyzer tool to debug any potential issues.</p>
+
+<h3 id="15-tcpdump-filter-packets--capture-all-the-packets-other-than-arp-and-rarp">15. tcpdump Filter Packets – Capture all the packets other than arp and rarp</h3>
+
+<p>In tcpdump command, you can give “and”, “or” and “not” condition to filter the packets accordingly.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;pre style="color: #111111;"&gt;$ tcpdump -i eth0 not arp and not rarp
+20:33:15.479278 IP resolver.lell.net.domain &gt; valh4.lell.net.64639:  26929 1/0/0 (73)
+20:33:15.479890 IP valh4.lell.net.16053 &gt; resolver.lell.net.domain:  56556+ PTR? 255.107.154.15.in-addr.arpa. (45)
+20:33:15.480197 IP valh4.lell.net.ssh &gt; zz.domain.innetbcp.net.63897: P 540:1504(964) ack 1 win 96
+20:33:15.487118 IP zz.domain.innetbcp.net.63897 &gt; valh4.lell.net.ssh: . ack 540 win 16486
+20:33:15.668599 IP 10.0.0.0 &gt; all-systems.mcast.net: igmp query v3 [max resp time 1s]
+</code></pre></div></div>
+
+  </div><a class="u-url" href="/2014/04/tcpdump/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Dave-infintiy&#39;s rough techblog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Dave-infintiy&#39;s rough techblog</li><li><a class="u-email" href="mailto:yetmoredaves@gmail.com">yetmoredaves@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/dave-infinity"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">dave-infinity</span></a></li><li><a href="https://www.twitter.com/dave-infinity"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">dave-infinity</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>A techblog from an infrastructure and security engineer working on Linuxy and Windows systems</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
