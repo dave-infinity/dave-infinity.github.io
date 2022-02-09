@@ -10,6 +10,8 @@ categories:
     - git
 ---
 
+git rebase master -i HEAD~ # rebase to the tip of the master branch interactively, usually called from a branch
+
 git rebase -i HEAD~
 
-git rebase -i HEAD~&lt;#commit number to squash&gt;
+git rebase -i HEAD~$num #commit number to $num
