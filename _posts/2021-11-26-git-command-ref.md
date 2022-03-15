@@ -15,3 +15,5 @@ git rebase master -i HEAD~ # rebase to the tip of the master branch interactivel
 git rebase -i HEAD~
 
 git rebase -i HEAD~$num #commit number to $num
+
+git reset --hard origin/master
