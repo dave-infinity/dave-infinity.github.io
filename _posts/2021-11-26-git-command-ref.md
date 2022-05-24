@@ -9,11 +9,14 @@ permalink: /2021/11/git-command-ref/
 categories:
     - git
 ---
-
-git rebase master -i HEAD~ # rebase to the tip of the master branch interactively, usually called from a branch
+# rebase $branchname to the master branch interactively (-i) to allow edits
+git rebase master -i  $branchname 
 
 git rebase -i HEAD~
 
-git rebase -i HEAD~$num #commit number to $num
+# rebase the current branch to itself using the $num index of commits
+# e.g. if a branch has had 2 commits and you want to squash them into 1 then $num=1
+git rebase -i HEAD~$num
 
+# forcibly (destructively if uncommitted changes) restore to last commit
 git reset --hard origin/master
